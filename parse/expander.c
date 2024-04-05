@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 11:09:00 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/04/03 16:26:27 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/04/05 13:21:40 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ char	*handle_quotes(char *s, int i, int y)
 	inquote = 0;
 	if (!s)
 		return (s);
-	cs = ft_calloc(sizeof(char), ft_strlen(s));
+	cs = ft_calloc(sizeof(char), ft_strlen(s) + 1);
 	if (!cs)
 		crash_handler("Expander \n");
 	while (s[i])
@@ -87,6 +87,8 @@ char	*handle_env_var(char *s, char *es, char **env)
 	if (i == 'a')
 	{
 		ps = get_env_var(token, env);
+		if (!ps)
+			return (s);
 		return (ps);
 	}
 	return (s);

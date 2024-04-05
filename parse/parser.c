@@ -6,13 +6,13 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 11:08:55 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/04/03 10:50:33 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/04/04 17:20:07 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minilib.h"
 
-t_cmd	*parseredirs(t_cmd *cmd, char **ps, char *es)
+t_cmd	*parseredirs(t_cmd *cmd, char **ps, char *es, char **env)
 {
 	int		tok;
 	char	*file;
@@ -31,42 +31,47 @@ t_cmd	*parseredirs(t_cmd *cmd, char **ps, char *es)
 			cmd = redircmd(cmd, file, O_WRONLY | O_CREAT, 1);
 		else if (tok == '-')
 		{
-			cmd = redircmd(cmd, file, 0, 0);
+			//HEREDOC
+			//Creation d'un fork (Pour fermeture instant sur signal) ??
+			//Creation d'un pipe
+			//Lecture des lignes et envoi dans le pipe
+			//Return t_redircmd => File -> delimiter | fd -> pipe
+			cmd = create_heredoc(cmd, file, env);
 			cmd->type = HEREDOC;
 		}
 	}
 	return (cmd);
 }
 
-t_cmd	*parseline(char **ps, char *es)
+t_cmd	*parseline(char **ps, char *es, char **env)
 {
 	t_cmd	*cmd;
 
-	cmd = parsepipe(ps, es);
+	cmd = parsepipe(ps, es, env);
 	if (peek(ps, es, ";"))
 	{
 		get_token(ps, es, 0);
-		cmd = listcmd(cmd, parseline(ps, es));
+		cmd = listcmd(cmd, parseline(ps, es, env));
 	}
 	return (cmd);
 }
 
-t_cmd	*parseblock(char **ps, char *es)
+t_cmd	*parseblock(char **ps, char *es, char **env)
 {
 	t_cmd	*cmd;
 
 	if (!peek(ps, es, "("))
 		crash_handler("parseblock");
 	get_token(ps, es, 0);
-	cmd = parseline(ps, es);
+	cmd = parseline(ps, es, env);
 	if (!peek(ps, es, ")"))
 		crash_handler("synthax - missing )");
 	get_token(ps, es, 0);
-	cmd = parseredirs(cmd, ps, es);
+	cmd = parseredirs(cmd, ps, es, env);
 	return (cmd);
 }
 
-t_cmd	*parseexec(char **ps, char *es)
+t_cmd	*parseexec(char **ps, char *es, char **env)
 {
 	char		*token;
 	int			type;
@@ -77,7 +82,7 @@ t_cmd	*parseexec(char **ps, char *es)
 	token = "1";
 	argc = 0;
 	if (peek(ps, es, "("))
-		return (parseblock(ps, es));
+		return (parseblock(ps, es, env));
 	ret = execcmd();
 	cmd = (t_execcmd *)ret;
 	cmd->args = malloc(sizeof(char *) * MAXARGS);
@@ -86,7 +91,7 @@ t_cmd	*parseexec(char **ps, char *es)
 	cmd->args[argc] = malloc(sizeof(char *));
 	if (!cmd->args[argc])
 		return (NULL);
-	ret = parseredirs(ret, ps, es);
+	ret = parseredirs(ret, ps, es, env);
 	while (!peek(ps, es, "|);"))
 	{
 		type = get_token(ps, es, &token);
@@ -100,21 +105,21 @@ t_cmd	*parseexec(char **ps, char *es)
 			return (NULL);
 		if (argc >= MAXARGS)
 			crash_handler("too many args\n");
-		ret = parseredirs(ret, ps, es);
+		ret = parseredirs(ret, ps, es, env);
 	}
 	cmd->args[argc] = 0;
 	return (ret);
 }
 
-t_cmd	*parsepipe(char **ps, char *es)
+t_cmd	*parsepipe(char **ps, char *es, char **env)
 {
 	t_cmd	*cmd;
 
-	cmd = parseexec(ps, es);
+	cmd = parseexec(ps, es, env);
 	if (peek(ps, es, "|"))
 	{
 		get_token(ps, es, 0);
-		cmd = pipecmd(cmd, parsepipe(ps, es));
+		cmd = pipecmd(cmd, parsepipe(ps, es, env));
 	}
 	return (cmd);
 }

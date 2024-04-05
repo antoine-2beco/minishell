@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 10:13:27 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/04/03 15:06:56 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/04/05 13:18:17 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,18 +71,22 @@ t_cmd	*redircmd(t_cmd *subcmd, char *file, int mode, int fd);
 t_cmd	*pipecmd(t_cmd *left, t_cmd *right);
 t_cmd	*listcmd(t_cmd *left, t_cmd *right);
 
-t_cmd	*parseline(char **ps, char *es);
-t_cmd	*parseblock(char **ps, char *es);
-t_cmd	*parseexec(char **ps, char *es);
-t_cmd	*parsepipe(char **ps, char *es);
-t_cmd	*parseredirs(t_cmd *cmd, char **ps, char *es);
+t_cmd	*parseline(char **ps, char *es, char **env);
+t_cmd	*parseblock(char **ps, char *es, char **env);
+t_cmd	*parseexec(char **ps, char *es, char **env);
+t_cmd	*parsepipe(char **ps, char *es, char **env);
+t_cmd	*parseredirs(t_cmd *cmd, char **ps, char *es, char **env);
 
 int		get_token(char **ps, char *es, char **token);
 int		peek(char **ps, char *es, char *toks);
 
 void	crash_handler(char *str);
+int		create_fork(void);
 
 t_cmd	*expand(t_cmd *cmd, char **env);
+char	*handle_env_var(char *s, char *es, char **env);
+char	*handle_quotes(char *s, int i, int y);
 
 char	*get_env_var(char *var, char **env);
+t_cmd	*create_heredoc(t_cmd *cmd, char *file, char **env);
 #endif

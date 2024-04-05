@@ -6,11 +6,29 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 11:11:17 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/04/03 11:03:54 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/04/05 14:48:12 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minilib.h"
+
+int	ft_strcmp(char *s1, char *s2)
+{
+	int	i;
+	int	rep;
+
+	i = 0;
+	rep = 0;
+	while ((s1[i] || s2[i]))
+	{
+		rep = (unsigned char)s1[i] - (unsigned char)s2[i];
+		if (rep == 0)
+			i++;
+		else
+			return (rep);
+	}
+	return (rep);
+}
 
 int	peek(char **ps, char *es, char *toks)
 {
@@ -80,4 +98,29 @@ int	get_token(char **ps, char *es, char **token)
 		s++;
 	*ps = s;
 	return (ret);
+}
+
+t_cmd	*create_heredoc(t_cmd *cmd, char *file, char **env)
+{
+	char		*line;
+	int			end[2];
+	char		*delimiter;
+
+	delimiter = handle_quotes(file, 0, 0);
+	if (pipe(end) < 0)
+		crash_handler("Pipe error\n");
+	while (1)
+	{
+		ft_putstr_fd("heredoc>", STDERR_FILENO);
+		line = readline(NULL);
+		if (!ft_strchr(file, '\"') && !ft_strchr(file, '\"'))
+			line = handle_env_var(line, (line + ft_strlen(line)), env);
+		if (!ft_strcmp(line, delimiter))
+			break ;
+		ft_putstr_fd(line, end[1]);
+	}
+	ft_putstr_fd("\0", end[1]);
+	close(end[1]);
+	cmd = redircmd(cmd, file, 0, end[0]);
+	return (cmd);
 }

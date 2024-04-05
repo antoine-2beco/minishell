@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 10:13:09 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/04/03 13:41:59 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/04/05 14:11:59 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,13 @@ int	create_fork(void)
 	return (pid);
 }
 
-t_cmd	*parsecmd(char *s)
+t_cmd	*parsecmd(char *s, char **env)
 {
 	char	*es;
 	t_cmd	*cmd;
 
 	es = s + ft_strlen(s);
-	cmd = parseline(&s, es);
+	cmd = parseline(&s, es, env);
 	peek(&s, es, " ");
 	if (s != es)
 	{
@@ -51,6 +51,7 @@ void	print_cmd(t_cmd *cmd)
 	t_redircmd	*rcmd;
 	t_listcmd	*lcmd;
 	int			i;
+	char		line[300];
 
 	i = 0;
 	if (cmd->type == EXEC)
@@ -87,6 +88,10 @@ void	print_cmd(t_cmd *cmd)
 	{
 		rcmd = (t_redircmd *)cmd;
 		ft_printf("Heredoc : %s, %d, %d\n", rcmd->file, rcmd->mode, rcmd->fd);
+		dup2(rcmd->fd, STDIN_FILENO);
+		close(rcmd->fd);
+		scanf("%s", line);
+		ft_printf("%s\n", line);
 		print_cmd(rcmd->cmd);
 	}
 }
@@ -100,7 +105,7 @@ int	main(int argc, char **argv, char **env)
 	(void)env;
 	ft_putstr_fd("\e[1m\x1b[36mMinishell ➤ \x1b[36m\e[m", STDERR_FILENO);
 	line = readline(NULL);
-	while (line >= 0)
+	while (line > 0)
 	{
 		if (line[0] == 'c' && line[1] == 'd' && line [2] == ' ')
 		{
@@ -108,7 +113,7 @@ int	main(int argc, char **argv, char **env)
 			//line = line[apres la cmd cd]
 		}
 		if (create_fork() == 0)
-			print_cmd(expand(parsecmd(line), env)); //execute cmd
+			print_cmd(expand(parsecmd(line, env), env)); //execute cmd
 		wait(0);
 		free(line);
 		ft_putstr_fd("\e[1m\x1b[36mMinishell ➤ \x1b[36m\e[m", STDERR_FILENO);
