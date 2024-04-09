@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 10:13:09 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/04/09 13:34:45 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/04/09 14:53:58 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,10 +103,10 @@ int	main(int argc, char **argv, char **env)
 	(void)argc;
 	(void)argv;
 	(void)env;
-	ft_putstr_fd("\e[1m\x1b[36mMinishell ➤ \x1b[36m\e[m", STDERR_FILENO);
-	line = readline(NULL);
+	line = readline("\e[1m\x1b[36mMinishell ➤ \x1b[36m\e[m");
 	while (line > 0)
 	{
+		add_history(line);
 		if (line[0] == 'c' && line[1] == 'd' && line [2] == ' ')
 		{
 			break ;
@@ -115,7 +115,6 @@ int	main(int argc, char **argv, char **env)
 			print_cmd(expand(parsecmd(line, env), env));
 		wait(0);
 		free(line);
-		ft_putstr_fd("\e[1m\x1b[36mMinishell ➤ \x1b[36m\e[m", STDERR_FILENO);
-		line = readline(NULL);
+		line = readline("\e[1m\x1b[36mMinishell ➤ \x1b[36m\e[m");
 	}
 }

@@ -1,19 +1,21 @@
-SRC = main.c parse/construct_tokens.c parse/parser.c parse/parse_utils.c parse/expander.c parse/expander_utils.c parse/get_token.c
+SRC := main.c parse/construct_tokens.c parse/parser.c parse/parse_utils.c parse/expander.c parse/expander_utils.c parse/get_token.c
 
-OBJS = $(SRC:.c=.o)
+OBJS := $(SRC:.c=.o)
 
-CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g
+CFLAGS := -Wall -Wextra -Werror -fsanitize=address -g
 
-CC = cc
+CC := cc
 
-NAME = minishell
+NAME := minishell
+
+READLINE := -lreadline -L ~/.brew/opt/readline/lib -I ~/.brew/opt/readline/include
 
 all : $(NAME)
 
 $(NAME) : $(OBJS)
 	@$(MAKE) -C ./libft
 	@$(MAKE) -C ./ft_printf
-	$(CC) $(CFLAGS) -lreadline -I ./minilib.h $(OBJS) libft/libft.a ft_printf/libftprintf.a -o $(NAME)
+	$(CC) $(CFLAGS) $(READLINE) -I ./minilib.h $(OBJS) libft/libft.a ft_printf/libftprintf.a -o $(NAME)
 	
 	
 clean :
