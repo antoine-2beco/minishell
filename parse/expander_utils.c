@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 13:29:24 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/04/03 14:48:01 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/04/09 14:26:50 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,14 @@ char	**get_env_vars(char **env)
 	}
 	ret[i] = 0;
 	return (ret);
+}
+
+void	switch_inquote(char *ps, int *inquote)
+{
+	if (*ps == '\'' && !*inquote)
+		*inquote = 1;
+	else if (*ps == '\'' && *inquote)
+		*inquote = 0;
 }
 
 char	*get_env_var(char *var, char **env)

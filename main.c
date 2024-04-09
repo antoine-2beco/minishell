@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 10:13:09 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/04/09 12:00:27 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/04/09 13:34:45 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,11 +109,10 @@ int	main(int argc, char **argv, char **env)
 	{
 		if (line[0] == 'c' && line[1] == 'd' && line [2] == ' ')
 		{
-			//change directory
-			//line = line[apres la cmd cd]
+			break ;
 		}
 		if (create_fork() == 0)
-			print_cmd(expand(parsecmd(line, env), env)); //execute cmd
+			print_cmd(expand(parsecmd(line, env), env));
 		wait(0);
 		free(line);
 		ft_putstr_fd("\e[1m\x1b[36mMinishell ➤ \x1b[36m\e[m", STDERR_FILENO);

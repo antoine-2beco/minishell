@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 11:09:00 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/04/05 13:21:40 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/04/09 14:27:25 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,36 +60,30 @@ char	*handle_quotes(char *s, int i, int y)
 	return (cs);
 }
 
-char	*handle_env_var(char *s, char *es, char **env)
+char	*handle_env_var(char *s, char *es, char **env, int tok)
 {
-	int		i;
 	int		inquote;
 	char	*ps;
 	char	*token;
 
-	i = 0;
 	inquote = 0;
 	ps = s;
 	while (ps < es)
 	{
-		if (*ps == '\'' && !inquote)
-			inquote = 1;
-		else if (*ps == '\'' && inquote)
-			inquote = 0;
+		switch_inquote(ps, &inquote);
 		if (*ps == '$' && !inquote)
 		{
 			ps++;
-			i = get_token(&ps, es, &token);
+			tok = get_token(&ps, es, &token);
 			break ;
 		}
 		ps++;
 	}
-	if (i == 'a')
+	if (tok == 'a')
 	{
 		ps = get_env_var(token, env);
-		if (!ps)
-			return (s);
-		return (ps);
+		if (ps)
+			return (ps);
 	}
 	return (s);
 }
@@ -106,8 +100,9 @@ t_cmd	*expand(t_cmd *cmd, char **env)
 		ecmd = (t_execcmd *)cmd;
 		while (ecmd->args[i])
 		{
-			ecmd->args[i] = handle_env_var(ecmd->args[i], (ecmd->args[i] + ft_strlen(ecmd->args[i])), env);
 			ecmd->args[i] = handle_quotes(ecmd->args[i], 0, 0);
+			ecmd->args[i] = handle_env_var(ecmd->args[i],
+					(ecmd->args[i] + ft_strlen(ecmd->args[i])), env, 0);
 			i++;
 		}
 	}

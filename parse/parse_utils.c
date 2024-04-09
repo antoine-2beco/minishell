@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 11:11:17 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/04/08 16:58:57 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/04/09 13:29:15 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,63 +41,26 @@ int	peek(char **ps, char *es, char *toks)
 	return ((*s && ft_strchr(toks, *s)));
 }
 
-int	get_token(char **ps, char *es, char **token)
+void	parseexec_error(t_execcmd *cmd, int argc)
 {
-	char	*s;
-	int		ret;
-	int		inquote;
+	if (!cmd->args[argc])
+		crash_handler("Malloc error\n");
+	if (argc >= MAXARGS)
+		crash_handler("too many args\n");
+}
 
-	s = *ps;
-	inquote = 0;
-	while (s < es && ft_strchr(" \t\r\n\v", *s))
-		s++;
-	if (token)
-		*token = s;
-	ret = *s;
-	if (*s == 0)
-		;
-	else if (ft_strchr("|();", *s))
-		s++;
-	else if (*s == '<')
-	{
-		s++;
-		if (*s == '<')
-		{
-			s++;
-			ret = '-';
-		}
-	}
-	else if (*s == '>')
-	{
-		s++;
-		if (*s == '>')
-		{
-			s++;
-			ret = '+';
-		}
-	}
-	else
-	{
-		ret = 'a';
-		while (s < es && (!ft_strchr(" \t\r\n\v|();<>", *s) || inquote))
-		{
-			if ((*s == '\"') && inquote == 0)
-				inquote = 1;
-			else if ((*s == '\"') && inquote == 1)
-				inquote = 0;
-			else if ((*s == '\'') && inquote == 0)
-				inquote = 2;
-			else if ((*s == '\'') && inquote == 2)
-				inquote = 0;
-			s++;
-		}
-	}
-	if (token)
-		*token = ft_substr(*token, 0, s - *token);
-	while (s < es && ft_strchr(" \t\r\n\v", *s))
-		s++;
-	*ps = s;
-	return (ret);
+t_execcmd	*init_cmd(t_cmd *ret)
+{
+	t_execcmd	*cmd;
+
+	cmd = (t_execcmd *)ret;
+	cmd->args = malloc(sizeof(char *) * (MAXARGS + 1));
+	if (!cmd->args)
+		crash_handler("Malloc error\n");
+	cmd->args[0] = malloc(sizeof(char *));
+	if (!cmd->args[0])
+		crash_handler("Malloc error\n");
+	return (cmd);
 }
 
 t_cmd	*create_heredoc(t_cmd *cmd, char *file, char **env)
@@ -114,7 +77,7 @@ t_cmd	*create_heredoc(t_cmd *cmd, char *file, char **env)
 		ft_putstr_fd("heredoc>", STDERR_FILENO);
 		line = readline(NULL);
 		if (!ft_strchr(file, '\"') && !ft_strchr(file, '\"'))
-			line = handle_env_var(line, (line + ft_strlen(line)), env);
+			line = handle_env_var(line, (line + ft_strlen(line)), env, 0);
 		if (!ft_strcmp(line, delimiter))
 			break ;
 		ft_putstr_fd(line, end[1]);

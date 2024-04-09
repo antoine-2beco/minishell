@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 10:13:27 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/04/05 13:18:17 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/04/09 14:27:09 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,27 +66,30 @@ typedef struct s_listcmd
 
 // FUNCTIONS
 
-t_cmd	*execcmd(void);
-t_cmd	*redircmd(t_cmd *subcmd, char *file, int mode, int fd);
-t_cmd	*pipecmd(t_cmd *left, t_cmd *right);
-t_cmd	*listcmd(t_cmd *left, t_cmd *right);
+t_cmd		*execcmd(void);
+t_cmd		*redircmd(t_cmd *subcmd, char *file, int mode, int fd);
+t_cmd		*pipecmd(t_cmd *left, t_cmd *right);
+t_cmd		*listcmd(t_cmd *left, t_cmd *right);
 
-t_cmd	*parseline(char **ps, char *es, char **env);
-t_cmd	*parseblock(char **ps, char *es, char **env);
-t_cmd	*parseexec(char **ps, char *es, char **env);
-t_cmd	*parsepipe(char **ps, char *es, char **env);
-t_cmd	*parseredirs(t_cmd *cmd, char **ps, char *es, char **env);
+t_cmd		*parseline(char **ps, char *es, char **env);
+t_cmd		*parseblock(char **ps, char *es, char **env);
+t_cmd		*parseexec(char **ps, char *es, char **env, int argc);
+t_cmd		*parsepipe(char **ps, char *es, char **env);
+t_cmd		*parseredirs(t_cmd *cmd, char **ps, char *es, char **env);
 
-int		get_token(char **ps, char *es, char **token);
-int		peek(char **ps, char *es, char *toks);
+int			get_token(char **ps, char *es, char **token);
+int			peek(char **ps, char *es, char *toks);
 
-void	crash_handler(char *str);
-int		create_fork(void);
+void		crash_handler(char *str);
+int			create_fork(void);
 
-t_cmd	*expand(t_cmd *cmd, char **env);
-char	*handle_env_var(char *s, char *es, char **env);
-char	*handle_quotes(char *s, int i, int y);
+t_cmd		*expand(t_cmd *cmd, char **env);
+char		*handle_env_var(char *s, char *es, char **env, int tok);
+char		*handle_quotes(char *s, int i, int y);
 
-char	*get_env_var(char *var, char **env);
-t_cmd	*create_heredoc(t_cmd *cmd, char *file, char **env);
+char		*get_env_var(char *var, char **env);
+t_cmd		*create_heredoc(t_cmd *cmd, char *file, char **env);
+t_execcmd	*init_cmd(t_cmd *ret);
+void		parseexec_error(t_execcmd *cmd, int argc);
+void		switch_inquote(char *ps, int *inquote);
 #endif

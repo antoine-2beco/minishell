@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 11:08:55 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/04/04 17:20:07 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/04/09 13:11:38 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,6 @@ t_cmd	*parseredirs(t_cmd *cmd, char **ps, char *es, char **env)
 			cmd = redircmd(cmd, file, O_WRONLY | O_CREAT, 1);
 		else if (tok == '-')
 		{
-			//HEREDOC
-			//Creation d'un fork (Pour fermeture instant sur signal) ??
-			//Creation d'un pipe
-			//Lecture des lignes et envoi dans le pipe
-			//Return t_redircmd => File -> delimiter | fd -> pipe
 			cmd = create_heredoc(cmd, file, env);
 			cmd->type = HEREDOC;
 		}
@@ -71,26 +66,17 @@ t_cmd	*parseblock(char **ps, char *es, char **env)
 	return (cmd);
 }
 
-t_cmd	*parseexec(char **ps, char *es, char **env)
+t_cmd	*parseexec(char **ps, char *es, char **env, int argc)
 {
 	char		*token;
 	int			type;
-	int			argc;
 	t_execcmd	*cmd;
 	t_cmd		*ret;
 
-	token = "1";
-	argc = 0;
 	if (peek(ps, es, "("))
 		return (parseblock(ps, es, env));
 	ret = execcmd();
-	cmd = (t_execcmd *)ret;
-	cmd->args = malloc(sizeof(char *) * MAXARGS);
-	if (!cmd->args)
-		return (NULL);
-	cmd->args[argc] = malloc(sizeof(char *));
-	if (!cmd->args[argc])
-		return (NULL);
+	cmd = init_cmd(ret);
 	ret = parseredirs(ret, ps, es, env);
 	while (!peek(ps, es, "|);"))
 	{
@@ -101,10 +87,7 @@ t_cmd	*parseexec(char **ps, char *es, char **env)
 			crash_handler("synthax\n");
 		cmd->args[argc++] = token;
 		cmd->args[argc] = malloc(sizeof(char *));
-		if (!cmd->args[argc])
-			return (NULL);
-		if (argc >= MAXARGS)
-			crash_handler("too many args\n");
+		parseexec_error(cmd, argc);
 		ret = parseredirs(ret, ps, es, env);
 	}
 	cmd->args[argc] = 0;
@@ -115,7 +98,7 @@ t_cmd	*parsepipe(char **ps, char *es, char **env)
 {
 	t_cmd	*cmd;
 
-	cmd = parseexec(ps, es, env);
+	cmd = parseexec(ps, es, env, 0);
 	if (peek(ps, es, "|"))
 	{
 		get_token(ps, es, 0);

@@ -1,4 +1,4 @@
-SRC = main.c parse/construct_tokens.c parse/parser.c parse/parse_utils.c parse/expander.c parse/expander_utils.c
+SRC = main.c parse/construct_tokens.c parse/parser.c parse/parse_utils.c parse/expander.c parse/expander_utils.c parse/get_token.c
 
 OBJS = $(SRC:.c=.o)
 
