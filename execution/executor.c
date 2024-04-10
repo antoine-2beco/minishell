@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:48:26 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/04/10 13:21:50 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/04/10 21:34:44 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,8 @@ void	runcmd(t_cmd *cmd, char **env, int stdout_cpy)
 	t_execcmd	*ecmd;
 	t_redircmd	*rcmd;
 	t_listcmd	*lcmd;
+	t_pipecmd	*pcmd;
+	int			fd[2];
 
 	if (cmd == 0)
 		exit(1);
@@ -89,7 +91,28 @@ void	runcmd(t_cmd *cmd, char **env, int stdout_cpy)
 	}
 	else if (cmd->type == PIPE)
 	{
-		pipex(cmd, stdout_cpy, env);
+		pcmd = (t_pipecmd *)cmd;
+		if (pipe(fd) == -1)
+			crash_handler("pipe\n");
+		if (!create_fork())
+		{
+			close(fd[0]);
+			dup2(fd[1], STDOUT_FILENO);
+			close(fd[1]);
+			runcmd(pcmd->left, env, stdout_cpy);
+		}
+		if (!create_fork())
+		{
+			close(fd[1]);
+			dup2(fd[0], STDIN_FILENO);
+			close(fd[0]);
+			runcmd(pcmd->right, env, stdout_cpy);
+		}
+		close(fd[0]);
+		close(fd[1]);
+		wait(0);
+		wait(0);
+		// pipex(cmd, stdout_cpy, env);
 	}
 	else if (cmd->type == REDIR)
 	{
@@ -97,6 +120,8 @@ void	runcmd(t_cmd *cmd, char **env, int stdout_cpy)
 		close(rcmd->fd);
 		if (open(rcmd->file, rcmd->mode) < 0)
 			crash_handler("open %s failed\n");
+		while (rcmd->cmd->type == REDIR)
+			rcmd = (t_redircmd *)rcmd->cmd;
 		runcmd(rcmd->cmd, env, stdout_cpy);
 	}
 	else if (cmd->type == LIST)
