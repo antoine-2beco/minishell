@@ -27,7 +27,7 @@ $(NAME) : $(OBJS) $(OBJSBUILTINS) $(OBJSPARSE) $(OBJSEXEC)
 clean :
 	@$(MAKE) clean -C ./libft
 	@$(MAKE) clean -C ./ft_printf
-	rm -f $(OBJS) $(OBJSBUILTINS) $(OBJSPARSE)
+	rm -f $(OBJS) $(OBJSBUILTINS) $(OBJSPARSE) $(OBJSEXEC)
 
 fclean : clean
 	@$(MAKE) fclean -C ./libft

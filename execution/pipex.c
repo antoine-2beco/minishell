@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 12:02:55 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/04/10 13:30:59 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/04/10 15:30:08 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,13 @@ void	pipex(t_cmd *cmd, int stdout_cpy, char **env)
 {
 	int			p[2];
 	t_pipecmd	*pcmd;
-	int			pid[100];
 	int			i;
 
 	i = 0;
 	pcmd = (t_pipecmd *)cmd;
 	if (pipe(p) == -1)
 		crash_handler("pipe\n");
-	pid[i] = create_fork();
-	if (!pid[i])
+	if (!create_fork())
 	{
 		close(p[0]);
 		dup2(p[1], STDOUT_FILENO);
@@ -34,8 +32,7 @@ void	pipex(t_cmd *cmd, int stdout_cpy, char **env)
 	while (pcmd->right->type == PIPE)
 	{
 		pcmd = (t_pipecmd *)pcmd->right;
-		pid[i] = create_fork();
-		if (!pid[i])
+		if (!create_fork())
 		{
 			dup2(p[0], STDIN_FILENO);
 			dup2(p[1], STDOUT_FILENO);
@@ -43,8 +40,7 @@ void	pipex(t_cmd *cmd, int stdout_cpy, char **env)
 		}
 		i++;
 	}
-	pid[i] = create_fork();
-	if (!pid[i])
+	if (!create_fork())
 	{
 		close(p[1]);
 		dup2(p[0], STDIN_FILENO);
