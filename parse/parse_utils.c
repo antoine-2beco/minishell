@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 11:11:17 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/04/09 13:29:15 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/04/10 13:32:34 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ t_cmd	*create_heredoc(t_cmd *cmd, char *file, char **env)
 		if (!ft_strcmp(line, delimiter))
 			break ;
 		ft_putstr_fd(line, end[1]);
+		ft_putstr_fd("\n", end[1]);
 	}
 	ft_putstr_fd("\0", end[1]);
 	close(end[1]);

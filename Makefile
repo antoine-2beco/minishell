@@ -1,6 +1,12 @@
-SRC := main.c parse/construct_tokens.c parse/parser.c parse/parse_utils.c parse/expander.c parse/expander_utils.c parse/get_token.c
+SRC := main.c
+SRCBUILTINS := builtins/cd.c
+SRCPARSE := parse/construct_tokens.c parse/parser.c parse/parse_utils.c parse/expander.c parse/expander_utils.c parse/get_token.c
+SRCSEXEC := execution/executor.c execution/pipex.c
 
 OBJS := $(SRC:.c=.o)
+OBJSBUILTINS := $(SRCBUILTINS:.c=.o)
+OBJSPARSE := $(SRCPARSE:.c=.o)
+OBJSEXEC := $(SRCSEXEC:.c=.o)
 
 CFLAGS := -Wall -Wextra -Werror -fsanitize=address -g
 
@@ -12,16 +18,16 @@ READLINE := -lreadline -L ~/.brew/opt/readline/lib -I ~/.brew/opt/readline/inclu
 
 all : $(NAME)
 
-$(NAME) : $(OBJS)
+$(NAME) : $(OBJS) $(OBJSBUILTINS) $(OBJSPARSE) $(OBJSEXEC)
 	@$(MAKE) -C ./libft
 	@$(MAKE) -C ./ft_printf
-	$(CC) $(CFLAGS) $(READLINE) -I ./minilib.h $(OBJS) libft/libft.a ft_printf/libftprintf.a -o $(NAME)
+	$(CC) $(CFLAGS) $(READLINE) -I ./minilib.h $(OBJS) $(OBJSBUILTINS) $(OBJSPARSE) $(OBJSEXEC) libft/libft.a ft_printf/libftprintf.a -o $(NAME)
 	
 	
 clean :
 	@$(MAKE) clean -C ./libft
 	@$(MAKE) clean -C ./ft_printf
-	rm -f $(OBJS)
+	rm -f $(OBJS) $(OBJSBUILTINS) $(OBJSPARSE)
 
 fclean : clean
 	@$(MAKE) fclean -C ./libft

@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 10:13:09 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/04/09 14:53:58 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/04/10 13:28:43 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,20 +99,21 @@ void	print_cmd(t_cmd *cmd)
 int	main(int argc, char **argv, char **env)
 {
 	char	*line;
+	int		pid;
+	int		stdin_cpy;
+	int		stdout_cpy;
 
 	(void)argc;
 	(void)argv;
-	(void)env;
+	stdin_cpy = dup(0);
+	stdout_cpy = dup(1);
 	line = readline("\e[1m\x1b[36mMinishell ➤ \x1b[36m\e[m");
 	while (line > 0)
 	{
 		add_history(line);
-		if (line[0] == 'c' && line[1] == 'd' && line [2] == ' ')
-		{
-			break ;
-		}
-		if (create_fork() == 0)
-			print_cmd(expand(parsecmd(line, env), env));
+		pid = create_fork();
+		if (!pid)
+			runcmd(expand(parsecmd(line, env), env), env, stdout_cpy);
 		wait(0);
 		free(line);
 		line = readline("\e[1m\x1b[36mMinishell ➤ \x1b[36m\e[m");
