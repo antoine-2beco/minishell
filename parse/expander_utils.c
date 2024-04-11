@@ -6,11 +6,24 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 13:29:24 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/04/09 14:26:50 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/04/11 16:40:55 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minilib.h"
+
+void	free_array(char **array)
+{
+	int	i;
+
+	i = 0;
+	while (array[i])
+	{
+		free(array[i]);
+		i++;
+	}
+	free(array);
+}
 
 int	highest_num(int a, int b)
 {
@@ -32,6 +45,7 @@ int	find_env_var(char **envvars, char *var)
 			return (i);
 		i++;
 	}
+	free_array(envvars);
 	return (-1);
 }
 
@@ -45,6 +59,8 @@ char	**get_env_vars(char **env)
 	while (env[i])
 		i++;
 	ret = malloc(sizeof(char *) * (i + 1));
+	if (!ret)
+		crash_handler("Malloc\n");
 	i = 0;
 	while (env[i])
 	{
@@ -52,6 +68,8 @@ char	**get_env_vars(char **env)
 		while (env[i][y] != '=')
 			y++;
 		ret[i] = malloc(sizeof(char) * (y + 1));
+		if (!ret[i])
+			crash_handler("Malloc\n");
 		y = 0;
 		while (env[i][y] != '=')
 		{

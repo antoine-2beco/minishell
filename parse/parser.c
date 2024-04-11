@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 11:08:55 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/04/11 10:12:49 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/04/11 16:15:32 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,8 @@ t_cmd	*parseexec(char **ps, char *es, char **env, int argc)
 			break ;
 		if (type != 'a')
 			crash_handler("synthax\n");
-		cmd->args[argc++] = token;
+		ft_strlcpy(cmd->args[argc++], token, ft_strlen(token) + 1);
+		free(token);
 		cmd->args[argc] = malloc(sizeof(char *));
 		parseexec_error(cmd, argc);
 		ret = parseredirs(ret, ps, es, env);

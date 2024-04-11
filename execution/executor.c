@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:48:26 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/04/11 10:43:21 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/04/11 16:39:20 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ void	execution(char **cmd, char **env)
 	}
 	if (env[0] != NULL)
 		path = get_path(cmd[0], env);
+	signal(SIGQUIT, SIG_DFL);
 	execve(path, cmd, env);
 	ft_putstr_fd("minishell: command not found: ", 2);
 	ft_putstr_fd(cmd[0], 2);
@@ -139,5 +140,6 @@ void	runcmd(t_cmd *cmd, char **env, int stdout_cpy)
 		dup(rcmd->fd);
 		runcmd(rcmd->cmd, env, stdout_cpy);
 	}
+	free_cmd(cmd);
 	exit(1);
 }

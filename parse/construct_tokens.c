@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 10:59:25 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/04/02 11:07:11 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/04/11 16:43:28 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ t_cmd	*pipecmd(t_cmd *left, t_cmd *right)
 	t_pipecmd	*cmd;
 
 	cmd = ft_calloc(sizeof(*cmd), 1);
+	if (!cmd)
+		crash_handler("Malloc\n");
 	cmd->type = PIPE;
 	cmd->left = left;
 	cmd->right = right;
@@ -54,6 +56,8 @@ t_cmd	*listcmd(t_cmd *left, t_cmd *right)
 	t_listcmd	*cmd;
 
 	cmd = ft_calloc(sizeof(*cmd), 1);
+	if (!cmd)
+		crash_handler("Malloc\n");
 	cmd->type = LIST;
 	cmd->left = left;
 	cmd->right = right;

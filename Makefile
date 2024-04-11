@@ -1,14 +1,14 @@
 SRC := main.c
 SRCBUILTINS := builtins/cd.c
 SRCPARSE := parse/construct_tokens.c parse/parser.c parse/parse_utils.c parse/expander.c parse/expander_utils.c parse/get_token.c
-SRCSEXEC := execution/executor.c execution/pipex.c
+SRCSEXEC := execution/executor.c execution/pipex.c execution/free_cmd.c
 
 OBJS := $(SRC:.c=.o)
 OBJSBUILTINS := $(SRCBUILTINS:.c=.o)
 OBJSPARSE := $(SRCPARSE:.c=.o)
 OBJSEXEC := $(SRCSEXEC:.c=.o)
 
-CFLAGS := -Wall -Wextra -Werror -fsanitize=address -g
+CFLAGS := -Wall -Wextra -Werror
 
 CC := cc
 
