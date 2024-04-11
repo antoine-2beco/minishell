@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:48:26 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/04/10 21:34:44 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/04/11 10:43:21 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ void	runcmd(t_cmd *cmd, char **env, int stdout_cpy)
 	{
 		rcmd = (t_redircmd *)cmd;
 		close(rcmd->fd);
-		if (open(rcmd->file, rcmd->mode) < 0)
+		if (open(rcmd->file, rcmd->mode, 00644) < 0)
 			crash_handler("open %s failed\n");
 		while (rcmd->cmd->type == REDIR)
 			rcmd = (t_redircmd *)rcmd->cmd;
