@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 10:13:09 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/04/15 10:57:54 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/04/15 11:38:38 by ade-beco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,17 +45,27 @@ t_cmd	*parsecmd(char *s, char **env)
 }
 
 char	**cpy_env(char **pre_env)
-[
-	char	 **env;
+{
+	char	**env;
 	int		i;
-	int		env_lenght;
 
-	env_lenght = 0;
+	i = 0;
 	while (pre_env[i++])
-		env_lenght++;
-	env = malloc(env_lenght * sizeof(char *));
-	while ()
-]
+		;
+	env = malloc(i * sizeof(char *));
+	if (!env)
+		exit(EXIT_FAILURE);
+	i = 0;
+	while (pre_env[i])
+	{
+		env[i] = malloc(sizeof(pre_env[i]));
+		if (!env[i])
+			exit(EXIT_FAILURE);
+		env[i] = pre_env[i];
+		i++;
+	}
+	return (env);
+}
 
 void	print_cmd(t_cmd *cmd)
 {
