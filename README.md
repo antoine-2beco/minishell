@@ -2,6 +2,8 @@
 
 A faire :
 - Builtins
+	- Export
+		Parsing
 - Gestion des signaux
 - $?
 - Messages d'erreur conformes
