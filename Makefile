@@ -1,5 +1,5 @@
 SRC := main.c
-SRCBUILTINS := builtins/cd.c
+SRCBUILTINS := builtins/cd.c builtins/export.c
 SRCPARSE := parse/construct_tokens.c parse/parser.c parse/parse_utils.c parse/expander.c parse/expander_utils.c parse/get_token.c
 SRCSEXEC := execution/executor.c execution/pipex.c execution/free_cmd.c
 

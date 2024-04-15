@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minilib.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 10:13:27 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/04/11 16:32:23 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/04/15 12:13:17 by ade-beco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ char		*get_env_var(char *var, char **env);
 void		switch_inquote(char *ps, int *inquote);
 
 /*-------------- Builtins -----------------*/
+char		**exportcmd(char **args, char **env);
 char		*change_cwd(char *path, char *folder);
 
 void		runcmd(t_cmd *cmd, char **env, int stdout_cpy);
