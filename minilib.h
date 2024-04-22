@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minilib.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
+/*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 10:13:27 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/04/15 12:13:17 by ade-beco         ###   ########.fr       */
+/*   Updated: 2024/04/22 10:31:49 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ int			create_fork(void);
 /*--------------- Expander ----------------*/
 t_cmd		*expand(t_cmd *cmd, char **env);
 char		*handle_env_var(char *s, char *es, char **env, int tok);
-char		*handle_quotes(char *s, int i, int y);
+char		*handle_quotes(char *s, int i, int y, char **env);
 
 /*------------ Expander utils -------------*/
 char		*get_env_var(char *var, char **env);

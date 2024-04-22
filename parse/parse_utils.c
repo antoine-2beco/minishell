@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 11:11:17 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/04/10 13:32:34 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/04/22 10:56:10 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ t_execcmd	*init_cmd(t_cmd *ret)
 	cmd->args = malloc(sizeof(char *) * (MAXARGS + 1));
 	if (!cmd->args)
 		crash_handler("Malloc error\n");
-	cmd->args[0] = malloc(sizeof(char *));
+	// cmd->args[0] = malloc(sizeof(char *));
 	if (!cmd->args[0])
 		crash_handler("Malloc error\n");
 	return (cmd);
@@ -69,7 +69,7 @@ t_cmd	*create_heredoc(t_cmd *cmd, char *file, char **env)
 	int			end[2];
 	char		*delimiter;
 
-	delimiter = handle_quotes(file, 0, 0);
+	delimiter = handle_quotes(file, 0, 0, env);
 	if (pipe(end) < 0)
 		crash_handler("Pipe error\n");
 	while (1)
@@ -77,7 +77,7 @@ t_cmd	*create_heredoc(t_cmd *cmd, char *file, char **env)
 		ft_putstr_fd("heredoc>", STDERR_FILENO);
 		line = readline(NULL);
 		if (!ft_strchr(file, '\"') && !ft_strchr(file, '\"'))
-			line = handle_env_var(line, (line + ft_strlen(line)), env, 0);
+			line = handle_quotes(line, 0, 0, env);
 		if (!ft_strcmp(line, delimiter))
 			break ;
 		ft_putstr_fd(line, end[1]);

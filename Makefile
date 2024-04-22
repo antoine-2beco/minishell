@@ -8,7 +8,7 @@ OBJSBUILTINS := $(SRCBUILTINS:.c=.o)
 OBJSPARSE := $(SRCPARSE:.c=.o)
 OBJSEXEC := $(SRCSEXEC:.c=.o)
 
-CFLAGS := -Wall -Wextra -Werror
+CFLAGS := -Wall -Wextra -Werror -fsanitize=address -g
 
 CC := cc
 

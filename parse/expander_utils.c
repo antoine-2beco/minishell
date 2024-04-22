@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 13:29:24 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/04/11 16:40:55 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/04/22 10:07:34 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,9 +84,13 @@ char	**get_env_vars(char **env)
 
 void	switch_inquote(char *ps, int *inquote)
 {
-	if (*ps == '\'' && !*inquote)
+	if (*ps == '\"' && !*inquote)
 		*inquote = 1;
-	else if (*ps == '\'' && *inquote)
+	else if (*ps == '\"' && *inquote == 1)
+		*inquote = 0;
+	else if (*ps == '\'' && !*inquote)
+		*inquote = 2;
+	else if (*ps == '\'' && *inquote == 2)
 		*inquote = 0;
 }
 
