@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 10:13:27 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/04/22 10:31:49 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/04/22 13:48:27 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ void		switch_inquote(char *ps, int *inquote);
 char		**exportcmd(char **args, char **env);
 char		*change_cwd(char *path, char *folder);
 
-void		runcmd(t_cmd *cmd, char **env, int stdout_cpy);
+void		runcmd(t_cmd *cmd, char **env);
 
 void		pipex(t_cmd *cmd, int stdout_cpy, char **env);
 

@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 10:13:09 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/04/15 14:17:02 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/04/22 14:10:23 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,12 +58,13 @@ char	**cpy_env(char **pre_env)
 	i = 0;
 	while (pre_env[i])
 	{
-		env[i] = malloc(sizeof(pre_env[i]));
+		env[i] = malloc(sizeof(char) * ft_strlen(pre_env[i]));
 		if (!env[i])
 			exit(EXIT_FAILURE);
-		env[i] = pre_env[i];
+		env[i] = ft_strdup(pre_env[i]);
 		i++;
 	}
+	env[i] = 0;
 	return (env);
 }
 
@@ -124,20 +125,18 @@ int	main(int argc, char **argv, char **pre_env)
 	char	*line;
 	char	**env;
 	int		pid;
-	int		stdout_cpy;
 
 	(void)argc;
 	(void)argv;
 	signal(SIGQUIT, SIG_IGN);
-	stdout_cpy = dup(1);
-	line = readline("\e[1m\x1b[36mMinishell ➤ \x1b[36m\e[m");
 	env = cpy_env(pre_env);
+	line = readline("\e[1m\x1b[36mMinishell ➤ \x1b[36m\e[m");
 	while (line > 0)
 	{
 		add_history(line);
 		pid = create_fork();
 		if (!pid)
-			print_cmd(expand(parsecmd(line, pre_env), pre_env));
+			runcmd(expand(parsecmd(line, env), env), env);
 		wait(0);
 		free(line);
 		line = readline("\e[1m\x1b[36mMinishell ➤ \x1b[36m\e[m");

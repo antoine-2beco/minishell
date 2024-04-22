@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:48:26 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/04/15 12:32:17 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/04/22 14:00:46 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,8 @@ void	execution(char **cmd, char **env)
 	ft_putchar_fd('\n', 2);
 	exit(EXIT_FAILURE);
 }
-
-void	runcmd(t_cmd *cmd, char **env, int stdout_cpy)
+ 
+void	runcmd(t_cmd *cmd, char **env)
 {
 	t_execcmd	*ecmd;
 	t_redircmd	*rcmd;
@@ -100,20 +100,19 @@ void	runcmd(t_cmd *cmd, char **env, int stdout_cpy)
 			close(fd[0]);
 			dup2(fd[1], STDOUT_FILENO);
 			close(fd[1]);
-			runcmd(pcmd->left, env, stdout_cpy);
+			runcmd(pcmd->left, env);
 		}
 		if (!create_fork())
 		{
 			close(fd[1]);
 			dup2(fd[0], STDIN_FILENO);
 			close(fd[0]);
-			runcmd(pcmd->right, env, stdout_cpy);
+			runcmd(pcmd->right, env);
 		}
 		close(fd[0]);
 		close(fd[1]);
 		wait(0);
 		wait(0);
-		// pipex(cmd, stdout_cpy, env);
 	}
 	else if (cmd->type == REDIR)
 	{
@@ -123,22 +122,22 @@ void	runcmd(t_cmd *cmd, char **env, int stdout_cpy)
 			crash_handler("open %s failed\n");
 		while (rcmd->cmd->type == REDIR)
 			rcmd = (t_redircmd *)rcmd->cmd;
-		runcmd(rcmd->cmd, env, stdout_cpy);
+		runcmd(rcmd->cmd, env);
 	}
 	else if (cmd->type == LIST)
 	{
 		lcmd = (t_listcmd *)cmd;
 		if (create_fork() == 0)
-			runcmd(lcmd->left, env, stdout_cpy);
+			runcmd(lcmd->left, env);
 		wait(0);
-		runcmd(lcmd->right, env, stdout_cpy);
+		runcmd(lcmd->right, env);
 	}
 	else if (cmd->type == HEREDOC)
 	{
 		rcmd = (t_redircmd *)cmd;
 		close(0);
 		dup(rcmd->fd);
-		runcmd(rcmd->cmd, env, stdout_cpy);
+		runcmd(rcmd->cmd, env);
 	}
 	free_cmd(cmd);
 	exit(1);

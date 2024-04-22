@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 11:11:17 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/04/22 10:56:10 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/04/22 13:51:36 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ int	ft_strcmp(char *s1, char *s2)
 
 	i = 0;
 	rep = 0;
+	if (!s1 || !s2)
+		crash_handler("");
 	while ((s1[i] || s2[i]))
 	{
 		rep = (unsigned char)s1[i] - (unsigned char)s2[i];
@@ -56,9 +58,6 @@ t_execcmd	*init_cmd(t_cmd *ret)
 	cmd = (t_execcmd *)ret;
 	cmd->args = malloc(sizeof(char *) * (MAXARGS + 1));
 	if (!cmd->args)
-		crash_handler("Malloc error\n");
-	// cmd->args[0] = malloc(sizeof(char *));
-	if (!cmd->args[0])
 		crash_handler("Malloc error\n");
 	return (cmd);
 }

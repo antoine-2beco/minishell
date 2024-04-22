@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 11:09:00 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/04/22 12:33:47 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/04/22 13:44:47 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,16 +51,12 @@ char	*get_var(char *s)
 	return (ret);
 }
 
-int	prompt_len(char *s, char **env)
+int	prompt_len(char *s, char **env, int i, int len)
 {
 	int		inquote;
-	int		i;
-	int		len;
 	char	*var;
 	int		a;
 
-	i = 0;
-	len = 0;
 	inquote = 0;
 	while (s[i])
 	{
@@ -70,8 +66,7 @@ int	prompt_len(char *s, char **env)
 			a = -1;
 		if (s[i] == '$' && inquote != 2)
 		{
-			i++;
-			var = get_var(&s[i]);
+			var = get_var(&s[++i]);
 			i = i + ft_strlen(var);
 			var = get_env_var(var, env);
 			len = len + ft_strlen(var);
@@ -95,7 +90,7 @@ char	*handle_quotes(char *s, int i, int y, char **env)
 	inquote = 0;
 	if (!s)
 		return (s);
-	cs = ft_calloc(sizeof(char), prompt_len(s, env));
+	cs = ft_calloc(sizeof(char), prompt_len(s, env, 0, 0));
 	if (!cs)
 		crash_handler("Expander \n");
 	while (s[i])
@@ -111,7 +106,8 @@ char	*handle_quotes(char *s, int i, int y, char **env)
 			while (var[z])
 				cs[y++] = var[z++];
 		}
-		else if (s[i] && (s[i] != '\"' || inquote == 2) && (s[i] != '\'' || inquote == 1))
+		else if (s[i] && (s[i] != '\"' || inquote == 2)
+			&& (s[i] != '\'' || inquote == 1))
 			cs[y++] = s[i++];
 	}
 	if (inquote != 0)
