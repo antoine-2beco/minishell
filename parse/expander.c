@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 11:09:00 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/04/22 13:44:47 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/04/22 16:26:48 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ char	*handle_quotes(char *s, int i, int y, char **env)
 	inquote = 0;
 	if (!s)
 		return (s);
-	cs = ft_calloc(sizeof(char), prompt_len(s, env, 0, 0));
+	cs = ft_calloc(sizeof(char), prompt_len(s, env, 0, 0) + 1);
 	if (!cs)
 		crash_handler("Expander \n");
 	while (s[i])
@@ -100,9 +100,13 @@ char	*handle_quotes(char *s, int i, int y, char **env)
 		if (s[i] == '$' && inquote != 2)
 		{
 			i++;
+			if (!s[i])
+				break ;
 			var = get_var(&s[i]);
 			i = i + ft_strlen(var);
 			var = get_env_var(var, env);
+			if (!var)
+				break ;
 			while (var[z])
 				cs[y++] = var[z++];
 		}
@@ -120,6 +124,8 @@ t_cmd	*expand(t_cmd *cmd, char **env)
 {
 	t_execcmd	*ecmd;
 	t_redircmd	*rcmd;
+	t_pipecmd	*pcmd;
+	t_listcmd	*lcmd;
 	int			i;
 
 	i = 0;
@@ -136,6 +142,19 @@ t_cmd	*expand(t_cmd *cmd, char **env)
 	{
 		rcmd = (t_redircmd *)cmd;
 		rcmd->file = handle_quotes(rcmd->file, 0, 0, env);
+		expand(rcmd->cmd, env);
+	}
+	if (cmd->type == PIPE)
+	{
+		pcmd = (t_pipecmd *)cmd;
+		expand(pcmd->left, env);
+		expand(pcmd->right, env);
+	}
+	if (cmd->type == LIST)
+	{
+		lcmd = (t_listcmd *)cmd;
+		expand(lcmd->left, env);
+		expand(lcmd->right, env);
 	}
 	return (cmd);
 }

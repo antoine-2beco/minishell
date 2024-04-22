@@ -6,13 +6,13 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 12:02:55 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/04/10 21:28:18 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/04/22 16:04:58 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minilib.h"
 
-void	pipex(t_cmd *cmd, int stdout_cpy, char **env)
+void	pipex(t_cmd *cmd, char **env)
 {
 	int			fd[2];
 	t_pipecmd	*pcmd;
@@ -27,7 +27,7 @@ void	pipex(t_cmd *cmd, int stdout_cpy, char **env)
 		close(fd[0]);
 		dup2(fd[1], STDOUT_FILENO);
 		close(fd[1]);
-		runcmd(pcmd->left, env, stdout_cpy);
+		runcmd(pcmd->left, env);
 	}
 	i++;
 	while (pcmd->right->type == PIPE)
@@ -39,7 +39,7 @@ void	pipex(t_cmd *cmd, int stdout_cpy, char **env)
 			dup2(fd[1], STDOUT_FILENO);
 			close(fd[0]);
 			close(fd[1]);
-			runcmd(pcmd->left, env, stdout_cpy);
+			runcmd(pcmd->left, env);
 		}
 		i++;
 	}
@@ -48,7 +48,7 @@ void	pipex(t_cmd *cmd, int stdout_cpy, char **env)
 		close(fd[1]);
 		dup2(fd[0], STDIN_FILENO);
 		close(fd[0]);
-		runcmd(pcmd->right, env, stdout_cpy);
+		runcmd(pcmd->right, env);
 	}
 	close(fd[0]);
 	close(fd[1]);
