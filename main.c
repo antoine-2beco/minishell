@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 10:13:09 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/04/22 14:10:23 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/04/22 17:03:44 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	crash_handler(char *str)
 {
 	ft_putstr_fd(str, STDERR_FILENO);
-	exit(1);
+	exit(127);
 }
 
 int	create_fork(void)
@@ -125,11 +125,14 @@ int	main(int argc, char **argv, char **pre_env)
 	char	*line;
 	char	**env;
 	int		pid;
+	int		status;
+	int		es;
 
 	(void)argc;
 	(void)argv;
 	signal(SIGQUIT, SIG_IGN);
 	env = cpy_env(pre_env);
+	es = 0;
 	line = readline("\e[1m\x1b[36mMinishell ➤ \x1b[36m\e[m");
 	while (line > 0)
 	{
@@ -137,7 +140,11 @@ int	main(int argc, char **argv, char **pre_env)
 		pid = create_fork();
 		if (!pid)
 			runcmd(expand(parsecmd(line, env), env), env);
-		wait(0);
+		if (waitpid(pid, &status, 0) == -1)
+			return (EXIT_FAILURE);
+		if (WIFEXITED(status))
+			es = WEXITSTATUS(status);
+		ft_printf("Exit status : %d\n", es);
 		free(line);
 		line = readline("\e[1m\x1b[36mMinishell ➤ \x1b[36m\e[m");
 	}
