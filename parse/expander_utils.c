@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 13:29:24 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/04/22 13:42:56 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/04/23 11:19:43 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,23 +25,14 @@ void	free_array(char **array)
 	free(array);
 }
 
-int	highest_num(int a, int b)
-{
-	if (a < b)
-		return (b);
-	return (a);
-}
-
 int	find_env_var(char **envvars, char *var)
 {
 	int	i;
-	int	length;
 
 	i = 0;
 	while (envvars[i])
 	{
-		length = highest_num(ft_strlen(envvars[i]), ft_strlen(var));
-		if (!ft_strncmp(envvars[i], var, length))
+		if (!ft_strncmp(envvars[i], var, ft_strlen(envvars[i]) + 1))
 			return (i);
 		i++;
 	}

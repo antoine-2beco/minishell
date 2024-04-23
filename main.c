@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 10:13:09 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/04/22 17:03:44 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/04/23 11:43:46 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,11 +137,16 @@ int	main(int argc, char **argv, char **pre_env)
 	while (line > 0)
 	{
 		add_history(line);
-		pid = create_fork();
-		if (!pid)
-			runcmd(expand(parsecmd(line, env), env), env);
-		if (waitpid(pid, &status, 0) == -1)
-			return (EXIT_FAILURE);
+		if (line[0] == 'c' && line[1] == 'd' && line[2] == ' ')
+			change_cwd(&line[3]);
+		else
+		{
+			pid = create_fork();
+			if (!pid)
+				runcmd(expand(parsecmd(line, env), env), env);
+			if (waitpid(pid, &status, 0) == -1)
+				return (EXIT_FAILURE);
+		}
 		if (WIFEXITED(status))
 			es = WEXITSTATUS(status);
 		ft_printf("Exit status : %d\n", es);
