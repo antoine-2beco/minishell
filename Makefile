@@ -1,5 +1,17 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2024/05/13 10:32:41 by ade-beco          #+#    #+#              #
+#    Updated: 2024/05/13 10:33:43 by ade-beco         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 SRC := main.c
-SRCBUILTINS := builtins/cd.c builtins/export.c
+SRCBUILTINS := builtins/cd.c builtins/export.c builtins/env_utils.c
 SRCPARSE := parse/construct_tokens.c parse/parser.c parse/parse_utils.c parse/expander.c parse/expander_utils.c parse/get_token.c
 SRCSEXEC := execution/executor.c execution/pipex.c execution/free_cmd.c execution/run_builtins.c
 
@@ -20,18 +32,15 @@ all : $(NAME)
 
 $(NAME) : $(OBJS) $(OBJSBUILTINS) $(OBJSPARSE) $(OBJSEXEC)
 	@$(MAKE) -C ./libft
-	@$(MAKE) -C ./ft_printf
-	$(CC) $(CFLAGS) $(READLINE) -I ./minilib.h $(OBJS) $(OBJSBUILTINS) $(OBJSPARSE) $(OBJSEXEC) libft/libft.a ft_printf/libftprintf.a -o $(NAME)
+	$(CC) $(CFLAGS) $(READLINE) -I ./minilib.h $(OBJS) $(OBJSBUILTINS) $(OBJSPARSE) $(OBJSEXEC) libft/libft.a -o $(NAME)
 	
 	
 clean :
 	@$(MAKE) clean -C ./libft
-	@$(MAKE) clean -C ./ft_printf
 	rm -f $(OBJS) $(OBJSBUILTINS) $(OBJSPARSE) $(OBJSEXEC)
 
 fclean : clean
 	@$(MAKE) fclean -C ./libft
-	@$(MAKE) fclean -C ./ft_printf
 	rm -f $(NAME)
 
 re : fclean all

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minilib.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 10:13:27 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/04/23 10:45:08 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/05/13 10:33:21 by ade-beco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define MINILIB_H
 
 // INCLUDES
-# include "ft_printf/includes/ft_printf.h"
 # include "libft/libft.h"
 # include <stdio.h>
 # include <readline/readline.h>

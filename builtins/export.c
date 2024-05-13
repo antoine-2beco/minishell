@@ -6,7 +6,7 @@
 /*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 11:58:46 by ade-beco          #+#    #+#             */
-/*   Updated: 2024/04/15 14:46:50 by ade-beco         ###   ########.fr       */
+/*   Updated: 2024/05/13 10:34:12 by ade-beco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static char	**addline_env(char *args, char **env)
 	i = 0;
 	while (env[i++])
 		;
-	new_env = malloc((i + 1) * sizeof(char *));
+	new_env = malloc(i * sizeof(char *));
 	if (!new_env)
 		exit(EXIT_FAILURE);
 	i = 0;
@@ -95,9 +95,11 @@ static void	print_envvar(char **env)
 
 char	**exportcmd(char **args, char **env)
 {
+	//t_list	*env_list;
 	char	**new_env;
 	int		i;
 
+	//init_env_list(env_list, env);
 	if (!args[1])
 		print_envvar(env);
 	i = 0;
@@ -106,6 +108,5 @@ char	**exportcmd(char **args, char **env)
 	{
 		ft_printf("%s\n", new_env[i++]);
 	}
-
 	return (new_env);
 }
