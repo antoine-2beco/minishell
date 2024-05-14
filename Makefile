@@ -6,19 +6,19 @@
 #    By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/13 10:32:41 by ade-beco          #+#    #+#              #
-#    Updated: 2024/05/14 12:41:15 by ade-beco         ###   ########.fr        #
+#    Updated: 2024/05/14 14:31:22 by ade-beco         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SRC := main.c
-SRCBUILTINS := builtins/cd.c builtins/export.c builtins/echo.c
-SRCPARSE := parse/construct_tokens.c parse/parser.c parse/parse_utils.c parse/expander.c parse/expander_utils.c parse/get_token.c
-SRCSEXEC := execution/executor.c execution/pipex.c execution/free_cmd.c execution/run_builtins.c
+SRCBUILTINS := cd.c export.c echo.c
+SRCPARSE := construct_tokens.c parser.c parse_utils.c expander.c expander_utils.c get_token.c
+SRCSEXEC := executor.c pipex.c free_cmd.c run_builtins.c
 
 OBJS := $(SRC:.c=.o)
-OBJSBUILTINS := $(SRCBUILTINS:.c=.o)
-OBJSPARSE := $(SRCPARSE:.c=.o)
-OBJSEXEC := $(SRCSEXEC:.c=.o)
+OBJSBUILTINS := $(addprefix builtins/, $(SRCBUILTINS:.c=.o))
+OBJSPARSE := $(addprefix parse/, $(SRCPARSE:.c=.o))
+OBJSEXEC := $(addprefix execution/, $(SRCSEXEC:.c=.o))
 
 CFLAGS := -Wall -Wextra -Werror -fsanitize=address -g
 
