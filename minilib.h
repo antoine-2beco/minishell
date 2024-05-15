@@ -6,7 +6,7 @@
 /*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 10:13:27 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/05/15 13:55:51 by ade-beco         ###   ########.fr       */
+/*   Updated: 2024/05/15 14:49:05 by ade-beco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ void		switch_inquote(char *ps, int *inquote);
 char		**exportcmd(char **args, char **env);
 char		*change_cwd(char *folder);
 int			echocmd(char **args);
+int			envcmd(char **args, char **env);
 
 void		runcmd(t_cmd *cmd, char **env);
 int			is_builtin(char **cmd, char **env);

@@ -6,12 +6,12 @@
 #    By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/13 10:32:41 by ade-beco          #+#    #+#              #
-#    Updated: 2024/05/14 14:31:22 by ade-beco         ###   ########.fr        #
+#    Updated: 2024/05/15 14:49:12 by ade-beco         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SRC := main.c
-SRCBUILTINS := cd.c export.c echo.c
+SRCBUILTINS := cd.c export.c echo.c env.c
 SRCPARSE := construct_tokens.c parser.c parse_utils.c expander.c expander_utils.c get_token.c
 SRCSEXEC := executor.c pipex.c free_cmd.c run_builtins.c
 

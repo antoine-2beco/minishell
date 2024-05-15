@@ -1,26 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   run_builtins.c                                     :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/23 10:24:47 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/05/15 14:50:26 by ade-beco         ###   ########.fr       */
+/*   Created: 2024/05/15 14:45:59 by ade-beco          #+#    #+#             */
+/*   Updated: 2024/05/15 14:48:54 by ade-beco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minilib.h"
 
-int	is_builtin(char **cmd, char **env)
+int	envcmd(char **args, char **env)
 {
-	if (!ft_strcmp(cmd[0], "export"))
-		env = exportcmd(cmd, env);
-	else if (!ft_strcmp(cmd[0], "echo"))
-		return (echocmd(cmd));
-	else if (!ft_strcmp(cmd[0], "env"))
-		return (envcmd(cmd, env));
-	else
+	int	i;
+
+	if (args[1])
 		return (0);
+	i = 0;
+	while (env[i])
+	{
+		ft_printf("%s\n", env[i++]);
+	}
 	return (1);
 }
