@@ -1,32 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/21 13:04:28 by ade-beco          #+#    #+#             */
-/*   Updated: 2024/05/21 13:18:01 by ade-beco         ###   ########.fr       */
+/*   Created: 2024/05/21 13:17:26 by ade-beco          #+#    #+#             */
+/*   Updated: 2024/05/21 13:54:33 by ade-beco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minilib.h"
 
-int	pwdcmd(char **args, char **env)
+char	**unsetcmd(char **args, char **env)
 {
-	int	i;
+	int		i;
+	t_list	*env_list;
+	t_list	*temp;
 
 	i = 0;
-	if (args[1])
-		return (0);
-	while (env[i])
+	if (!args[1])
+		return (env);
+	env_list = ft_string_to_lst(env);
+	while (args[i])
 	{
-		if (!ft_strncmp(env[i], "PWD=", 4))
+		temp = env_list;
+		while (temp)
 		{
-			ft_printf("%s\n", ft_strtrim(env[i], "PWD="));
-			break ;
+			if (!ft_strncmp(temp->content, ft_strjoin(args[i], "="), \
+				ft_strlen(args[i])))
+			{
+				ft_lstclear(&temp, NULL);
+				break ;
+			}
+			temp = temp->next;
 		}
 		i++;
 	}
-	return (1);
+	return (ft_lst_to_string(&env_list));
 }
+
+// maj var
