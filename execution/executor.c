@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:48:26 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/04/23 11:27:44 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/05/22 14:17:19 by ade-beco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ char	*get_path(char *cmd, char **env)
 	return (cmd);
 }
 
-void	execution(char **cmd, char **env)
+void	execution(char **cmd, char ***env)
 {
 	char	*path;
 
@@ -63,12 +63,15 @@ void	execution(char **cmd, char **env)
 		exit(EXIT_FAILURE);
 	}
 	if (is_builtin(cmd, env))
-		;
+	{
+		ft_printf("-----------------\n");
+		exportcmd(cmd, env);
+	}
 	else if (env[0] != NULL)
 	{
-		path = get_path(cmd[0], env);
+		path = get_path(cmd[0], *env);
 		signal(SIGQUIT, SIG_DFL);
-		execve(path, cmd, env);
+		execve(path, cmd, *env);
 		ft_putstr_fd("minishell: command not found: ", 2);
 		ft_putstr_fd(cmd[0], 2);
 		ft_putchar_fd('\n', 2);
@@ -76,7 +79,7 @@ void	execution(char **cmd, char **env)
 	}
 }
 
-void	runcmd(t_cmd *cmd, char **env)
+void	runcmd(t_cmd *cmd, char ***env)
 {
 	t_execcmd	*ecmd;
 	t_redircmd	*rcmd;

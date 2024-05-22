@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 10:13:09 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/04/23 11:43:46 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/05/22 14:09:30 by ade-beco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,7 +143,7 @@ int	main(int argc, char **argv, char **pre_env)
 		{
 			pid = create_fork();
 			if (!pid)
-				runcmd(expand(parsecmd(line, env), env), env);
+				runcmd(expand(parsecmd(line, env), env), &env);
 			if (waitpid(pid, &status, 0) == -1)
 				return (EXIT_FAILURE);
 		}

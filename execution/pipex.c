@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 12:02:55 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/04/22 16:04:58 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/05/22 14:10:42 by ade-beco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minilib.h"
 
-void	pipex(t_cmd *cmd, char **env)
+void	pipex(t_cmd *cmd, char ***env)
 {
 	int			fd[2];
 	t_pipecmd	*pcmd;

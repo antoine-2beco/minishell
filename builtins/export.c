@@ -6,7 +6,7 @@
 /*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 11:58:46 by ade-beco          #+#    #+#             */
-/*   Updated: 2024/05/21 16:22:51 by ade-beco         ###   ########.fr       */
+/*   Updated: 2024/05/22 13:24:39 by ade-beco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,16 +54,18 @@ static void	print_envvar(t_list **env_list)
 	}
 }
 
-char	**exportcmd(char **args, char **env)
+int	exportcmd(char **args, char ***env)
 {
 	int		i;
 	t_list	*env_list;
 	t_list	*node;
 
 	i = 0;
-	env_list = ft_string_to_lst(env);
+	env_list = ft_string_to_lst(*env);
 	if (!args[1])
 		print_envvar(&env_list);
+	else if (args[1][0] && args[1][0] == '-')
+		return (0);
 	else
 	{
 		node = ft_lstnew(args[1]);
@@ -71,9 +73,9 @@ char	**exportcmd(char **args, char **env)
 			exit(EXIT_FAILURE);
 		ft_lstadd_back(&env_list, node);
 		print_envvar(&env_list);
-		env = ft_lst_to_string(&env_list);
+		*env = ft_lst_to_string(&env_list);
 		if (!env)
 			exit(EXIT_FAILURE);
 	}
-	return (env);
+	return (1);
 }
