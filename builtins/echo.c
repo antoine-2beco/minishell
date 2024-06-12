@@ -6,7 +6,7 @@
 /*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 11:48:21 by ade-beco          #+#    #+#             */
-/*   Updated: 2024/05/15 14:42:47 by ade-beco         ###   ########.fr       */
+/*   Updated: 2024/06/12 14:05:22 by ade-beco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int	echocmd(char **args)
 				j++;
 			}
 			else if (args[i][j] != '\n' && !n_flag)
-				ft_printf("%c", args[i][j++]);
+				ft_printf("%c", 1, args[i][j++]);
 		}
 		if (args[i + 1] && args[i][0] != '\0')
 			write(1, " ", 1);

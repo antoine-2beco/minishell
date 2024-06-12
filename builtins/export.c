@@ -6,7 +6,7 @@
 /*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 11:58:46 by ade-beco          #+#    #+#             */
-/*   Updated: 2024/05/22 13:24:39 by ade-beco         ###   ########.fr       */
+/*   Updated: 2024/06/12 13:51:31 by ade-beco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static void	print_envvar(t_list **env_list)
 
 	smallest = smallest_biggest_content(env_list, 1);
 	biggest = smallest_biggest_content(env_list, -1);
-	ft_printf("%s\n", smallest->content);
+	ft_printf("%s\n", 1, smallest->content);
 	while (biggest != smallest)
 	{
 		temp = *env_list;
@@ -49,7 +49,7 @@ static void	print_envvar(t_list **env_list)
 				smaller = temp;
 			temp = temp->next;
 		}
-		ft_printf("%s\n", smaller->content);
+		ft_printf("%s\n", 1, smaller->content);
 		smallest = smaller;
 	}
 }

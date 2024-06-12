@@ -6,7 +6,7 @@
 /*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 10:13:09 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/05/22 14:09:30 by ade-beco         ###   ########.fr       */
+/*   Updated: 2024/06/12 14:04:50 by ade-beco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ t_cmd	*parsecmd(char *s, char **env)
 	peek(&s, es, " ");
 	if (s != es)
 	{
-		ft_printf("leftovers: %s\n", s);
+		ft_printf("leftovers: %s\n", 1, s);
 		crash_handler("synthax\n");
 	}
 	return (cmd);
@@ -83,39 +83,39 @@ void	print_cmd(t_cmd *cmd)
 		ecmd = (t_execcmd *)cmd;
 		if (ecmd->args[0] == 0)
 			crash_handler("Empty node \n");
-		ft_printf("Exec node : ");
+		ft_printf("Exec node : ", 1);
 		while (ecmd->args[i])
-			ft_printf("%s.", ecmd->args[i++]);
-		ft_printf("\n");
+			ft_printf("%s.", 1, ecmd->args[i++]);
+		ft_printf("\n", 1);
 	}
 	else if (cmd->type == PIPE)
 	{
 		pcmd = (t_pipecmd *)cmd;
-		ft_printf("Pipe \n");
+		ft_printf("Pipe \n", 1);
 		print_cmd(pcmd->left);
 		print_cmd(pcmd->right);
 	}
 	else if (cmd->type == REDIR)
 	{
 		rcmd = (t_redircmd *)cmd;
-		ft_printf("Redir : %s, %d, %d\n", rcmd->file, rcmd->mode, rcmd->fd);
+		ft_printf("Redir : %s, %d, %d\n", 1, rcmd->file, rcmd->mode, rcmd->fd);
 		print_cmd(rcmd->cmd);
 	}
 	else if (cmd->type == LIST)
 	{
 		lcmd = (t_listcmd *)cmd;
-		ft_printf("List \n");
+		ft_printf("List \n", 1);
 		print_cmd(lcmd->left);
 		print_cmd(lcmd->right);
 	}
 	else if (cmd->type == HEREDOC)
 	{
 		rcmd = (t_redircmd *)cmd;
-		ft_printf("Heredoc : %s, %d, %d\n", rcmd->file, rcmd->mode, rcmd->fd);
+		ft_printf("Heredoc : %s, %d, %d\n", 1, rcmd->file, rcmd->mode, rcmd->fd);
 		dup2(rcmd->fd, STDIN_FILENO);
 		close(rcmd->fd);
 		scanf("%s", line);
-		ft_printf("%s\n", line);
+		ft_printf("%s\n", 1, line);
 		print_cmd(rcmd->cmd);
 	}
 }
@@ -149,7 +149,7 @@ int	main(int argc, char **argv, char **pre_env)
 		}
 		if (WIFEXITED(status))
 			es = WEXITSTATUS(status);
-		ft_printf("Exit status : %d\n", es);
+		ft_printf("Exit status : %d\n", 1, es);
 		free(line);
 		line = readline("\e[1m\x1b[36mMinishell ➤ \x1b[36m\e[m");
 	}

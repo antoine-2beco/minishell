@@ -6,7 +6,7 @@
 /*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:48:26 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/05/22 14:17:19 by ade-beco         ###   ########.fr       */
+/*   Updated: 2024/06/12 13:52:04 by ade-beco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	execution(char **cmd, char ***env)
 	}
 	if (is_builtin(cmd, env))
 	{
-		ft_printf("-----------------\n");
+		ft_printf("-----------------\n", 1);
 		exportcmd(cmd, env);
 	}
 	else if (env[0] != NULL)

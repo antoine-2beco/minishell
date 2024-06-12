@@ -6,7 +6,7 @@
 /*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 13:04:28 by ade-beco          #+#    #+#             */
-/*   Updated: 2024/05/21 13:18:01 by ade-beco         ###   ########.fr       */
+/*   Updated: 2024/06/12 13:51:57 by ade-beco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	pwdcmd(char **args, char **env)
 	{
 		if (!ft_strncmp(env[i], "PWD=", 4))
 		{
-			ft_printf("%s\n", ft_strtrim(env[i], "PWD="));
+			ft_printf("%s\n", 1, ft_strtrim(env[i], "PWD="));
 			break ;
 		}
 		i++;
