@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:48:26 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/06/17 13:47:30 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/06/17 16:45:04 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,9 +89,10 @@ void	runcmd(t_cmd *cmd, t_data *data)
 	int			fd[2];
 	int			stdin_cpy;
 	int			stdout_cpy;
+	int			stdred_cpy;
 
 	if (cmd == 0)
-		exit(1);
+		crash_handler("Parsing error\n");
 	if (cmd->type == EXEC)
 	{
 		ecmd = (t_execcmd *)cmd;
@@ -105,26 +106,37 @@ void	runcmd(t_cmd *cmd, t_data *data)
 		pcmd = (t_pipecmd *)cmd;
 		stdin_cpy = dup(STDIN_FILENO);
 		stdout_cpy = dup(STDOUT_FILENO);
+		if (stdin_cpy == -1 || stdout_cpy == -1)
+			crash_handler("Dup error\n");
 		if (pipe(fd) == -1)
-			crash_handler("pipe\n");
-		dup2(fd[1], STDOUT_FILENO);
-		close(fd[1]);
+			crash_handler("pipe error\n");
+		if (dup2(fd[1], STDOUT_FILENO) == -1)
+			crash_handler("Dup2 error\n");
+		if (close(fd[1]) == -1)
+			crash_handler("Close error\n");
 		runcmd(pcmd->left, data);
-		dup2(fd[0], STDIN_FILENO);
-		close(fd[0]);
-		dup2(stdout_cpy, STDOUT_FILENO);
+		if (dup2(fd[0], STDIN_FILENO) == -1)
+			crash_handler("Dup2 error\n");
+		if (close(fd[0]) == -1)
+			crash_handler("Close error\n");
+		if (dup2(stdout_cpy, STDOUT_FILENO) == -1)
+			crash_handler("Dup2 error\n");
 		runcmd(pcmd->right, data);
-		dup2(stdin_cpy, STDIN_FILENO);
+		if (dup2(stdin_cpy, STDIN_FILENO) == -1)
+			crash_handler("Dup2 error\n");
 	}
 	else if (cmd->type == REDIR)
 	{
 		rcmd = (t_redircmd *)cmd;
-		close(rcmd->fd);
+		stdred_cpy = dup(rcmd->fd);
+		if (close(rcmd->fd) == -1)
+			crash_handler("Close error\n");
 		if (open(rcmd->file, rcmd->mode, 00644) < 0)
-			crash_handler("open %s failed\n");
+			crash_handler("open failed\n");
 		while (rcmd->cmd->type == REDIR)
 			rcmd = (t_redircmd *)rcmd->cmd;
 		runcmd(rcmd->cmd, data);
+		dup2(stdred_cpy, rcmd->fd);
 	}
 	else if (cmd->type == LIST)
 	{
@@ -137,8 +149,12 @@ void	runcmd(t_cmd *cmd, t_data *data)
 	else if (cmd->type == HEREDOC)
 	{
 		rcmd = (t_redircmd *)cmd;
-		close(0);
-		dup(rcmd->fd);
+		stdin_cpy = dup(STDIN_FILENO);
+		if (close(STDIN_FILENO) == -1)
+			crash_handler("Close error\n");
+		if (dup(rcmd->fd) == -1)
+			crash_handler("Dup error\n");
 		runcmd(rcmd->cmd, data);
+		dup2(stdin_cpy, STDIN_FILENO);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 10:13:09 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/06/17 14:04:06 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/06/17 17:27:25 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	create_fork(void)
 
 	pid = fork();
 	if (pid == -1)
-		crash_handler("Fork");
+		crash_handler("Error Fork\n");
 	return (pid);
 }
 
@@ -34,11 +34,11 @@ t_cmd	*parsecmd(char *s, t_data *data)
 	t_cmd	*cmd;
 
 	es = s + ft_strlen(s);
-	cmd = parseline(&s, es, data->env);
+	cmd = parseline(&s, es, data);
 	peek(&s, es, " ");
 	if (s != es)
 	{
-		ft_printf("leftovers: %s\n", 1, s);
+		ft_printf("leftovers: %s\n", 2, s);
 		crash_handler("synthax\n");
 	}
 	return (cmd);
@@ -54,13 +54,13 @@ char	**cpy_env(char **pre_env)
 		;
 	env = malloc(i * sizeof(char *));
 	if (!env)
-		exit(EXIT_FAILURE);
+		crash_handler("Error Malloc\n");
 	i = 0;
 	while (pre_env[i])
 	{
 		env[i] = malloc(sizeof(char) * ft_strlen(pre_env[i]));
 		if (!env[i])
-			exit(EXIT_FAILURE);
+			crash_handler("Error Malloc\n");
 		env[i] = ft_strdup(pre_env[i]);
 		i++;
 	}
@@ -138,7 +138,6 @@ int	main(int argc, char **argv, char **pre_env)
 			change_cwd(&line[3]);
 		else
 			runcmd(expand(parsecmd(line, &data), &data), &data);
-		wait(0);
 		free(line);
 		line = readline("\e[1m\x1b[36mMinishell ➤ \x1b[36m\e[m");
 	}

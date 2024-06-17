@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 10:13:27 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/06/17 14:03:07 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/06/17 14:58:20 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,15 +79,14 @@ t_cmd		*pipecmd(t_cmd *left, t_cmd *right);
 t_cmd		*listcmd(t_cmd *left, t_cmd *right);
 
 /*--------------- Parser -----------------*/
-t_cmd		*parseline(char **ps, char *es, char **env);
-t_cmd		*parseblock(char **ps, char *es, char **env);
-t_cmd		*parseexec(char **ps, char *es, char **env, int argc);
-t_cmd		*parsepipe(char **ps, char *es, char **env);
-t_cmd		*parseredirs(t_cmd *cmd, char **ps, char *es, char **env);
+t_cmd		*parseline(char **ps, char *es, t_data *data);
+t_cmd		*parseblock(char **ps, char *es, t_data *data);
+t_cmd		*parseexec(char **ps, char *es, t_data *data, int argc);
+t_cmd		*parsepipe(char **ps, char *es, t_data *data);
+t_cmd		*parseredirs(t_cmd *cmd, char **ps, char *es, t_data *data);
 
 /*------------- Parse utils ---------------*/
 int			peek(char **ps, char *es, char *toks);
-void		parseexec_error(t_execcmd *cmd, int argc);
 t_execcmd	*init_cmd(t_cmd *ret);
 t_cmd		*create_heredoc(t_cmd *cmd, char *file, t_data *data);
 

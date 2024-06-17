@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 11:09:00 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/06/17 14:08:37 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/06/17 15:03:03 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ char	*get_var(char *s)
 		i++;
 	i++;
 	ret = malloc(sizeof(char) * (i + 1));
+	if (!ret)
+		crash_handler("Malloc error\n");
 	ft_strlcpy(ret, s, i);
 	return (ret);
 }

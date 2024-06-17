@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 12:22:30 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/04/09 12:50:36 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/06/17 15:19:33 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,11 @@ int	get_token(char **ps, char *es, char **token)
 	else
 		get_exec_args(&ret, &s, es);
 	if (token)
+	{
 		*token = ft_substr(*token, 0, s - *token);
+		if (!token)
+			crash_handler("Malloc error\n");
+	}
 	while (s < es && ft_strchr(" \t\r\n\v", *s))
 		s++;
 	*ps = s;

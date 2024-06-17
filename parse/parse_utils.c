@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 11:11:17 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/06/17 14:02:50 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/06/17 15:17:39 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,6 @@ int	peek(char **ps, char *es, char *toks)
 		s++;
 	*ps = s;
 	return ((*s && ft_strchr(toks, *s)));
-}
-
-void	parseexec_error(t_execcmd *cmd, int argc)
-{
-	if (!cmd->args[argc])
-		crash_handler("Malloc error\n");
-	if (argc >= MAXARGS)
-		crash_handler("too many args\n");
 }
 
 t_execcmd	*init_cmd(t_cmd *ret)
