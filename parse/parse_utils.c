@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
+/*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 11:11:17 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/05/15 13:28:59 by ade-beco         ###   ########.fr       */
+/*   Updated: 2024/06/17 14:02:50 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,13 @@ t_execcmd	*init_cmd(t_cmd *ret)
 	return (cmd);
 }
 
-t_cmd	*create_heredoc(t_cmd *cmd, char *file, char **env)
+t_cmd	*create_heredoc(t_cmd *cmd, char *file, t_data *data)
 {
 	char		*line;
 	int			end[2];
 	char		*delimiter;
 
-	delimiter = handle_quotes(file, 0, 0, env);
+	delimiter = handle_quotes(file, 0, 0, data);
 	if (pipe(end) < 0)
 		crash_handler("Pipe error\n");
 	while (1)
@@ -56,7 +56,7 @@ t_cmd	*create_heredoc(t_cmd *cmd, char *file, char **env)
 		ft_putstr_fd("heredoc>", STDERR_FILENO);
 		line = readline(NULL);
 		if (!ft_strchr(file, '\"') && !ft_strchr(file, '\"'))
-			line = handle_quotes(line, 0, 0, env);
+			line = handle_quotes(line, 0, 0, data);
 		if (!ft_strcmp(line, delimiter))
 			break ;
 		ft_putstr_fd(line, end[1]);

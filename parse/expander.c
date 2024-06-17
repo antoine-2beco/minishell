@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 11:09:00 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/06/17 13:46:23 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/06/17 14:08:37 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,9 +102,17 @@ char	*handle_quotes(char *s, int i, int y, t_data *data)
 			i++;
 			if (!s[i])
 				break ;
-			var = get_var(&s[i]);
-			i = i + ft_strlen(var);
-			var = get_env_var(var, data->env);
+			if (s[i] == '?')
+			{
+				var = ft_itoa(data->exitcode);
+				i = i + ft_strlen(var);
+			}
+			else
+			{
+				var = get_var(&s[i]);
+				i = i + ft_strlen(var);
+				var = get_env_var(var, data->env);
+			}
 			if (!var)
 				break ;
 			while (var[z])

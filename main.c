@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 10:13:09 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/06/17 13:38:19 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/06/17 14:04:06 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +127,7 @@ int	main(int argc, char **argv, char **pre_env)
 
 	(void)argc;
 	(void)argv;
+	data.exitcode = 0;
 	signal(SIGQUIT, SIG_IGN);
 	data.env = cpy_env(pre_env);
 	line = readline("\e[1m\x1b[36mMinishell ➤ \x1b[36m\e[m");

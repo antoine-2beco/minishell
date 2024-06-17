@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 10:13:27 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/06/17 13:49:37 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/06/17 14:03:07 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ t_cmd		*parseredirs(t_cmd *cmd, char **ps, char *es, char **env);
 int			peek(char **ps, char *es, char *toks);
 void		parseexec_error(t_execcmd *cmd, int argc);
 t_execcmd	*init_cmd(t_cmd *ret);
-t_cmd		*create_heredoc(t_cmd *cmd, char *file, char **env);
+t_cmd		*create_heredoc(t_cmd *cmd, char *file, t_data *data);
 
 /*-------------- Get token ----------------*/
 int			get_token(char **ps, char *es, char **token);

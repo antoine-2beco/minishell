@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
+/*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 13:17:26 by ade-beco          #+#    #+#             */
-/*   Updated: 2024/05/22 13:56:04 by ade-beco         ###   ########.fr       */
+/*   Updated: 2024/06/17 14:02:11 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static int	removevar(t_list *before, t_list **node, char *arg)
 	return (0);
 }
 
-int	unsetcmd(char **args, char ***env)
+int	unsetcmd(char **args, t_data *data)
 {
 	int		i;
 	t_list	*env_head;
@@ -45,7 +45,7 @@ int	unsetcmd(char **args, char ***env)
 	i = -1;
 	if (args[2])
 		return (0);
-	env_head = ft_string_to_lst(*env);
+	env_head = ft_string_to_lst(data->env);
 	while (args[++i])
 	{
 		before = NULL;
@@ -58,6 +58,6 @@ int	unsetcmd(char **args, char ***env)
 			env_list = env_list->next;
 		}
 	}
-	*env = ft_lst_to_string(&env_head);
+	data->env = ft_lst_to_string(&env_head);
 	return (1);
 }
