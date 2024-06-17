@@ -3,25 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
+/*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 14:45:59 by ade-beco          #+#    #+#             */
-/*   Updated: 2024/06/12 13:51:48 by ade-beco         ###   ########.fr       */
+/*   Updated: 2024/06/17 13:50:23 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minilib.h"
 
-int	envcmd(char **args, char **env)
+int	envcmd(char **args, t_data *data)
 {
 	int	i;
 
 	if (args && args[1])
 		return (0);
 	i = 0;
-	while (env[i])
+	while (data->env[i])
 	{
-		ft_printf("%s\n", 1, env[i++]);
+		ft_printf("%s\n", 1, data->env[i++]);
 	}
 	return (1);
 }

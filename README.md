@@ -1,11 +1,3 @@
-# minishell
-
-A faire :
-- Builtins
-	- Export
-		Parsing
-- Gestion des signaux
-- $?
-- Messages d'erreur conformes
-- Codes de sortie conformes
-- Memory leaks
+cd sans arg
+code de sortie des fonctions
+signaux

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
+/*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 11:58:46 by ade-beco          #+#    #+#             */
-/*   Updated: 2024/06/12 13:51:31 by ade-beco         ###   ########.fr       */
+/*   Updated: 2024/06/17 13:51:08 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,14 +54,14 @@ static void	print_envvar(t_list **env_list)
 	}
 }
 
-int	exportcmd(char **args, char ***env)
+int	exportcmd(char **args, t_data *data)
 {
 	int		i;
 	t_list	*env_list;
 	t_list	*node;
 
 	i = 0;
-	env_list = ft_string_to_lst(*env);
+	env_list = ft_string_to_lst(data->env);
 	if (!args[1])
 		print_envvar(&env_list);
 	else if (args[1][0] && args[1][0] == '-')
@@ -73,8 +73,8 @@ int	exportcmd(char **args, char ***env)
 			exit(EXIT_FAILURE);
 		ft_lstadd_back(&env_list, node);
 		print_envvar(&env_list);
-		*env = ft_lst_to_string(&env_list);
-		if (!env)
+		data->env = ft_lst_to_string(&env_list);
+		if (!data->env)
 			exit(EXIT_FAILURE);
 	}
 	return (1);

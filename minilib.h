@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minilib.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
+/*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 10:13:27 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/06/10 13:42:32 by ade-beco         ###   ########.fr       */
+/*   Updated: 2024/06/17 13:49:37 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,12 @@ typedef struct s_listcmd
 	t_cmd	*right;
 }	t_listcmd;
 
+typedef struct s_data
+{
+	int		exitcode;
+	char	**env;
+}	t_data;
+
 // FUNCTIONS
 /*----------- Construct token ------------*/
 t_cmd		*execcmd(void);
@@ -93,27 +99,25 @@ void		crash_handler(char *str);
 int			create_fork(void);
 
 /*--------------- Expander ----------------*/
-t_cmd		*expand(t_cmd *cmd, char **env);
-char		*handle_env_var(char *s, char *es, char **env, int tok);
-char		*handle_quotes(char *s, int i, int y, char **env);
+t_cmd		*expand(t_cmd *cmd, t_data *data);
+char		*handle_env_var(char *s, char *es, t_data *data, int tok);
+char		*handle_quotes(char *s, int i, int y, t_data *data);
 
 /*------------ Expander utils -------------*/
 char		*get_env_var(char *var, char **env);
 void		switch_inquote(char *ps, int *inquote);
 
 /*-------------- Builtins -----------------*/
-int			exportcmd(char **args, char ***env);
+int			exportcmd(char **args, t_data *data);
 int			echocmd(char **args);
-int			envcmd(char **args, char **env);
-int			pwdcmd(char **args, char **env);
-int			unsetcmd(char **args, char ***env);
+int			envcmd(char **args, t_data *data);
+int			pwdcmd(char **args, t_data *data);
+int			unsetcmd(char **args, t_data *data);
 char		*change_cwd(char *folder);
 int			exitcmd(char **args);
 
-void		runcmd(t_cmd *cmd, char ***env);
-int			is_builtin(char **cmd, char ***env);
-
-void		pipex(t_cmd *cmd, char ***env);
+void		runcmd(t_cmd *cmd, t_data *data);
+int			is_builtin(char **cmd, t_data *data);
 
 void		free_cmd(t_cmd *cmd);
 

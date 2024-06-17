@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
+/*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 10:13:09 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/06/12 14:04:50 by ade-beco         ###   ########.fr       */
+/*   Updated: 2024/06/17 13:38:19 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,13 @@ int	create_fork(void)
 	return (pid);
 }
 
-t_cmd	*parsecmd(char *s, char **env)
+t_cmd	*parsecmd(char *s, t_data *data)
 {
 	char	*es;
 	t_cmd	*cmd;
 
 	es = s + ft_strlen(s);
-	cmd = parseline(&s, es, env);
+	cmd = parseline(&s, es, data->env);
 	peek(&s, es, " ");
 	if (s != es)
 	{
@@ -123,16 +123,12 @@ void	print_cmd(t_cmd *cmd)
 int	main(int argc, char **argv, char **pre_env)
 {
 	char	*line;
-	char	**env;
-	int		pid;
-	int		status;
-	int		es;
+	t_data	data;
 
 	(void)argc;
 	(void)argv;
 	signal(SIGQUIT, SIG_IGN);
-	env = cpy_env(pre_env);
-	es = 0;
+	data.env = cpy_env(pre_env);
 	line = readline("\e[1m\x1b[36mMinishell ➤ \x1b[36m\e[m");
 	while (line > 0)
 	{
@@ -140,16 +136,8 @@ int	main(int argc, char **argv, char **pre_env)
 		if (line[0] == 'c' && line[1] == 'd' && line[2] == ' ')
 			change_cwd(&line[3]);
 		else
-		{
-			pid = create_fork();
-			if (!pid)
-				runcmd(expand(parsecmd(line, env), env), &env);
-			if (waitpid(pid, &status, 0) == -1)
-				return (EXIT_FAILURE);
-		}
-		if (WIFEXITED(status))
-			es = WEXITSTATUS(status);
-		ft_printf("Exit status : %d\n", 1, es);
+			runcmd(expand(parsecmd(line, &data), &data), &data);
+		wait(0);
 		free(line);
 		line = readline("\e[1m\x1b[36mMinishell ➤ \x1b[36m\e[m");
 	}

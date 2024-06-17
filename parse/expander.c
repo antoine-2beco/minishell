@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 11:09:00 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/04/22 16:26:48 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/06/17 13:46:23 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int	prompt_len(char *s, char **env, int i, int len)
 	return (len);
 }
 
-char	*handle_quotes(char *s, int i, int y, char **env)
+char	*handle_quotes(char *s, int i, int y, t_data *data)
 {
 	int		inquote;
 	char	*var;
@@ -90,7 +90,7 @@ char	*handle_quotes(char *s, int i, int y, char **env)
 	inquote = 0;
 	if (!s)
 		return (s);
-	cs = ft_calloc(sizeof(char), prompt_len(s, env, 0, 0) + 1);
+	cs = ft_calloc(sizeof(char), prompt_len(s, data->env, 0, 0) + 1);
 	if (!cs)
 		crash_handler("Expander \n");
 	while (s[i])
@@ -104,7 +104,7 @@ char	*handle_quotes(char *s, int i, int y, char **env)
 				break ;
 			var = get_var(&s[i]);
 			i = i + ft_strlen(var);
-			var = get_env_var(var, env);
+			var = get_env_var(var, data->env);
 			if (!var)
 				break ;
 			while (var[z])
@@ -120,7 +120,7 @@ char	*handle_quotes(char *s, int i, int y, char **env)
 	return (cs);
 }
 
-t_cmd	*expand(t_cmd *cmd, char **env)
+t_cmd	*expand(t_cmd *cmd, t_data *data)
 {
 	t_execcmd	*ecmd;
 	t_redircmd	*rcmd;
@@ -134,27 +134,27 @@ t_cmd	*expand(t_cmd *cmd, char **env)
 		ecmd = (t_execcmd *)cmd;
 		while (ecmd->args[i])
 		{
-			ecmd->args[i] = handle_quotes(ecmd->args[i], 0, 0, env);
+			ecmd->args[i] = handle_quotes(ecmd->args[i], 0, 0, data);
 			i++;
 		}
 	}
 	if (cmd->type == REDIR)
 	{
 		rcmd = (t_redircmd *)cmd;
-		rcmd->file = handle_quotes(rcmd->file, 0, 0, env);
-		expand(rcmd->cmd, env);
+		rcmd->file = handle_quotes(rcmd->file, 0, 0, data);
+		expand(rcmd->cmd, data);
 	}
 	if (cmd->type == PIPE)
 	{
 		pcmd = (t_pipecmd *)cmd;
-		expand(pcmd->left, env);
-		expand(pcmd->right, env);
+		expand(pcmd->left, data);
+		expand(pcmd->right, data);
 	}
 	if (cmd->type == LIST)
 	{
 		lcmd = (t_listcmd *)cmd;
-		expand(lcmd->left, env);
-		expand(lcmd->right, env);
+		expand(lcmd->left, data);
+		expand(lcmd->right, data);
 	}
 	return (cmd);
 }
