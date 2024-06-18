@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:48:26 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/06/17 16:45:04 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/06/18 15:12:25 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,33 +50,49 @@ char	*get_path(char *cmd, char **env)
 		free(exec);
 		i++;
 	}
-	return (cmd);
+	if (cmd[0] == '.' && cmd[1] == '/')
+		return (cmd);
+	return (NULL);
 }
 
 void	execution(char **cmd, t_data *data)
 {
-	char	*path;
+	char		*path;
+	int			pid;
+	int			status;
+	struct stat	*buff;
 
-	if (cmd[0] == 0)
-	{
-		ft_putstr_fd("minishell: permission denied: \n", 2);
-		exit(EXIT_FAILURE);
-	}
+	buff = malloc(sizeof(struct stat));
 	if (is_builtin(cmd, data))
 		;
 	else if (data->env[0] != NULL)
 	{
 		path = get_path(cmd[0], data->env);
+		if (!path)
+		{
+			ft_printf("minishell: %s: command not found\n", 2, cmd[0]);
+			return ;
+		}
+		stat(cmd[0], buff);
+		if (S_ISDIR(buff->st_mode))
+		{
+			ft_printf("minishell: %s: is a directory\n", 2, cmd[0]);
+			data->exitcode = 126;
+			return ;
+		}
 		signal(SIGQUIT, SIG_DFL);
-		if (!create_fork())
+		pid = create_fork();
+		if (!pid)
 		{
 			execve(path, cmd, data->env);
-			ft_putstr_fd("minishell: command not found: ", 2);
-			ft_putstr_fd(cmd[0], 2);
-			ft_putchar_fd('\n', 2);
+			ft_printf("minishell: ", 2);
+			perror(cmd[0]);
+			ft_printf("%d\n", errno);
 			exit(127);
 		}
-		wait(0);
+		waitpid(pid, &status, 0);
+		if (WIFEXITED(status))
+			data->exitcode = WEXITSTATUS(status);
 	}
 }
 
@@ -97,7 +113,10 @@ void	runcmd(t_cmd *cmd, t_data *data)
 	{
 		ecmd = (t_execcmd *)cmd;
 		if (ecmd->args[0] == 0)
+		{
+			data->exitcode = 0;
 			return ;
+		}
 		execution(ecmd->args, data);
 		return ;
 	}

@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 11:09:00 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/06/17 15:03:03 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/06/18 14:05:26 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ char	*get_var(char *s)
 	return (ret);
 }
 
-int	prompt_len(char *s, char **env, int i, int len)
+int	prompt_len(char *s, t_data *data, int i, int len)
 {
 	int		inquote;
 	char	*var;
@@ -70,7 +70,7 @@ int	prompt_len(char *s, char **env, int i, int len)
 		{
 			var = get_var(&s[++i]);
 			i = i + ft_strlen(var);
-			var = get_env_var(var, env);
+			var = get_env_var(var, data);
 			len = len + ft_strlen(var);
 		}
 		else if (a != -1)
@@ -92,7 +92,7 @@ char	*handle_quotes(char *s, int i, int y, t_data *data)
 	inquote = 0;
 	if (!s)
 		return (s);
-	cs = ft_calloc(sizeof(char), prompt_len(s, data->env, 0, 0) + 1);
+	cs = ft_calloc(sizeof(char), prompt_len(s, data, 0, 0) + 1);
 	if (!cs)
 		crash_handler("Expander \n");
 	while (s[i])
@@ -104,17 +104,9 @@ char	*handle_quotes(char *s, int i, int y, t_data *data)
 			i++;
 			if (!s[i])
 				break ;
-			if (s[i] == '?')
-			{
-				var = ft_itoa(data->exitcode);
-				i = i + ft_strlen(var);
-			}
-			else
-			{
-				var = get_var(&s[i]);
-				i = i + ft_strlen(var);
-				var = get_env_var(var, data->env);
-			}
+			var = get_var(&s[i]);
+			i = i + ft_strlen(var);
+			var = get_env_var(var, data);
 			if (!var)
 				break ;
 			while (var[z])

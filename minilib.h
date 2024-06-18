@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 10:13:27 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/06/17 14:58:20 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/06/18 14:47:49 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,9 @@
 # include <unistd.h>
 # include <fcntl.h>
 # include <sys/wait.h>
+# include <errno.h>
+# include <string.h>
+# include <sys/stat.h>
 
 # define EXEC 1
 # define REDIR 2
@@ -103,7 +106,7 @@ char		*handle_env_var(char *s, char *es, t_data *data, int tok);
 char		*handle_quotes(char *s, int i, int y, t_data *data);
 
 /*------------ Expander utils -------------*/
-char		*get_env_var(char *var, char **env);
+char		*get_env_var(char *var, t_data *data);
 void		switch_inquote(char *ps, int *inquote);
 
 /*-------------- Builtins -----------------*/

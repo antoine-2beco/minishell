@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 13:29:24 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/04/23 11:19:43 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/06/18 14:02:08 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,15 +73,20 @@ char	**get_env_vars(char **env)
 	return (ret);
 }
 
-char	*get_env_var(char *var, char **env)
+char	*get_env_var(char *var, t_data *data)
 {
 	char	*str;
 	int		i;
 
-	i = find_env_var(get_env_vars(env), var);
+	if (!ft_strcmp(var, "?"))
+	{
+		str = ft_itoa(data->exitcode);
+		return (str);
+	}
+	i = find_env_var(get_env_vars(data->env), var);
 	if (i == -1)
 		return (NULL);
-	str = env[i];
+	str = data->env[i];
 	str = &str[ft_strlen(var) + 1];
 	return (str);
 }
