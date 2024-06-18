@@ -6,7 +6,7 @@
 #    By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/13 10:32:41 by ade-beco          #+#    #+#              #
-#    Updated: 2024/06/17 13:48:17 by hle-roi          ###   ########.fr        #
+#    Updated: 2024/06/18 16:31:15 by hle-roi          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,8 @@ OBJSBUILTINS := $(addprefix builtins/, $(SRCBUILTINS:.c=.o))
 OBJSPARSE := $(addprefix parse/, $(SRCPARSE:.c=.o))
 OBJSEXEC := $(addprefix execution/, $(SRCSEXEC:.c=.o))
 
-CFLAGS := -Wall -Wextra -Werror -fsanitize=address -g
+CFLAGS := -Wall -Wextra -Werror 
+#-fsanitize=address -g
 
 CC := cc
 

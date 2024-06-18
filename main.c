@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 10:13:09 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/06/17 17:27:25 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/06/18 15:58:30 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,7 @@ int	main(int argc, char **argv, char **pre_env)
 {
 	char	*line;
 	t_data	data;
+	t_cmd	*cmd;
 
 	(void)argc;
 	(void)argv;
@@ -137,7 +138,11 @@ int	main(int argc, char **argv, char **pre_env)
 		if (line[0] == 'c' && line[1] == 'd' && line[2] == ' ')
 			change_cwd(&line[3]);
 		else
-			runcmd(expand(parsecmd(line, &data), &data), &data);
+		{
+			cmd = expand(parsecmd(line, &data), &data);
+			runcmd(cmd, &data);
+			free_cmd(cmd);
+		}
 		free(line);
 		line = readline("\e[1m\x1b[36mMinishell ➤ \x1b[36m\e[m");
 	}

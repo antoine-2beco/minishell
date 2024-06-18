@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 13:29:24 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/06/18 14:02:08 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/06/18 16:17:46 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,10 @@ int	find_env_var(char **envvars, char *var)
 	while (envvars[i])
 	{
 		if (!ft_strncmp(envvars[i], var, ft_strlen(envvars[i]) + 1))
+		{
+			free_array(envvars);
 			return (i);
+		}
 		i++;
 	}
 	free_array(envvars);
@@ -88,5 +91,7 @@ char	*get_env_var(char *var, t_data *data)
 		return (NULL);
 	str = data->env[i];
 	str = &str[ft_strlen(var) + 1];
+	str = ft_strdup(str);
+	free(var);
 	return (str);
 }

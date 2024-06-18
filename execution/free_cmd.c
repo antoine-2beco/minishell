@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 16:17:38 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/04/11 16:24:51 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/06/18 16:05:41 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ void	free_cmd(t_cmd *cmd)
 	{
 		rcmd = (t_redircmd *)cmd;
 		free_cmd(rcmd->cmd);
+		free(rcmd->file);
 		free(rcmd);
 	}
 	else if (cmd->type == LIST)

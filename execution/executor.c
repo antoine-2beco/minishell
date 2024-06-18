@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:48:26 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/06/18 15:12:25 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/06/18 16:31:02 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,13 @@ char	*get_path(char *cmd, char **env)
 		free(str);
 		if (access(exec, F_OK | X_OK) == 0)
 		{
+			free_array(paths);
 			return (exec);
 		}
 		free(exec);
 		i++;
 	}
+	free_array(paths);
 	if (cmd[0] == '.' && cmd[1] == '/')
 		return (cmd);
 	return (NULL);
@@ -62,7 +64,7 @@ void	execution(char **cmd, t_data *data)
 	int			status;
 	struct stat	*buff;
 
-	buff = malloc(sizeof(struct stat));
+	path = 0;
 	if (is_builtin(cmd, data))
 		;
 	else if (data->env[0] != NULL)
@@ -71,15 +73,19 @@ void	execution(char **cmd, t_data *data)
 		if (!path)
 		{
 			ft_printf("minishell: %s: command not found\n", 2, cmd[0]);
+			data->exitcode = 127;
 			return ;
 		}
+		buff = malloc(sizeof(struct stat));
 		stat(cmd[0], buff);
 		if (S_ISDIR(buff->st_mode))
 		{
 			ft_printf("minishell: %s: is a directory\n", 2, cmd[0]);
 			data->exitcode = 126;
+			free(buff);
 			return ;
 		}
+		free(buff);
 		signal(SIGQUIT, SIG_DFL);
 		pid = create_fork();
 		if (!pid)
@@ -88,7 +94,7 @@ void	execution(char **cmd, t_data *data)
 			ft_printf("minishell: ", 2);
 			perror(cmd[0]);
 			ft_printf("%d\n", errno);
-			exit(127);
+			exit(126);
 		}
 		waitpid(pid, &status, 0);
 		if (WIFEXITED(status))
