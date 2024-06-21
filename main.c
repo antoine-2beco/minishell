@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 10:13:09 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/06/21 18:02:15 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/06/21 18:16:05 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,9 @@ char	**cpy_env(char **pre_env)
 	i = 0;
 	while (pre_env[i])
 	{
-		env[i] = malloc(sizeof(char) * ft_strlen(pre_env[i]));
+		env[i] = ft_strdup(pre_env[i]);
 		if (!env[i])
 			crash_handler("Error Malloc\n");
-		env[i] = ft_strdup(pre_env[i]);
 		i++;
 	}
 	env[i] = 0;
