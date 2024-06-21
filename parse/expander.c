@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 11:09:00 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/06/18 16:21:39 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/06/21 15:57:07 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,6 +135,8 @@ t_cmd	*expand(t_cmd *cmd, t_data *data)
 	int			i;
 
 	i = 0;
+	if (!cmd)
+		return (NULL);
 	if (cmd->type == EXEC)
 	{
 		ecmd = (t_execcmd *)cmd;

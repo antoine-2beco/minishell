@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:48:26 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/06/18 16:31:02 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/06/21 15:58:30 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ void	runcmd(t_cmd *cmd, t_data *data)
 	int			stdred_cpy;
 
 	if (cmd == 0)
-		crash_handler("Parsing error\n");
+		return ;
 	if (cmd->type == EXEC)
 	{
 		ecmd = (t_execcmd *)cmd;

@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 10:24:47 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/06/17 13:49:08 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/06/21 15:41:34 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,9 @@ int	is_builtin(char **cmd, t_data *data)
 	else if (!ft_strcmp(cmd[0], "unset"))
 		return (unsetcmd(cmd, data));
 	else if (!ft_strcmp(cmd[0], "exit"))
-		return (exitcmd(cmd));
+		return (exitcmd(cmd, data));
+	else if (!ft_strcmp(cmd[0], "cd"))
+		return (change_cwd(cmd[1]));
 	else
 		return (0);
 	return (1);

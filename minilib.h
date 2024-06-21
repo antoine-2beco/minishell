@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 10:13:27 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/06/18 14:47:49 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/06/21 15:43:57 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ typedef struct s_listcmd
 typedef struct s_data
 {
 	int		exitcode;
+	int		exit;
 	char	**env;
 }	t_data;
 
@@ -115,8 +116,8 @@ int			echocmd(char **args);
 int			envcmd(char **args, t_data *data);
 int			pwdcmd(char **args, t_data *data);
 int			unsetcmd(char **args, t_data *data);
-char		*change_cwd(char *folder);
-int			exitcmd(char **args);
+int			change_cwd(char *folder);
+int			exitcmd(char **args, t_data *data);
 
 void		runcmd(t_cmd *cmd, t_data *data);
 int			is_builtin(char **cmd, t_data *data);

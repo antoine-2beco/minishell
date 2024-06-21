@@ -3,19 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
+/*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 13:12:01 by ade-beco          #+#    #+#             */
-/*   Updated: 2024/06/12 14:07:53 by ade-beco         ###   ########.fr       */
+/*   Updated: 2024/06/21 15:44:55 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "../minilib.h"
 
-int	exitcmd(char **args)
+int	exitcmd(char **args, t_data *data)
 {
 	if (!args[1])
-		exit(1);
+		data->exit = 1;
 	else
-		exit(ft_atoi(args[1]));
+		data->exit = ft_atoi(args[1]);
+	return (1);
 }

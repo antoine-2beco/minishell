@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 10:13:09 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/06/18 15:58:30 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/06/21 15:58:53 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ t_cmd	*parsecmd(char *s, t_data *data)
 	char	*es;
 	t_cmd	*cmd;
 
+	if (!s)
+		return (NULL);
 	es = s + ft_strlen(s);
 	cmd = parseline(&s, es, data);
 	peek(&s, es, " ");
@@ -129,21 +131,20 @@ int	main(int argc, char **argv, char **pre_env)
 	(void)argc;
 	(void)argv;
 	data.exitcode = 0;
+	data.exit = 0;
 	signal(SIGQUIT, SIG_IGN);
 	data.env = cpy_env(pre_env);
-	line = readline("\e[1m\x1b[36mMinishell ➤ \x1b[36m\e[m");
-	while (line > 0)
+	line = "1";
+	while (line > 0 && !data.exit)
 	{
-		add_history(line);
-		if (line[0] == 'c' && line[1] == 'd' && line[2] == ' ')
-			change_cwd(&line[3]);
-		else
-		{
-			cmd = expand(parsecmd(line, &data), &data);
-			runcmd(cmd, &data);
-			free_cmd(cmd);
-		}
-		free(line);
 		line = readline("\e[1m\x1b[36mMinishell ➤ \x1b[36m\e[m");
+		add_history(line);
+		cmd = expand(parsecmd(line, &data), &data);
+		runcmd(cmd, &data);
+		if (cmd)
+			free_cmd(cmd);
+		free(line);
 	}
+	free_array(data.env);
+	return (data.exit);
 }
