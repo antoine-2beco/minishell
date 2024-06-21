@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 11:11:17 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/06/18 16:09:07 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/06/21 16:38:56 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ t_execcmd	*init_cmd(t_cmd *ret)
 	t_execcmd	*cmd;
 
 	cmd = (t_execcmd *)ret;
-	cmd->args = malloc(sizeof(char *) * (MAXARGS + 1));
+	cmd->args = malloc(sizeof(char *) * (MAXARGS));
 	if (!cmd->args)
 		crash_handler("Malloc error\n");
 	return (cmd);

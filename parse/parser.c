@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 11:08:55 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/06/18 16:04:32 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/06/21 17:32:55 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,40 +66,67 @@ t_cmd	*parseblock(char **ps, char *es, t_data *data)
 	return (cmd);
 }
 
-t_cmd	*parseexec(char **ps, char *es, t_data *data, int argc)
+char	**convert_list(t_list *list)
 {
-	char		*token;
-	int			type;
-	t_execcmd	*cmd;
-	t_cmd		*ret;
+	char	**args;
+	t_list	*current;
+	int		argc;
 
-	if (peek(ps, es, "("))
-		return (parseblock(ps, es, data));
-	ret = execcmd();
-	cmd = init_cmd(ret);
-	ret = parseredirs(ret, ps, es, data);
+	argc = 0;
+	args = malloc(sizeof(char *) * ft_lstsize(list));
+	current = list;
+	while (current)
+	{
+		args[argc++] = current->content;
+		current = current->next;
+	}
+	return (args);
+}
+
+char	**get_args(char **ps, char *es, t_cmd *ret, t_data *data)
+{
+	char	*token;
+	int		type;
+	t_list	*tmp;
+	t_list	*current;
+	t_list	*list;
+
+	list = NULL;
 	while (!peek(ps, es, "|);"))
 	{
 		type = get_token(ps, es, &token);
 		if (type == 0)
 			break ;
 		if (type != 'a')
+			return (ft_printf("Synthax error\n", 2), NULL);
+		if (!list)
 		{
-			ft_printf("Synthax error\n", 2);
-			return (NULL);
+			list = ft_lstnew(token);
+			current = list;
 		}
-		cmd->args[argc++] = ft_strdup(token);
-		if (!cmd->args[argc - 1])
-			crash_handler("Error Malloc\n");
-		free(token);
-		cmd->args[argc] = malloc(sizeof(char *));
-		if (!cmd->args[argc])
-			crash_handler("Malloc error\n");
-		if (argc >= MAXARGS)
-			crash_handler("too many args\n");
+		else
+		{
+			tmp = ft_lstnew(token);
+			current->next = tmp;
+			current = tmp;
+		}
 		ret = parseredirs(ret, ps, es, data);
 	}
-	cmd->args[argc] = 0;
+	tmp = ft_lstnew(0);
+	current->next = tmp;
+	return (convert_list(list));
+}
+
+t_cmd	*parseexec(char **ps, char *es, t_data*data)
+{
+	t_execcmd	*cmd;
+	t_cmd		*ret;
+
+	if (peek(ps, es, "("))
+		return (parseblock(ps, es, data));
+	ret = execcmd();
+	cmd = (t_execcmd *)ret;
+	cmd->args = get_args(ps, es, ret, data);
 	return (ret);
 }
 
@@ -107,7 +134,7 @@ t_cmd	*parsepipe(char **ps, char *es, t_data *data)
 {
 	t_cmd	*cmd;
 
-	cmd = parseexec(ps, es, data, 0);
+	cmd = parseexec(ps, es, data);
 	if (peek(ps, es, "|"))
 	{
 		get_token(ps, es, 0);
