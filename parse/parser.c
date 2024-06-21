@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 11:08:55 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/06/21 17:32:55 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/06/21 18:06:39 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ char	**convert_list(t_list *list)
 	return (args);
 }
 
-char	**get_args(char **ps, char *es, t_cmd *ret, t_data *data)
+char	**get_args(char **ps, char *es, t_cmd **ret, t_data *data)
 {
 	char	*token;
 	int		type;
@@ -92,6 +92,7 @@ char	**get_args(char **ps, char *es, t_cmd *ret, t_data *data)
 	t_list	*list;
 
 	list = NULL;
+	current = NULL;
 	while (!peek(ps, es, "|);"))
 	{
 		type = get_token(ps, es, &token);
@@ -110,10 +111,13 @@ char	**get_args(char **ps, char *es, t_cmd *ret, t_data *data)
 			current->next = tmp;
 			current = tmp;
 		}
-		ret = parseredirs(ret, ps, es, data);
+		*ret = parseredirs(*ret, ps, es, data);
 	}
 	tmp = ft_lstnew(0);
-	current->next = tmp;
+	if (current)
+		current->next = tmp;
+	else
+		list = tmp;
 	return (convert_list(list));
 }
 
@@ -126,7 +130,8 @@ t_cmd	*parseexec(char **ps, char *es, t_data*data)
 		return (parseblock(ps, es, data));
 	ret = execcmd();
 	cmd = (t_execcmd *)ret;
-	cmd->args = get_args(ps, es, ret, data);
+	ret = parseredirs(ret, ps, es, data);
+	cmd->args = get_args(ps, es, &ret, data);
 	return (ret);
 }
 
