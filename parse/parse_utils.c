@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 11:11:17 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/06/21 16:38:56 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/06/22 16:05:29 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,12 @@ t_cmd	*create_heredoc(t_cmd *cmd, char *file, t_data *data)
 		crash_handler("Pipe error\n");
 	while (1)
 	{
-		ft_putstr_fd("heredoc>", STDERR_FILENO);
+		ft_putstr_fd("heredoc> ", STDERR_FILENO);
 		line = readline(NULL);
 		if (!ft_strchr(file, '\"') && !ft_strchr(file, '\"'))
 			line = handle_quotes(line, 0, 0, data);
+		if (!line)
+			break ;
 		if (!ft_strcmp(line, delimiter))
 			break ;
 		ft_putstr_fd(line, end[1]);
