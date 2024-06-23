@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:48:26 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/06/21 17:45:47 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/06/23 17:36:17 by ade-beco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,10 @@ void	execution(char **cmd, t_data *data)
 
 	path = 0;
 	if (is_builtin(cmd, data))
-		;
+	{
+		ft_printf("\n---------------------\n\n", 1);
+		exportcmd(NULL, data);
+	}
 	else if (data->env[0] != NULL)
 	{
 		path = get_path(cmd[0], data->env);

@@ -6,7 +6,7 @@
 /*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 11:58:46 by ade-beco          #+#    #+#             */
-/*   Updated: 2024/06/23 16:28:19 by ade-beco         ###   ########.fr       */
+/*   Updated: 2024/06/23 18:28:25 by ade-beco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,26 +54,57 @@ static void	print_envvar(t_list **env_list)
 	}
 }
 
+int	check_name(char *args)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	if (!args || !args[0] || args[0] == '=')
+		return (0);
+	while (args[i] != '\0' && args[i] != '=')
+	{
+		if (ft_isalpha(args[i]))
+			j = 1;
+		else
+		{
+			if (ft_isdigit(args[i]) && !j)
+				return (0);
+			else if (!ft_isdigit(args[i]) && args[i] != '_')
+				return (0);
+		}
+		i++;
+	}
+	return (1);
+}
+
 int	exportcmd(char **args, t_data *data)
 {
 	t_list	*env_list;
 	t_list	*node;
+	int		i;
 
+	i = 0;
 	env_list = ft_string_to_lst(data->env);
-	if (!args[1])
+	if (!args || !args[1])
 		print_envvar(&env_list);
-	else if (args[1][0] && args[1][0] == '-')
-		return (0);
-	else
+	while (args && args[1] && args[i++])
 	{
-		node = ft_lstnew(args[1]);
-		if (!node)
-			exit(EXIT_FAILURE);
-		ft_lstadd_back(&env_list, node);
-		print_envvar(&env_list);
-		data->env = ft_lst_to_string(&env_list);
-		if (!data->env)
-			exit(EXIT_FAILURE);
+		if (!check_name(args[i]))
+			ft_printf("minishell: export: %s: not a valid identifier\n", 2, args[i]);
+		else
+		{
+			node = ft_lstnew(args[i]);
+			if (!node)
+				exit(EXIT_FAILURE);
+			ft_lstadd_back(&env_list, node);
+			data->env = ft_lst_to_string(&env_list);
+			if (!data->env)
+				exit(EXIT_FAILURE);
+		}
 	}
 	return (1);
 }
+
+//expor test => seg fault
