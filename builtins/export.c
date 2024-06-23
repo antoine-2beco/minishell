@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 11:58:46 by ade-beco          #+#    #+#             */
-/*   Updated: 2024/06/17 13:51:08 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/06/23 16:28:19 by ade-beco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,11 +56,9 @@ static void	print_envvar(t_list **env_list)
 
 int	exportcmd(char **args, t_data *data)
 {
-	int		i;
 	t_list	*env_list;
 	t_list	*node;
 
-	i = 0;
 	env_list = ft_string_to_lst(data->env);
 	if (!args[1])
 		print_envvar(&env_list);
