@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 11:58:46 by ade-beco          #+#    #+#             */
-/*   Updated: 2024/06/24 15:32:33 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/06/24 15:56:22 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	check_name(char *args)
 	j = 0;
 	if (!args || !args[0] || args[0] == '=')
 		return (0);
-	while (args[i] != '\0' && args[i] != '=')
+	while (args[i] && args[i] != '=')
 	{
 		if (ft_isalpha(args[i]))
 			j = 1;
@@ -85,14 +85,14 @@ int	exportcmd(char **args, t_data *data)
 	t_list	*node;
 	int		i;
 
-	i = 0;
+	i = 1;
 	env_list = ft_string_to_lst(data->env);
 	if (!args || !args[1])
 		print_envvar(&env_list);
-	while (args && args[1] && args[i++])
+	while (args && args[i] && args[i])
 	{
 		if (!check_name(args[i]))
-			ft_printf("minishell: export: %s: not a valid identifier\n", 2, args[i]);
+			return (1);
 		else
 		{
 			node = ft_lstnew(ft_strdup(args[i]));
@@ -103,6 +103,7 @@ int	exportcmd(char **args, t_data *data)
 			if (!data->env)
 				exit(EXIT_FAILURE);
 		}
+		i++;
 	}
 	return (1);
 }
