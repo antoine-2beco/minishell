@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
+/*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 11:58:46 by ade-beco          #+#    #+#             */
-/*   Updated: 2024/06/23 18:28:25 by ade-beco         ###   ########.fr       */
+/*   Updated: 2024/06/24 15:32:33 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ int	exportcmd(char **args, t_data *data)
 			ft_printf("minishell: export: %s: not a valid identifier\n", 2, args[i]);
 		else
 		{
-			node = ft_lstnew(args[i]);
+			node = ft_lstnew(ft_strdup(args[i]));
 			if (!node)
 				exit(EXIT_FAILURE);
 			ft_lstadd_back(&env_list, node);

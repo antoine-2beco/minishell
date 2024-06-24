@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 11:08:55 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/06/21 18:06:39 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/06/24 15:32:35 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,13 +73,14 @@ char	**convert_list(t_list *list)
 	int		argc;
 
 	argc = 0;
-	args = malloc(sizeof(char *) * ft_lstsize(list));
+	args = malloc(sizeof(char *) * (ft_lstsize(list) + 1));
 	current = list;
 	while (current)
 	{
 		args[argc++] = current->content;
 		current = current->next;
 	}
+	args[argc] = 0;
 	return (args);
 }
 
