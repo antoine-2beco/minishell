@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 10:13:27 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/06/21 17:30:47 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/06/25 13:48:29 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,8 +103,9 @@ int			create_fork(void);
 
 /*--------------- Expander ----------------*/
 t_cmd		*expand(t_cmd *cmd, t_data *data);
-char		*handle_env_var(char *s, char *es, t_data *data, int tok);
 char		*handle_quotes(char *s, int i, int y, t_data *data);
+int			prompt_len(char *s, t_data *data, int i, int len);
+char		*get_var(char *s);
 
 /*------------ Expander utils -------------*/
 char		*get_env_var(char *var, t_data *data);
