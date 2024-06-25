@@ -6,7 +6,7 @@
 /*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 11:58:46 by ade-beco          #+#    #+#             */
-/*   Updated: 2024/06/25 16:54:17 by ade-beco         ###   ########.fr       */
+/*   Updated: 2024/06/25 17:32:28 by ade-beco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ static t_list	*smallest_biggest_content(t_list **lst, int param)
 
 static void	print_linevar(char *var)
 {
-	int	i;
+	int		i;
+	char	*s;
 
 	i = 0;
 	while (var[i] && var[i] != '=')
@@ -40,7 +41,9 @@ static void	print_linevar(char *var)
 		ft_printf("\n", 1);
 		return ;
 	}
-	ft_printf("=\"%s\"\n", 1, ft_substr(var, i + 1, ft_strlen(var)));
+	s = ft_substr(var, i + 1, ft_strlen(var));
+	ft_printf("=\"%s\"\n", 1, s);
+	free (s);
 }
 
 static void	print_envvar(t_list **env_list)

@@ -6,14 +6,14 @@
 #    By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/13 10:32:41 by ade-beco          #+#    #+#              #
-#    Updated: 2024/06/25 17:13:43 by ade-beco         ###   ########.fr        #
+#    Updated: 2024/06/25 17:22:01 by ade-beco         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRC := main.c signal.c
+SRC := main.c signal.c free.c
 SRCBUILTINS := cd.c export.c echo.c env.c pwd.c unset.c exit.c
 SRCPARSE := construct_tokens.c parser.c parse_utils.c expander.c expander_utils.c get_token.c
-SRCSEXEC := executor.c free_cmd.c run_builtins.c
+SRCSEXEC := executor.c run_builtins.c
 
 OBJS := $(SRC:.c=.o)
 OBJSBUILTINS := $(addprefix builtins/, $(SRCBUILTINS:.c=.o))
