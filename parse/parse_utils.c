@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 11:11:17 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/06/25 13:57:23 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/06/25 15:44:38 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,8 @@ char	*handle_env_var(char *s, t_data *data)
 			cs[y++] = s[i++];
 	}
 	cs[y] = 0;
+	if (var)
+		free(var);
 	free(s);
 	return (cs);
 }

@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:07:40 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/06/21 15:45:58 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/06/25 17:03:02 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,6 @@ int	change_cwd(char *folder)
 	else
 		new_path = ft_strdup(folder);
 	chdir(new_path);
+	free(new_path);
 	return (1);
 }
