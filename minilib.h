@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 10:13:27 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/06/25 13:48:29 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/06/25 15:23:21 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <readline/history.h>
 # include <unistd.h>
 # include <fcntl.h>
+# include <signal.h>
 # include <sys/wait.h>
 # include <errno.h>
 # include <string.h>
@@ -126,4 +127,12 @@ int			is_builtin(char **cmd, t_data *data);
 void		free_cmd(t_cmd *cmd);
 
 void		free_array(char **array);
+
+/*-------------- Signal -----------------*/
+void		sig_interrupt(int num);
+void		sig_interrupt_exec(int num);
+void		disable_signal_print(void);
+void		enable_signal_print(void);
+void		rl_clear_history(void);
+void		rl_replace_line(const char *str, int undo);
 #endif

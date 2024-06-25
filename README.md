@@ -4,5 +4,5 @@ export laisse passer des args sans = (ex: test)
 unset segfault sur USER
 seg fault si plus de path
 seg fault si pas d'env (env -i) commande random apres un export
-modif comportement heredoc
+Makefile pas a la norme
 signaux

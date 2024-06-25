@@ -1,0 +1,6 @@
+{
+	"files.associations": {
+		"minilib.h": "c",
+		"termios.h": "c"
+	}
+}

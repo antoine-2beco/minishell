@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:48:26 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/06/24 15:33:43 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/06/25 15:24:35 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ void	execution(char **cmd, t_data *data)
 		}
 		free(buff);
 		signal(SIGQUIT, SIG_DFL);
+		signal(SIGINT, sig_interrupt_exec);
 		pid = create_fork();
 		if (!pid)
 		{
@@ -99,6 +100,7 @@ void	execution(char **cmd, t_data *data)
 		waitpid(pid, &status, 0);
 		if (WIFEXITED(status))
 			data->exitcode = WEXITSTATUS(status);
+		signal(SIGINT, sig_interrupt);
 	}
 }
 

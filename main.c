@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 10:13:09 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/06/21 18:16:05 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/06/25 15:15:50 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,9 @@ int	main(int argc, char **argv, char **pre_env)
 	(void)argv;
 	data.exitcode = 0;
 	data.exit = 0;
+	disable_signal_print();
 	signal(SIGQUIT, SIG_IGN);
+	signal(SIGINT, sig_interrupt);
 	data.env = cpy_env(pre_env);
 	line = "1";
 	while (line > 0 && !data.exit)
