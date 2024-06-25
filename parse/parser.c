@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 11:08:55 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/06/24 15:42:30 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/06/25 17:00:18 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ t_cmd	*parseredirs(t_cmd *cmd, char **ps, char *es, t_data *data)
 	char	*file;
 
 	file = "1";
+	tok = 0;
 	while (peek(ps, es, "<>"))
 	{
 		tok = get_token(ps, es, 0);
@@ -70,6 +71,7 @@ char	**convert_list(t_list *list)
 {
 	char	**args;
 	t_list	*current;
+	t_list	*tmp;
 	int		argc;
 
 	argc = 0;
@@ -78,8 +80,11 @@ char	**convert_list(t_list *list)
 	while (current)
 	{
 		args[argc++] = current->content;
+		tmp = current;
 		current = current->next;
+		free(tmp);
 	}
+	free(current);
 	return (args);
 }
 
