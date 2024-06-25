@@ -6,11 +6,11 @@
 #    By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/13 10:32:41 by ade-beco          #+#    #+#              #
-#    Updated: 2024/06/24 16:00:18 by hle-roi          ###   ########.fr        #
+#    Updated: 2024/06/25 15:10:01 by hle-roi          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRC := main.c
+SRC := main.c signal.c
 SRCBUILTINS := cd.c export.c echo.c env.c pwd.c unset.c exit.c
 SRCPARSE := construct_tokens.c parser.c parse_utils.c expander.c expander_utils.c get_token.c
 SRCSEXEC := executor.c free_cmd.c run_builtins.c
@@ -20,7 +20,7 @@ OBJSBUILTINS := $(addprefix builtins/, $(SRCBUILTINS:.c=.o))
 OBJSPARSE := $(addprefix parse/, $(SRCPARSE:.c=.o))
 OBJSEXEC := $(addprefix execution/, $(SRCSEXEC:.c=.o))
 
-CFLAGS := -Wall -Wextra -Werror 
+CFLAGS := -Wall -Wextra -Werror -I.
 #-fsanitize=address -g
 
 CC := cc
@@ -33,7 +33,7 @@ all : $(NAME)
 
 $(NAME) : $(OBJS) $(OBJSBUILTINS) $(OBJSPARSE) $(OBJSEXEC)
 	@$(MAKE) -C ./libft
-	$(CC) $(CFLAGS) $(READLINE) -I ./minilib.h $(OBJS) $(OBJSBUILTINS) $(OBJSPARSE) $(OBJSEXEC) libft/libft.a -o $(NAME)
+	$(CC) $(CFLAGS) $(READLINE) -o $(NAME) $(OBJS) $(OBJSBUILTINS) $(OBJSPARSE) $(OBJSEXEC) libft/libft.a
 	
 	
 clean :

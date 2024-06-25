@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:48:26 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/06/24 15:33:43 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/06/25 15:28:08 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,13 @@ char	*get_path(char *cmd, char **env)
 	char	**paths;
 	char	*exec;
 
-	i = 0;
-	str = env[find_path(env)];
+	i = find_path(env);
+	if (i == -1)
+		return (NULL);
+	str = env[i];
 	str = &str[5];
 	paths = ft_split(str, ':');
+	i = 0;
 	while (paths[i])
 	{
 		str = ft_strjoin(paths[i], "/");
@@ -87,6 +90,7 @@ void	execution(char **cmd, t_data *data)
 		}
 		free(buff);
 		signal(SIGQUIT, SIG_DFL);
+		signal(SIGINT, sig_interrupt_exec);
 		pid = create_fork();
 		if (!pid)
 		{
@@ -99,6 +103,7 @@ void	execution(char **cmd, t_data *data)
 		waitpid(pid, &status, 0);
 		if (WIFEXITED(status))
 			data->exitcode = WEXITSTATUS(status);
+		signal(SIGINT, sig_interrupt);
 	}
 }
 
