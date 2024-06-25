@@ -1,16 +1,45 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_cmd.c                                         :+:      :+:    :+:   */
+/*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/11 16:17:38 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/06/23 16:28:37 by ade-beco         ###   ########.fr       */
+/*   Created: 2024/06/25 16:40:30 by ade-beco          #+#    #+#             */
+/*   Updated: 2024/06/25 16:51:13 by ade-beco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minilib.h"
+#include "minilib.h"
+
+void	free_list(t_list *list)
+{
+	t_list	*temp_list;
+
+	if (!list)
+		return ;
+	while (list)
+	{
+		temp_list = list->next;
+		free (list);
+		list = NULL;
+		list = temp_list;
+	}
+	return ;
+}
+
+void	free_array(char **array)
+{
+	int	i;
+
+	i = 0;
+	while (array[i])
+	{
+		free(array[i]);
+		i++;
+	}
+	free(array);
+}
 
 void	free_cmd(t_cmd *cmd)
 {

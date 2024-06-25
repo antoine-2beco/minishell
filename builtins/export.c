@@ -6,7 +6,7 @@
 /*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 11:58:46 by ade-beco          #+#    #+#             */
-/*   Updated: 2024/06/25 15:30:26 by ade-beco         ###   ########.fr       */
+/*   Updated: 2024/06/25 16:54:17 by ade-beco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ int	check_name(char *args)
 	return (1);
 }
 
+
 int	exportcmd(char **args, t_data *data)
 {
 	t_list	*env_list;
@@ -107,18 +108,16 @@ int	exportcmd(char **args, t_data *data)
 	while (args && args[i] && args[i])
 	{
 		if (!check_name(args[i]))
-			return (1);
-		else
-		{
-			node = ft_lstnew(ft_strdup(args[i]));
-			if (!node)
-				exit(EXIT_FAILURE);
-			ft_lstadd_back(&env_list, node);
-			data->env = ft_lst_to_string(&env_list);
-			if (!data->env)
-				exit(EXIT_FAILURE);
-		}
+			break ;
+		node = ft_lstnew(ft_strdup(args[i]));
+		if (!node)
+			exit(EXIT_FAILURE);
+		ft_lstadd_back(&env_list, node);
+		data->env = ft_lst_to_string(&env_list);
+		if (!data->env)
+			exit(EXIT_FAILURE);
 		i++;
 	}
+	free_list(env_list);
 	return (1);
 }
