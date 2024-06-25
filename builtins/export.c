@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 11:58:46 by ade-beco          #+#    #+#             */
-/*   Updated: 2024/06/24 15:56:22 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/06/25 15:30:26 by ade-beco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,21 @@ static t_list	*smallest_biggest_content(t_list **lst, int param)
 	return (smallest_biggest);
 }
 
+static void	print_linevar(char *var)
+{
+	int	i;
+
+	i = 0;
+	while (var[i] && var[i] != '=')
+		ft_printf("%c", 1, var[i++]);
+	if (var[i] != '=')
+	{
+		ft_printf("\n", 1);
+		return ;
+	}
+	ft_printf("=\"%s\"\n", 1, ft_substr(var, i + 1, ft_strlen(var)));
+}
+
 static void	print_envvar(t_list **env_list)
 {
 	t_list	*smallest;
@@ -37,7 +52,7 @@ static void	print_envvar(t_list **env_list)
 
 	smallest = smallest_biggest_content(env_list, 1);
 	biggest = smallest_biggest_content(env_list, -1);
-	ft_printf("%s\n", 1, smallest->content);
+	print_linevar(smallest->content);
 	while (biggest != smallest)
 	{
 		temp = *env_list;
@@ -49,7 +64,7 @@ static void	print_envvar(t_list **env_list)
 				smaller = temp;
 			temp = temp->next;
 		}
-		ft_printf("%s\n", 1, smaller->content);
+		print_linevar(smaller->content);
 		smallest = smaller;
 	}
 }
@@ -107,5 +122,3 @@ int	exportcmd(char **args, t_data *data)
 	}
 	return (1);
 }
-
-//expor test => seg fault
