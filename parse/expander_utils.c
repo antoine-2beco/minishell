@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
+/*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 13:29:24 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/06/25 16:40:44 by ade-beco         ###   ########.fr       */
+/*   Updated: 2024/08/12 11:38:06 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,11 @@ int	find_env_var(char **envvars, char *var)
 	return (-1);
 }
 
-char	**get_env_vars(char **env)
+char	**get_env_vars(char **env, int i)
 {
 	char	**ret;
-	int		i;
 	int		y;
 
-	i = 0;
 	while (env[i])
 		i++;
 	ret = malloc(sizeof(char *) * (i + 1));
@@ -51,34 +49,31 @@ char	**get_env_vars(char **env)
 		ret[i] = malloc(sizeof(char) * (y + 1));
 		if (!ret[i])
 			crash_handler("Malloc\n");
-		y = 0;
-		while (env[i][y] != '=')
-		{
+		y = -1;
+		while (env[i][++y] != '=')
 			ret[i][y] = env[i][y];
-			y++;
-		}
 		ret[i++][y] = '\0';
 	}
 	ret[i] = 0;
 	return (ret);
 }
 
-char	*get_env_var(char *var, t_data *data)
+char	*get_env_var(char **env, char *var)
 {
-	char	*str;
 	int		i;
+	char	*res;
 
-	if (!ft_strcmp(var, "?"))
-	{
-		str = ft_itoa(data->exitcode);
-		return (str);
-	}
-	i = find_env_var(get_env_vars(data->env), var);
-	if (i == -1)
+	i = 0;
+	if (!var || !var[0])
 		return (NULL);
-	str = data->env[i];
-	str = &str[ft_strlen(var) + 1];
-	str = ft_strdup(str);
-	free(var);
-	return (str);
+	while ((env[i] && ft_strncmp(env[i], var, ft_strlen(var)))
+		|| (env[i] && env[i][ft_strlen(var)] != '='))
+		i++;
+	if (env[i])
+	{
+		res = ft_strchr(env[i], '=');
+		res++;
+		return (res);
+	}
+	return (NULL);
 }

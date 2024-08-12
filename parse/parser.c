@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 11:08:55 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/06/25 17:00:18 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/08/06 11:31:24 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,65 +65,6 @@ t_cmd	*parseblock(char **ps, char *es, t_data *data)
 	get_token(ps, es, 0);
 	cmd = parseredirs(cmd, ps, es, data);
 	return (cmd);
-}
-
-char	**convert_list(t_list *list)
-{
-	char	**args;
-	t_list	*current;
-	t_list	*tmp;
-	int		argc;
-
-	argc = 0;
-	args = malloc(sizeof(char *) * ft_lstsize(list));
-	current = list;
-	while (current)
-	{
-		args[argc++] = current->content;
-		tmp = current;
-		current = current->next;
-		free(tmp);
-	}
-	free(current);
-	return (args);
-}
-
-char	**get_args(char **ps, char *es, t_cmd **ret, t_data *data)
-{
-	char	*token;
-	int		type;
-	t_list	*tmp;
-	t_list	*current;
-	t_list	*list;
-
-	list = NULL;
-	current = NULL;
-	while (!peek(ps, es, "|);"))
-	{
-		type = get_token(ps, es, &token);
-		if (type == 0)
-			break ;
-		if (type != 'a')
-			return (ft_printf("Synthax error\n", 2), NULL);
-		if (!list)
-		{
-			list = ft_lstnew(token);
-			current = list;
-		}
-		else
-		{
-			tmp = ft_lstnew(token);
-			current->next = tmp;
-			current = tmp;
-		}
-		*ret = parseredirs(*ret, ps, es, data);
-	}
-	tmp = ft_lstnew(0);
-	if (current)
-		current->next = tmp;
-	else
-		list = tmp;
-	return (convert_list(list));
 }
 
 t_cmd	*parseexec(char **ps, char *es, t_data*data)

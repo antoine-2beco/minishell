@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 15:06:07 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/06/25 15:23:41 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/08/05 18:07:42 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ void	enable_signal_print(void)
 	tcsetattr(STDIN_FILENO, TCSANOW, &termios_new);
 }
 
-
 void	disable_signal_print(void)
 {
 	struct termios	termios_new;
@@ -31,7 +30,6 @@ void	disable_signal_print(void)
 	termios_new.c_lflag &= ~ECHOCTL;
 	tcsetattr(STDIN_FILENO, TCSANOW, &termios_new);
 }
-
 
 void	sig_interrupt(int num)
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_builtins.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
+/*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 10:24:47 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/06/23 17:53:01 by ade-beco         ###   ########.fr       */
+/*   Updated: 2024/08/07 13:36:03 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	is_builtin(char **cmd, t_data *data)
 	if (!ft_strcmp(cmd[0], "export"))
 		return (exportcmd(cmd, data));
 	else if (!ft_strcmp(cmd[0], "echo"))
-		return (echocmd(cmd));
+		return (echocmd(cmd, data));
 	else if (!ft_strcmp(cmd[0], "env"))
 		return (envcmd(cmd, data));
 	else if (!ft_strcmp(cmd[0], "pwd"))

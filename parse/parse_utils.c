@@ -6,11 +6,32 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 11:11:17 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/06/25 15:44:38 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/08/06 11:53:09 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minilib.h"
+
+char	**convert_list(t_list *list)
+{
+	char	**args;
+	t_list	*current;
+	t_list	*tmp;
+	int		argc;
+
+	argc = 0;
+	args = malloc(sizeof(char *) * ft_lstsize(list));
+	current = list;
+	while (current)
+	{
+		args[argc++] = current->content;
+		tmp = current;
+		current = current->next;
+		free(tmp);
+	}
+	free(current);
+	return (args);
+}
 
 int	peek(char **ps, char *es, char *toks)
 {
@@ -34,81 +55,47 @@ t_execcmd	*init_cmd(t_cmd *ret)
 	return (cmd);
 }
 
-char	*handle_env_var(char *s, t_data *data)
+void	get_args_norm(t_list **list, t_list **current,
+	t_list **tmp, char *token)
 {
-	int		i;
-	int		z;
-	int		y;
-	char	*var;
-	char	*cs;
-
-	cs = ft_calloc(sizeof(char), prompt_len(s, data, 0, 0) + 1);
-	if (!cs)
-		crash_handler("Expander \n");
-	i = 0;
-	y = 0;
-	while (s[i])
+	if (!*list)
 	{
-		z = 0;
-		if (s[i] == '$')
-		{
-			i++;
-			if (!s[i])
-				break ;
-			var = get_var(&s[i]);
-			i = i + ft_strlen(var);
-			var = get_env_var(var, data);
-			if (!var)
-				break ;
-			while (var[z])
-				cs[y++] = var[z++];
-			free(var);
-		}
-		else
-			cs[y++] = s[i++];
+		*list = ft_lstnew(token);
+		*current = *list;
 	}
-	cs[y] = 0;
-	if (var)
-		free(var);
-	free(s);
-	return (cs);
+	else
+	{
+		*tmp = ft_lstnew(token);
+		(*current)->next = *tmp;
+		*current = *tmp;
+	}
 }
 
-t_cmd	*create_heredoc(t_cmd *cmd, char *file, t_data *data)
+char	**get_args(char **ps, char *es, t_cmd **ret, t_data *data)
 {
-	char		*line;
-	int			end[2];
-	char		*delimiter;
-	int			is_inquote;
-	int			i;
+	char	*token;
+	int		type;
+	t_list	*tmp;
+	t_list	*current;
+	t_list	*list;
 
-	i = -1;
-	is_inquote = 0;
-	while (file[++i])
+	list = NULL;
+	current = NULL;
+	tmp = NULL;
+	while (!peek(ps, es, "|);"))
 	{
-		if (file[i] == '\"' || file[i] == '\'')
-			is_inquote = 1;
-	}
-	delimiter = handle_quotes(file, 0, 0, data);
-	if (pipe(end) < 0)
-		crash_handler("Pipe error\n");
-	while (1)
-	{
-		ft_putstr_fd("heredoc> ", STDERR_FILENO);
-		line = readline(NULL);
-		if (!line)
+		type = get_token(ps, es, &token);
+		if (type == 0)
 			break ;
-		if (!ft_strcmp(line, delimiter))
-			break ;
-		if (!is_inquote)
-			line = handle_env_var(line, data);
-		ft_putstr_fd(line, end[1]);
-		ft_putstr_fd("\n", end[1]);
-		free(line);
+		if (type != 'a')
+			return (ft_printf("Synthax error\n", 2), NULL);
+		get_args_norm(&list, &current, &tmp, token);
+		*ret = parseredirs(*ret, ps, es, data);
 	}
-	ft_putstr_fd("\0", end[1]);
-	close(end[1]);
-	cmd = redircmd(cmd, file, 0, end[0]);
-	free(delimiter);
-	return (cmd);
+	tmp = ft_lstnew(0);
+	if (current)
+		current->next = tmp;
+	else
+		list = tmp;
+	return (convert_list(list));
 }

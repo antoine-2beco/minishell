@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
+/*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 11:48:21 by ade-beco          #+#    #+#             */
-/*   Updated: 2024/06/12 14:05:22 by ade-beco         ###   ########.fr       */
+/*   Updated: 2024/08/07 13:35:40 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@
 //	return (1);
 //}
 
-int	echocmd(char **args)
+int	echocmd(char **args, t_data *data)
 {
 	int		i;
 	int		j;
@@ -51,6 +51,7 @@ int	echocmd(char **args)
 	if (!args[1])
 	{
 		write(1, "\n", 1);
+		data->exitcode = 0;
 		return (1);
 	}
 	if (args[1][0] && args[1][1] && args[1][0] == '-' && args[1][1] != 'n')
@@ -77,6 +78,7 @@ int	echocmd(char **args)
 	}
 	if (!n_flag)
 		write(1, "\n", 1);
+	data->exitcode = 0;
 	return (1);
 }
 

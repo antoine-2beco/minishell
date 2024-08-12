@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expander.c                                         :+:      :+:    :+:   */
+/*   handle_quotes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 11:09:00 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/06/24 15:51:17 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/08/07 17:33:48 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,14 @@ char	*get_var(char *s)
 
 	i = 0;
 	while (s[i] && !ft_strchr(" \t\r\n\v\"\'", s[i]))
+	{
+		if (s[i] == '?')
+		{
+			i++;
+			break ;
+		}
 		i++;
+	}
 	i++;
 	ret = malloc(sizeof(char) * (i + 1));
 	if (!ret)
@@ -64,7 +71,7 @@ int	prompt_len(char *s, t_data *data, int i, int len)
 	while (s[i])
 	{
 		a = i;
-		i = is_inquote(s, &inquote, i);
+		//i = is_inquote(s, &inquote, i);
 		if (a != i)
 			a = -1;
 		if (s[i] == '$' && inquote != 2)
@@ -85,84 +92,56 @@ int	prompt_len(char *s, t_data *data, int i, int len)
 	return (len);
 }
 
-char	*handle_quotes(char *s, int i, int y, t_data *data)
+void	check_quotes(char *s, char *cs, int *inquote, t_data *data)
 {
-	int		inquote;
 	char	*var;
-	char	*cs;
 	int		z;
+	int		i;
+	int		y;
 
-	inquote = 0;
-	if (!s)
-		return (s);
-	cs = ft_calloc(sizeof(char), prompt_len(s, data, 0, 0) + 1);
-	if (!cs)
-		crash_handler("Expander \n");
+	i = 0;
+	y = 0;
 	while (s[i])
 	{
 		z = 0;
-		i = is_inquote(s, &inquote, i);
-		if (s[i] == '$' && inquote != 2)
+		i = is_inquote(s, inquote, i);
+		if (s[i] == '$' && *inquote != 2)
 		{
 			i++;
-			if (!s[i])
-				break ;
+			if (!s[i] || s[i] == '\"' || s[i] == ' ')
+			{
+				cs[y++] = '$';
+				continue ;
+			}
 			var = get_var(&s[i]);
 			i = i + ft_strlen(var);
 			var = get_env_var(var, data);
 			if (!var)
-				break ;
+				continue ;
 			while (var[z])
 				cs[y++] = var[z++];
 			free(var);
 		}
-		else if (s[i] && (s[i] != '\"' || inquote == 2)
-			&& (s[i] != '\'' || inquote == 1))
+		else if (s[i] && (s[i] != '\"' || *inquote == 2)
+			&& (s[i] != '\'' || *inquote == 1))
 			cs[y++] = s[i++];
 	}
+}
+
+char	*handle_quotes(char *s, t_data *data)
+{
+	int		inquote;
+	char	*cs;
+
+	inquote = 0;
+	if (!s)
+		return (s);
+	cs = ft_calloc(sizeof(char), prompt_len(s, data, 0, 0) + 2);
+	if (!cs)
+		crash_handler("Expander \n");
+	check_quotes(s, cs, &inquote, data);
 	if (inquote != 0)
 		crash_handler("Quote not allowed\n");
 	free(s);
 	return (cs);
-}
-
-t_cmd	*expand(t_cmd *cmd, t_data *data)
-{
-	t_execcmd	*ecmd;
-	t_redircmd	*rcmd;
-	t_pipecmd	*pcmd;
-	t_listcmd	*lcmd;
-	int			i;
-
-	i = 0;
-	if (!cmd)
-		return (NULL);
-	if (cmd->type == EXEC)
-	{
-		ecmd = (t_execcmd *)cmd;
-		while (ecmd->args[i])
-		{
-			ecmd->args[i] = handle_quotes(ecmd->args[i], 0, 0, data);
-			i++;
-		}
-	}
-	if (cmd->type == REDIR)
-	{
-		rcmd = (t_redircmd *)cmd;
-		rcmd->file = handle_quotes(rcmd->file, 0, 0, data);
-		expand(rcmd->cmd, data);
-	}
-	if (cmd->type == PIPE)
-	{
-		pcmd = (t_pipecmd *)cmd;
-		expand(pcmd->left, data);
-		expand(pcmd->right, data);
-	}
-	if (cmd->type == LIST)
-	{
-		lcmd = (t_listcmd *)cmd;
-		expand(lcmd->left, data);
-		expand(lcmd->right, data);
-	}
-	return (cmd);
 }
