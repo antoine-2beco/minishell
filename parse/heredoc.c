@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 11:00:29 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/08/06 11:27:44 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/08/20 12:38:01 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	check_var(char *s, char *cs, t_data *data, int y)
 				break ;
 			var = get_var(&s[i]);
 			i = i + ft_strlen(var);
-			var = get_env_var(var, data);
+			var = get_env_var(data->env, var);
 			if (!var)
 				break ;
 			while (var[z])

@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 11:09:00 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/08/07 17:33:48 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/08/20 12:36:40 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int	prompt_len(char *s, t_data *data, int i, int len)
 		{
 			var = get_var(&s[++i]);
 			i = i + ft_strlen(var);
-			var = get_env_var(var, data);
+			var = get_env_var(data->env, var);
 			len = len + ft_strlen(var);
 		}
 		else if (a != -1)
@@ -115,7 +115,7 @@ void	check_quotes(char *s, char *cs, int *inquote, t_data *data)
 			}
 			var = get_var(&s[i]);
 			i = i + ft_strlen(var);
-			var = get_env_var(var, data);
+			var = get_env_var(data->env, var);
 			if (!var)
 				continue ;
 			while (var[z])
