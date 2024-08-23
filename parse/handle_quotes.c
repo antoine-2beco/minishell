@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 11:09:00 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/08/20 12:36:40 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/08/23 10:53:12 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,7 @@ char	*get_var(char *s)
 	while (s[i] && !ft_strchr(" \t\r\n\v\"\'", s[i]))
 	{
 		if (s[i] == '?')
-		{
-			i++;
 			break ;
-		}
 		i++;
 	}
 	i++;
@@ -108,14 +105,22 @@ void	check_quotes(char *s, char *cs, int *inquote, t_data *data)
 		if (s[i] == '$' && *inquote != 2)
 		{
 			i++;
-			if (!s[i] || s[i] == '\"' || s[i] == ' ')
+			if (s[i] == '?')
+			{
+				var = ft_strdup(ft_itoa(data->exitcode));
+				i++;
+			}
+			else if (!s[i] || s[i] == '\"' || s[i] == ' ')
 			{
 				cs[y++] = '$';
 				continue ;
 			}
-			var = get_var(&s[i]);
-			i = i + ft_strlen(var);
-			var = get_env_var(data->env, var);
+			else
+			{
+				var = get_var(&s[i]);
+				i = i + ft_strlen(var);
+				var = get_env_var(data->env, var);
+			}
 			if (!var)
 				continue ;
 			while (var[z])
@@ -136,7 +141,7 @@ char	*handle_quotes(char *s, t_data *data)
 	inquote = 0;
 	if (!s)
 		return (s);
-	cs = ft_calloc(sizeof(char), prompt_len(s, data, 0, 0) + 2);
+	cs = ft_calloc(sizeof(char), prompt_len(s, data, 0, 0) + 5);
 	if (!cs)
 		crash_handler("Expander \n");
 	check_quotes(s, cs, &inquote, data);

@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 13:29:24 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/08/12 11:38:06 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/08/23 10:50:58 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ char	*get_env_var(char **env, char *var)
 	{
 		res = ft_strchr(env[i], '=');
 		res++;
+		res = ft_strdup(res);
 		return (res);
 	}
 	return (NULL);
