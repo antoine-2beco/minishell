@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 11:48:21 by ade-beco          #+#    #+#             */
-/*   Updated: 2024/08/07 13:35:40 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/08/25 16:48:40 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,14 +63,10 @@ int	echocmd(char **args, t_data *data)
 		j = 0;
 		while (args[i][j])
 		{
-			if (args[i][j] == '\\')
-			{
-				if (args[i][j + 1] == '\0')
-					write(1, " ", 1);
-				j++;
-			}
-			else if (args[i][j] != '\n' && !n_flag)
+			if (args[i][j] != '\n' || !n_flag)
 				ft_printf("%c", 1, args[i][j++]);
+			else if (n_flag)
+				j++;
 		}
 		if (args[i + 1] && args[i][0] != '\0')
 			write(1, " ", 1);
