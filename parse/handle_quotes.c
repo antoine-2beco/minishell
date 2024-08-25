@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 11:09:00 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/08/23 10:53:12 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/08/25 16:57:53 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +127,8 @@ void	check_quotes(char *s, char *cs, int *inquote, t_data *data)
 				cs[y++] = var[z++];
 			free(var);
 		}
+		else if (s[i] == '\\' && !*inquote)
+			i++;
 		else if (s[i] && (s[i] != '\"' || *inquote == 2)
 			&& (s[i] != '\'' || *inquote == 1))
 			cs[y++] = s[i++];
