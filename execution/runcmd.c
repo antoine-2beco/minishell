@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 12:34:27 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/08/23 12:20:14 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/09/03 10:03:26 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,10 @@ void	run_redir(t_redircmd *rcmd, t_data *data)
 	if (close(rcmd->fd) == -1)
 		crash_handler("Close error\n");
 	if (open(rcmd->file, rcmd->mode, 00644) < 0)
-		crash_handler("open failed\n");
+	{
+		perror("minishell");
+		crash_handler(NULL);
+	}
 	while (rcmd->cmd->type == REDIR)
 		rcmd = (t_redircmd *)rcmd->cmd;
 	runcmd(rcmd->cmd, data);
