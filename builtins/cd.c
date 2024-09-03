@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:07:40 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/06/25 17:03:02 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/09/03 14:55:06 by ade-beco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minilib.h"
 
-int	change_cwd(char *folder)
+int	change_cwd(char *folder, t_data *data)
 {
 	char	*new_path;
 	char	*temp;
@@ -27,7 +27,13 @@ int	change_cwd(char *folder)
 	}
 	else
 		new_path = ft_strdup(folder);
-	chdir(new_path);
+	if (chdir(new_path) == -1)
+	{
+		data->exitcode = 1;
+		perror("minishell");
+		return (1);
+	}
 	free(new_path);
+	data->exitcode = 0;
 	return (1);
 }

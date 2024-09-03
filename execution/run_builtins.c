@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_builtins.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 10:24:47 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/08/07 13:36:03 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/09/03 14:12:24 by ade-beco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	is_builtin(char **cmd, t_data *data)
 	else if (!ft_strcmp(cmd[0], "exit"))
 		return (exitcmd(cmd, data));
 	else if (!ft_strcmp(cmd[0], "cd"))
-		return (change_cwd(cmd[1]));
+		return (change_cwd(cmd[1], data));
 	else
 		return (0);
 	return (1);
