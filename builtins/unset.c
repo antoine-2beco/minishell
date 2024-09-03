@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 13:17:26 by ade-beco          #+#    #+#             */
-/*   Updated: 2024/06/17 14:02:11 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/09/03 13:14:49 by ade-beco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,9 @@ int	unsetcmd(char **args, t_data *data)
 	t_list	*before;
 
 	i = -1;
-	if (args[2])
-		return (0);
+	data->exitcode = 0;
+	if (!args || !args[1])
+		return (1);
 	env_head = ft_string_to_lst(data->env);
 	while (args[++i])
 	{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 13:04:28 by ade-beco          #+#    #+#             */
-/*   Updated: 2024/06/17 13:51:50 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/09/03 12:52:35 by ade-beco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,8 @@ int	pwdcmd(char **args, t_data *data)
 {
 	int	i;
 
+	(void)args;
 	i = 0;
-	if (args[1])
-		return (0);
 	while (data->env[i])
 	{
 		if (!ft_strncmp(data->env[i], "PWD=", 4))
