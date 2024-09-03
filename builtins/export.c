@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 11:58:46 by ade-beco          #+#    #+#             */
-/*   Updated: 2024/09/03 10:40:23 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/09/03 12:45:58 by ade-beco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ static void	print_envvar(t_list **env_list)
 	}
 }
 
-int	check_name(char *args)
+static int	check_name(char *args)
 {
 	int	i;
 	int	j;
@@ -97,11 +97,48 @@ int	check_name(char *args)
 	return (1);
 }
 
+static int	strnchr(const char *s, int c)
+{
+	int	i;
+
+	i = 0;
+	while (s[i] != '\0')
+	{
+		if (s[i] == (char)(c))
+			return (i);
+		i++;
+	}
+	if (s[i] == (char)(c))
+		return (i);
+	return (0);
+}
+
+static void	add_var(t_list **env_list, char *arg)
+{
+	t_list	*temp;
+	t_list	*node;
+
+	if (!strnchr(arg, '='))
+		arg = ft_strjoin(arg, "=");
+	temp = *env_list;
+	while (temp)
+	{
+		if (ft_strncmp(temp->content, arg, strnchr(arg, '=') + 1) == 0)
+		{
+			temp->content = ft_strdup(arg);
+			return ;
+		}
+		temp = temp->next;
+	}
+	node = ft_lstnew(ft_strdup(arg));
+	if (!node)
+		exit(EXIT_FAILURE);
+	ft_lstadd_back(env_list, node);
+}
 
 int	exportcmd(char **args, t_data *data)
 {
 	t_list	*env_list;
-	t_list	*node;
 	int		i;
 
 	i = 1;
@@ -111,14 +148,11 @@ int	exportcmd(char **args, t_data *data)
 		print_envvar(&env_list);
 		return (1);
 	}
-	while (args && args[i] && args[i])
+	while (args && args[i])
 	{
 		if (!check_name(args[i]))
 			break ;
-		node = ft_lstnew(ft_strdup(args[i]));
-		if (!node)
-			exit(EXIT_FAILURE);
-		ft_lstadd_back(&env_list, node);
+		add_var(&env_list, args[i]);
 		i++;
 	}
 	free_array(data->env);
