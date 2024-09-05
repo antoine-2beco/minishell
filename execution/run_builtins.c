@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 10:24:47 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/09/05 13:11:37 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/09/05 13:14:24 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,7 @@ int	is_builtin(char **cmd, t_data *data, int IsInPipe)
 	{
 		pid = create_fork();
 		if (!pid)
-		{
-			ret = run_builtins(cmd, data);
-			exit(ret);
-		}
+			exit(run_builtins(cmd, data));
 		waitpid(pid, &status, 0);
 		if (WIFEXITED(status))
 			ret = WEXITSTATUS(status);
