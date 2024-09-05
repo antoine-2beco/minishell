@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 12:34:27 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/09/03 10:03:26 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/09/05 11:42:04 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,16 @@ void	run_redir(t_redircmd *rcmd, t_data *data)
 	if (open(rcmd->file, rcmd->mode, 00644) < 0)
 	{
 		perror("minishell");
-		crash_handler(NULL);
+		data->exitcode = 1;
+		dup2(stdred_cpy, rcmd->fd);
 	}
-	while (rcmd->cmd->type == REDIR)
-		rcmd = (t_redircmd *)rcmd->cmd;
-	runcmd(rcmd->cmd, data);
-	dup2(stdred_cpy, rcmd->fd);
+	else
+	{
+		while (rcmd->cmd->type == REDIR)
+			rcmd = (t_redircmd *)rcmd->cmd;
+		runcmd(rcmd->cmd, data);
+		dup2(stdred_cpy, rcmd->fd);
+	}
 }
 
 void	run_list(t_listcmd *lcmd, t_data *data)
