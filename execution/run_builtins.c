@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   run_builtins.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
+/*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 10:24:47 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/09/03 14:12:24 by ade-beco         ###   ########.fr       */
+/*   Updated: 2024/09/05 13:11:37 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minilib.h"
 
-int	is_builtin(char **cmd, t_data *data)
+
+int	run_builtins(char **cmd, t_data *data)
 {
 	if (!ft_strcmp(cmd[0], "export"))
 		return (exportcmd(cmd, data));
@@ -31,4 +32,28 @@ int	is_builtin(char **cmd, t_data *data)
 	else
 		return (0);
 	return (1);
+}
+
+int	is_builtin(char **cmd, t_data *data, int IsInPipe)
+{
+	int	pid;
+	int	status;
+	int	ret;
+
+	ret = 0;
+	if (IsInPipe)
+	{
+		pid = create_fork();
+		if (!pid)
+		{
+			ret = run_builtins(cmd, data);
+			exit(ret);
+		}
+		waitpid(pid, &status, 0);
+		if (WIFEXITED(status))
+			ret = WEXITSTATUS(status);
+	}
+	else
+		ret = run_builtins(cmd, data);
+	return (ret);
 }

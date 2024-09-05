@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 10:13:09 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/08/07 13:20:37 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/09/05 12:56:16 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ int	main(int argc, char **argv, char **pre_env)
 		line = readline("\e[1m\x1b[36mMinishell ➤ \x1b[36m\e[m");
 		add_history(line);
 		cmd = expand(parsecmd(line, &data), &data);
-		runcmd(cmd, &data);
+		runcmd(cmd, &data, 0);
 		if (cmd)
 			free_cmd(cmd);
 		free(line);

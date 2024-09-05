@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 12:34:27 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/09/05 11:42:04 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/09/05 13:05:50 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,14 @@ void	run_pipe(t_pipecmd *pcmd, t_data *data)
 		crash_handler("Dup2 error\n");
 	if (close(fd[1]) == -1)
 		crash_handler("Close error\n");
-	runcmd(pcmd->left, data);
+	runcmd(pcmd->left, data, 1);
 	if (dup2(fd[0], STDIN_FILENO) == -1)
 		crash_handler("Dup2 error\n");
 	if (close(fd[0]) == -1)
 		crash_handler("Close error\n");
 	if (dup2(stdout_cpy, STDOUT_FILENO) == -1)
 		crash_handler("Dup2 error\n");
-	runcmd(pcmd->right, data);
+	runcmd(pcmd->right, data, 1);
 	if (dup2(stdin_cpy, STDIN_FILENO) == -1)
 		crash_handler("Dup2 error\n");
 }
@@ -57,7 +57,7 @@ void	run_redir(t_redircmd *rcmd, t_data *data)
 	{
 		while (rcmd->cmd->type == REDIR)
 			rcmd = (t_redircmd *)rcmd->cmd;
-		runcmd(rcmd->cmd, data);
+		runcmd(rcmd->cmd, data, 0);
 		dup2(stdred_cpy, rcmd->fd);
 	}
 }
@@ -65,9 +65,9 @@ void	run_redir(t_redircmd *rcmd, t_data *data)
 void	run_list(t_listcmd *lcmd, t_data *data)
 {
 	if (create_fork() == 0)
-		runcmd(lcmd->left, data);
+		runcmd(lcmd->left, data, 0);
 	wait(0);
-	runcmd(lcmd->right, data);
+	runcmd(lcmd->right, data, 0);
 }
 
 void	run_heredoc(t_redircmd *rcmd, t_data *data)
@@ -79,11 +79,11 @@ void	run_heredoc(t_redircmd *rcmd, t_data *data)
 		crash_handler("Close error\n");
 	if (dup(rcmd->fd) == -1)
 		crash_handler("Dup error\n");
-	runcmd(rcmd->cmd, data);
+	runcmd(rcmd->cmd, data, 0);
 	dup2(stdin_cpy, STDIN_FILENO);
 }
 
-void	runcmd(t_cmd *cmd, t_data *data)
+void	runcmd(t_cmd *cmd, t_data *data, int isInPipe)
 {
 	t_execcmd	*ecmd;
 
@@ -97,7 +97,14 @@ void	runcmd(t_cmd *cmd, t_data *data)
 			data->exitcode = 0;
 			return ;
 		}
-		execution(ecmd->args, data);
+		if (isInPipe)
+			execution(ecmd->args, data, isInPipe);
+		else
+		{
+			if (is_builtin(ecmd->args, data, isInPipe))
+				return ;
+			execution(ecmd->args, data, isInPipe);
+		}
 		return ;
 	}
 	else if (cmd->type == PIPE)

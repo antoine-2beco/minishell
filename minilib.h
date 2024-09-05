@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minilib.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
+/*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 10:13:27 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/09/03 14:12:41 by ade-beco         ###   ########.fr       */
+/*   Updated: 2024/09/05 13:05:14 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,8 +123,8 @@ int			unsetcmd(char **args, t_data *data);
 int			change_cwd(char *folder, t_data *data);
 int			exitcmd(char **args, t_data *data);
 
-void		runcmd(t_cmd *cmd, t_data *data);
-int			is_builtin(char **cmd, t_data *data);
+void		runcmd(t_cmd *cmd, t_data *data, int isInPipe);
+int			is_builtin(char **cmd, t_data *data, int IsInPipe);
 
 /*-------------- Free -----------------*/
 void		free_cmd(t_cmd *cmd);
@@ -140,5 +140,5 @@ void		rl_clear_history(void);
 void		rl_replace_line(const char *str, int undo);
 
 /*-------------- Exec -----------------*/
-void		execution(char **cmd, t_data *data);
+void		execution(char **cmd, t_data *data, int IsInPipe);
 #endif

@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:48:26 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/08/12 11:37:36 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/09/05 13:04:37 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ char	*get_path(char *cmd, char **env)
 	return (NULL);
 }
 
-void	execution(char **cmd, t_data *data)
+void	execution(char **cmd, t_data *data, int IsInPipe)
 {
 	char		*path;
 	int			pid;
@@ -51,7 +51,7 @@ void	execution(char **cmd, t_data *data)
 	struct stat	*buff;
 
 	path = 0;
-	if (is_builtin(cmd, data))
+	if (is_builtin(cmd, data, IsInPipe))
 		return ;
 	else if (data->env[0] != NULL)
 	{
