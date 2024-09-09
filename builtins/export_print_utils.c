@@ -6,7 +6,7 @@
 /*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 10:27:59 by ade-beco          #+#    #+#             */
-/*   Updated: 2024/09/09 10:31:47 by ade-beco         ###   ########.fr       */
+/*   Updated: 2024/09/09 10:57:11 by ade-beco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ void	print_envvar(t_list **env_list)
 	t_list	*smaller;
 	t_list	*temp;
 
+	if (!ft_lstsize(*env_list))
+		return ;
 	smallest = smallest_biggest_content(env_list, 1);
 	biggest = smallest_biggest_content(env_list, -1);
 	print_linevar(smallest->content);

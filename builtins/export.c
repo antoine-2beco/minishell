@@ -6,7 +6,7 @@
 /*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 11:58:46 by ade-beco          #+#    #+#             */
-/*   Updated: 2024/09/09 10:31:37 by ade-beco         ###   ########.fr       */
+/*   Updated: 2024/09/09 10:56:53 by ade-beco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,10 +91,7 @@ int	exportcmd(char **args, t_data *data)
 	env_list = ft_string_to_lst(data->env);
 	data->exitcode = 0;
 	if (!args || !args[1])
-	{
 		print_envvar(&env_list);
-		return (1);
-	}
 	while (args && args[i])
 	{
 		handle_var(data, &env_list, args[i]);

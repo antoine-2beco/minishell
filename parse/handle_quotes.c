@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_quotes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 11:09:00 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/08/25 16:57:53 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/09/09 11:49:40 by ade-beco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	prompt_len(char *s, t_data *data, int i, int len)
 	while (s[i])
 	{
 		a = i;
-		//i = is_inquote(s, &inquote, i);
+		i = is_inquote(s, &inquote, i);
 		if (a != i)
 			a = -1;
 		if (s[i] == '$' && inquote != 2)

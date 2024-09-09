@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 13:29:24 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/08/23 10:50:58 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/09/09 11:28:29 by ade-beco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ char	*get_env_var(char **env, char *var)
 	char	*res;
 
 	i = 0;
-	if (!var || !var[0])
+	if (!var || !var[0] || !env || !env[0])
 		return (NULL);
 	while ((env[i] && ft_strncmp(env[i], var, ft_strlen(var)))
 		|| (env[i] && env[i][ft_strlen(var)] != '='))
