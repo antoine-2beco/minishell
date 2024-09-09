@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_builtins.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 10:24:47 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/09/09 16:35:10 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/09/09 17:30:51 by ade-beco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,19 @@
 
 int	run_builtins(char **cmd, t_data *data)
 {
-	if (!ft_strcmp(cmd[0], "export"))
+	if (!ft_strcmp(cmd[0], "export") || !ft_strcmp(cmd[0], "/bin/export"))
 		return (exportcmd(cmd, data));
-	else if (!ft_strcmp(cmd[0], "echo"))
+	else if (!ft_strcmp(cmd[0], "echo") || !ft_strcmp(cmd[0], "/bin/echo"))
 		return (echocmd(cmd, data));
-	else if (!ft_strcmp(cmd[0], "env"))
+	else if (!ft_strcmp(cmd[0], "env") || !ft_strcmp(cmd[0], "/bin/env"))
 		return (envcmd(cmd, data));
-	else if (!ft_strcmp(cmd[0], "pwd"))
+	else if (!ft_strcmp(cmd[0], "pwd") || !ft_strcmp(cmd[0], "/bin/pwd"))
 		return (pwdcmd(cmd, data));
-	else if (!ft_strcmp(cmd[0], "unset"))
+	else if (!ft_strcmp(cmd[0], "unset") || !ft_strcmp(cmd[0], "/bin/unset"))
 		return (unsetcmd(cmd, data));
-	else if (!ft_strcmp(cmd[0], "exit"))
+	else if (!ft_strcmp(cmd[0], "exit") || !ft_strcmp(cmd[0], "/bin/exit"))
 		return (exitcmd(cmd, data));
-	else if (!ft_strcmp(cmd[0], "cd"))
+	else if (!ft_strcmp(cmd[0], "cd") || !ft_strcmp(cmd[0], "/bin/cd"))
 		return (change_cwd(cmd[1], data));
 	else
 		return (0);
