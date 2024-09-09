@@ -6,7 +6,7 @@
 /*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 11:58:46 by ade-beco          #+#    #+#             */
-/*   Updated: 2024/09/09 10:29:16 by ade-beco         ###   ########.fr       */
+/*   Updated: 2024/09/09 10:31:37 by ade-beco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static int	strnchr(const char *s, int c)
 	return (0);
 }
 
-static void handle_var(t_data *data, t_list **env_list, char *arg)
+static void	handle_var(t_data *data, t_list **env_list, char *arg)
 {
 	t_list	*temp;
 	t_list	*node;
