@@ -6,12 +6,11 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 10:24:47 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/09/05 13:14:24 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/09/09 16:35:10 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minilib.h"
-
 
 int	run_builtins(char **cmd, t_data *data)
 {

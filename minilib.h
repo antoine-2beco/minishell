@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minilib.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
+/*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 10:13:27 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/09/09 10:29:47 by ade-beco         ###   ########.fr       */
+/*   Updated: 2024/09/09 15:13:31 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ t_cmd		*parseexec(char **ps, char *es, t_data *data);
 t_cmd		*parsepipe(char **ps, char *es, t_data *data);
 t_cmd		*parseredirs(t_cmd *cmd, char **ps, char *es, t_data *data);
 char		**convert_list(t_list *list);
+void		run_redir(t_redircmd *rcmd, t_data *data);
 
 /*------------- Parse utils ---------------*/
 int			peek(char **ps, char *es, char *toks);
