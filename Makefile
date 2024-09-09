@@ -3,15 +3,15 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+         #
+#    By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/13 10:32:41 by ade-beco          #+#    #+#              #
-#    Updated: 2024/08/06 12:34:33 by hle-roi          ###   ########.fr        #
+#    Updated: 2024/09/09 10:30:10 by ade-beco         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SRC := main.c signal.c free.c free_cmd.c
-SRCBUILTINS := cd.c export.c echo.c env.c pwd.c unset.c exit.c
+SRCBUILTINS := cd.c export.c export_print_utils.c echo.c env.c pwd.c unset.c exit.c
 SRCPARSE := construct_tokens.c parser.c parse_utils.c expand.c expander_utils.c get_token.c handle_quotes.c heredoc.c
 SRCSEXEC := executor.c run_builtins.c runcmd.c
 

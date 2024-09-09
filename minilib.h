@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minilib.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 10:13:27 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/09/05 13:05:14 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/09/09 10:29:47 by ade-beco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,7 @@ void		switch_inquote(char *ps, int *inquote);
 
 /*-------------- Builtins -----------------*/
 int			exportcmd(char **args, t_data *data);
+void		print_envvar(t_list **env_list);
 int			echocmd(char **args, t_data *data);
 int			envcmd(char **args, t_data *data);
 int			pwdcmd(char **args, t_data *data);
