@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:48:26 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/09/05 13:04:37 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/09/10 15:19:01 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ char	*get_path(char *cmd, char **env)
 	}
 	free_array(paths);
 	if (cmd[0] == '.' && cmd[1] == '/')
-		return (cmd);
+		return (ft_strdup(cmd));
 	return (NULL);
 }
 
@@ -82,7 +82,6 @@ void	execution(char **cmd, t_data *data, int IsInPipe)
 			execve(path, cmd, data->env);
 			ft_printf("minishell: ", 2);
 			perror(cmd[0]);
-			ft_printf("%d\n", errno);
 			exit(126);
 		}
 		waitpid(pid, &status, 0);

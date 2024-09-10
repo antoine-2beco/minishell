@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 12:34:27 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/09/09 15:27:40 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/09/10 14:46:55 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,14 +153,7 @@ void	runcmd(t_cmd *cmd, t_data *data, int isInPipe)
 			data->exitcode = 0;
 			return ;
 		}
-		if (isInPipe)
-			execution(ecmd->args, data, isInPipe);
-		else
-		{
-			if (is_builtin(ecmd->args, data, isInPipe))
-				return ;
-			execution(ecmd->args, data, isInPipe);
-		}
+		execution(ecmd->args, data, isInPipe);
 		return ;
 	}
 	else if (cmd->type == PIPE)
