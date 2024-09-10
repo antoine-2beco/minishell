@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_builtins.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 10:24:47 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/09/10 10:52:25 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/09/10 10:55:06 by ade-beco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	run_builtins(char **cmd, t_data *data)
 	else if (!ft_strcmp(cmd[0], "exit") || !ft_strcmp(cmd[0], "/bin/exit"))
 		exitcmd(cmd, data);
 	else if (!ft_strcmp(cmd[0], "cd") || !ft_strcmp(cmd[0], "/bin/cd"))
-		change_cwd(cmd[1], data);
+		cdcmd(cmd, data);
 	else
 		return (0);
 	return (data->exitcode);
