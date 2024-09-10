@@ -6,7 +6,7 @@
 /*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 10:24:47 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/09/09 17:30:51 by ade-beco         ###   ########.fr       */
+/*   Updated: 2024/09/10 08:35:41 by ade-beco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	run_builtins(char **cmd, t_data *data)
 	else if (!ft_strcmp(cmd[0], "exit") || !ft_strcmp(cmd[0], "/bin/exit"))
 		return (exitcmd(cmd, data));
 	else if (!ft_strcmp(cmd[0], "cd") || !ft_strcmp(cmd[0], "/bin/cd"))
-		return (change_cwd(cmd[1], data));
+		return (cdcmd(cmd, data));
 	else
 		return (0);
 	return (1);

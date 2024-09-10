@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minilib.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 10:13:27 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/09/09 15:13:31 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/09/10 08:35:53 by ade-beco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ int			echocmd(char **args, t_data *data);
 int			envcmd(char **args, t_data *data);
 int			pwdcmd(char **args, t_data *data);
 int			unsetcmd(char **args, t_data *data);
-int			change_cwd(char *folder, t_data *data);
+int			cdcmd(char **args, t_data *data);
 int			exitcmd(char **args, t_data *data);
 
 void		runcmd(t_cmd *cmd, t_data *data, int isInPipe);
