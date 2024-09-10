@@ -6,16 +6,17 @@
 /*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:07:40 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/09/10 11:19:01 by ade-beco         ###   ########.fr       */
+/*   Updated: 2024/09/10 12:03:51 by ade-beco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minilib.h"
 
 // 7 for OLDPWD / 4 for PWD
-static int	update_oldpwd(t_list *env, char *pwd, int len)
+static int	update_oldpwd(t_list *env, int len)
 {
 	char	*tmp;
+	char	cwd[PATH_MAX];
 
 	while (env)
 	{
@@ -24,9 +25,10 @@ static int	update_oldpwd(t_list *env, char *pwd, int len)
 		{
 			tmp = ft_substr(env->content, 0, len);
 			free (env->content);
-			env->content = ft_strjoin(tmp, pwd);
+			if (!getcwd(cwd, PATH_MAX))
+				return (1);
+			env->content = ft_strjoin(tmp, cwd);
 			free (tmp);
-			free (pwd);
 			return (1);
 		}
 		env = env->next;
@@ -35,15 +37,21 @@ static int	update_oldpwd(t_list *env, char *pwd, int len)
 		ft_printf("minishell: cd: OLDPWD not set\n", 2);
 	if (len == 4)
 		ft_printf("minishell: cd: PWD not set\n", 2);
-	free (pwd);
 	return (1);
 }
 
 static int	set_directory(char *arg, t_list *env, t_data *data)
 {
-	if (!update_oldpwd(env, get_env_var(data->env, "PWD"), 7))
+	if (!update_oldpwd(env, 7))
 		return (1);
-	(void)arg;
+	if (chdir(arg) == -1)
+	{
+		data->exitcode = 1;
+		perror("minishell");
+		return (1);
+	}
+	if (!update_oldpwd(env, 4))
+		return (1);
 	return (1);
 }
 
@@ -69,7 +77,7 @@ static int	handle_s_dash(char *arg, t_list *env, t_data *data)
 			ft_printf("minishell: cd: PWD not set\n", 2);
 			return (1);
 		}
-		ft_printf("%s\n", 1, tmp);
+		ft_printf("%s\n", 1, arg);
 		free (tmp);
 		return (1);
 	}
@@ -123,7 +131,5 @@ int	cdcmd(char **args, t_data *data)
 	if (!data->env)
 		crash_handler("malloc fail");
 	free_list(env_list);
-	//free (arg);
 	return (1);
 }
-// changement general du pwd et du old pwd
