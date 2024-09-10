@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_builtins.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
+/*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 10:24:47 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/09/10 08:35:41 by ade-beco         ###   ########.fr       */
+/*   Updated: 2024/09/10 10:52:25 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,40 @@
 int	run_builtins(char **cmd, t_data *data)
 {
 	if (!ft_strcmp(cmd[0], "export") || !ft_strcmp(cmd[0], "/bin/export"))
-		return (exportcmd(cmd, data));
+		exportcmd(cmd, data);
 	else if (!ft_strcmp(cmd[0], "echo") || !ft_strcmp(cmd[0], "/bin/echo"))
-		return (echocmd(cmd, data));
+		echocmd(cmd, data);
 	else if (!ft_strcmp(cmd[0], "env") || !ft_strcmp(cmd[0], "/bin/env"))
-		return (envcmd(cmd, data));
+		envcmd(cmd, data);
 	else if (!ft_strcmp(cmd[0], "pwd") || !ft_strcmp(cmd[0], "/bin/pwd"))
-		return (pwdcmd(cmd, data));
+		pwdcmd(cmd, data);
 	else if (!ft_strcmp(cmd[0], "unset") || !ft_strcmp(cmd[0], "/bin/unset"))
-		return (unsetcmd(cmd, data));
+		unsetcmd(cmd, data);
 	else if (!ft_strcmp(cmd[0], "exit") || !ft_strcmp(cmd[0], "/bin/exit"))
-		return (exitcmd(cmd, data));
+		exitcmd(cmd, data);
 	else if (!ft_strcmp(cmd[0], "cd") || !ft_strcmp(cmd[0], "/bin/cd"))
-		return (cdcmd(cmd, data));
+		change_cwd(cmd[1], data);
+	else
+		return (0);
+	return (data->exitcode);
+}
+
+int	test_builtin(char **cmd)
+{
+	if (!ft_strcmp(cmd[0], "export") || !ft_strcmp(cmd[0], "/bin/export"))
+		return (1);
+	else if (!ft_strcmp(cmd[0], "echo") || !ft_strcmp(cmd[0], "/bin/echo"))
+		return (1);
+	else if (!ft_strcmp(cmd[0], "env") || !ft_strcmp(cmd[0], "/bin/env"))
+		return (1);
+	else if (!ft_strcmp(cmd[0], "pwd") || !ft_strcmp(cmd[0], "/bin/pwd"))
+		return (1);
+	else if (!ft_strcmp(cmd[0], "unset") || !ft_strcmp(cmd[0], "/bin/unset"))
+		return (1);
+	else if (!ft_strcmp(cmd[0], "exit") || !ft_strcmp(cmd[0], "/bin/exit"))
+		return (1);
+	else if (!ft_strcmp(cmd[0], "cd") || !ft_strcmp(cmd[0], "/bin/cd"))
+		return (1);
 	else
 		return (0);
 	return (1);
@@ -40,6 +61,8 @@ int	is_builtin(char **cmd, t_data *data, int IsInPipe)
 	int	ret;
 
 	ret = 0;
+	if (!test_builtin(cmd))
+		return (0);
 	if (IsInPipe)
 	{
 		pid = create_fork();
@@ -51,5 +74,6 @@ int	is_builtin(char **cmd, t_data *data, int IsInPipe)
 	}
 	else
 		ret = run_builtins(cmd, data);
-	return (ret);
+	data->exitcode = ret;
+	return (1);
 }
