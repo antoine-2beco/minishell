@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 16:33:52 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/08/06 10:56:04 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/09/11 15:15:59 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,20 @@
 
 void	expand_exec(t_execcmd *ecmd, t_data *data)
 {
-	int	i;
+	int		i;
+	int		y;
 
 	i = 0;
+	y = 0;
 	while (ecmd->args[i])
 	{
-		ecmd->args[i] = handle_quotes(ecmd->args[i], data);
+		ecmd->args[y] = handle_quotes(ecmd->args[i], data);
+		if (ecmd->args[y][0])
+			y++;
 		i++;
 	}
+	while (ecmd->args[y])
+		ecmd->args[y++] = 0;
 }
 
 void	expand_redir(t_redircmd *rcmd, t_data *data)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_quotes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
+/*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 11:09:00 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/09/09 11:49:40 by ade-beco         ###   ########.fr       */
+/*   Updated: 2024/09/11 15:07:03 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,6 +149,6 @@ char	*handle_quotes(char *s, t_data *data)
 	check_quotes(s, cs, &inquote, data);
 	if (inquote != 0)
 		crash_handler("Quote not allowed\n");
-	free(s);
+	//free(s);
 	return (cs);
 }
