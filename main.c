@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 10:13:09 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/09/05 12:56:16 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/09/11 11:52:49 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ t_cmd	*parsecmd(char *s, t_data *data)
 	if (!s[0])
 		return (NULL);
 	es = s + ft_strlen(s);
+	if (check_syntax(&s, es, data))
+		return (NULL);
 	cmd = parseline(&s, es, data);
 	peek(&s, es, " ");
 	if (s != es)

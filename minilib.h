@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minilib.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
+/*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 10:13:27 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/09/10 08:35:53 by ade-beco         ###   ########.fr       */
+/*   Updated: 2024/09/11 14:07:54 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,16 @@ t_cmd		*parsepipe(char **ps, char *es, t_data *data);
 t_cmd		*parseredirs(t_cmd *cmd, char **ps, char *es, t_data *data);
 char		**convert_list(t_list *list);
 void		run_redir(t_redircmd *rcmd, t_data *data);
+
+/* Syntax */
+int			check_syntax(char **ps, char *es, t_data *data);
+t_cmd		*s_parseblock(char **ps, char *es, t_data *data);
+t_cmd		*s_parseline(char **ps, char *es, t_data *data);
+t_cmd		*s_parseredirs(t_cmd *cmd, char **ps, char *es, t_data *data);
+t_cmd		*s_parseexec(char **ps, char *es, t_data*data);
+t_cmd		*s_parsepipe(char **ps, char *es, t_data *data);
+void		get_args_norm(t_list **list, t_list **current,
+				t_list **tmp, char *token);
 
 /*------------- Parse utils ---------------*/
 int			peek(char **ps, char *es, char *toks);
