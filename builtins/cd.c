@@ -6,7 +6,7 @@
 /*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:07:40 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/09/12 14:09:58 by ade-beco         ###   ########.fr       */
+/*   Updated: 2024/09/12 14:51:36 by ade-beco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,6 @@ static int	handle_tilde(char *arg, t_list *env, t_data *data)
 		if (!ft_strncmp(arg, "~/", 2))
 		{
 			tmp2 = ft_substr(arg, 1, ft_strlen(arg));
-			free (arg);
 			arg = ft_strjoin(tmp, tmp2);
 			free (tmp2);
 		}
@@ -134,5 +133,6 @@ int	cdcmd(char **args, t_data *data)
 	if (!data->env)
 		crash_handler("malloc fail");
 	free_list(env_list);
+	free (arg);
 	return (1);
 }
