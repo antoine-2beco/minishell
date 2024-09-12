@@ -6,7 +6,7 @@
 /*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:07:40 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/09/10 12:03:51 by ade-beco         ###   ########.fr       */
+/*   Updated: 2024/09/12 14:09:58 by ade-beco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,9 +87,10 @@ static int	handle_s_dash(char *arg, t_list *env, t_data *data)
 static int	handle_tilde(char *arg, t_list *env, t_data *data)
 {
 	char	*tmp;
+	char	*tmp2;
 
 	if (!ft_strcmp(arg, "~") || !ft_strcmp(arg, "--") \
-		|| !ft_strcmp(arg, "~/"))
+		|| !ft_strncmp(arg, "~/", 2))
 	{
 		tmp = get_env_var(data->env, "HOME");
 		if (!tmp)
@@ -97,10 +98,12 @@ static int	handle_tilde(char *arg, t_list *env, t_data *data)
 			ft_printf("minishell: cd: HOME not set\n", 2);
 			return (1);
 		}
-		if (!ft_strcmp(arg, "~/"))
+		if (!ft_strncmp(arg, "~/", 2))
 		{
+			tmp2 = ft_substr(arg, 1, ft_strlen(arg));
 			free (arg);
-			arg = ft_strjoin(tmp, "/");
+			arg = ft_strjoin(tmp, tmp2);
+			free (tmp2);
 		}
 		else
 			arg = ft_strdup(tmp);
