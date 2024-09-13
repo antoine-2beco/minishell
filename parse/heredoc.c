@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 11:00:29 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/09/11 13:48:05 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/09/13 12:07:58 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,11 @@ void	check_var(char *s, char *cs, t_data *data, int y)
 char	*handle_env_var(char *s, t_data *data)
 {
 	char	*cs;
+	int		len;
 
-	cs = ft_calloc(sizeof(char), prompt_len(s, data, 0, 0) + 1);
+	len = 0;
+	prompt_len(s, data, 0, &len);
+	cs = ft_calloc(sizeof(char), len + 1);
 	if (!cs)
 		crash_handler("Expander \n");
 	check_var(s, cs, data, 0);

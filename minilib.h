@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 10:13:27 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/09/11 14:07:54 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/09/13 12:43:14 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,12 +101,15 @@ t_cmd		*s_parseexec(char **ps, char *es, t_data*data);
 t_cmd		*s_parsepipe(char **ps, char *es, t_data *data);
 void		get_args_norm(t_list **list, t_list **current,
 				t_list **tmp, char *token);
+char		**s_get_args(char **ps, char *es, t_cmd **ret, t_data *data);
 
 /*------------- Parse utils ---------------*/
 int			peek(char **ps, char *es, char *toks);
 t_execcmd	*init_cmd(t_cmd *ret);
 t_cmd		*create_heredoc(t_cmd *cmd, char *file, t_data *data);
 char		**get_args(char **ps, char *es, t_cmd **ret, t_data *data);
+void		calcul_var(int *i, char **var, char *s, t_data *data);
+int			is_inquote(char *s, int *inquote, int i);
 
 /*-------------- Get token ----------------*/
 int			get_token(char **ps, char *es, char **token);
@@ -118,7 +121,7 @@ int			create_fork(void);
 /*--------------- Expander ----------------*/
 t_cmd		*expand(t_cmd *cmd, t_data *data);
 char		*handle_quotes(char *s, t_data *data);
-int			prompt_len(char *s, t_data *data, int i, int len);
+void		prompt_len(char *s, t_data *data, int i, int *len);
 char		*get_var(char *s);
 
 /*------------ Expander utils -------------*/
@@ -152,5 +155,7 @@ void		rl_clear_history(void);
 void		rl_replace_line(const char *str, int undo);
 
 /*-------------- Exec -----------------*/
-void		execution(char **cmd, t_data *data, int IsInPipe);
+void		execution(char **cmd, t_data *data, int IsInPipe, char *path);
+void		test_redi(t_redircmd *redir, t_data *data, int *ret, int fd);
+int			is_same_mode(int mode1, int mode2);
 #endif

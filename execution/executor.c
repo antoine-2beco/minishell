@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:48:26 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/09/10 15:30:22 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/09/13 12:27:20 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,44 +38,76 @@ char	*get_path(char *cmd, char **env)
 		i++;
 	}
 	free_array(paths);
-	if (cmd[0] == '.' && cmd[1] == '/')
-		return (ft_strdup(cmd));
 	return (NULL);
 }
 
-void	execution(char **cmd, t_data *data, int IsInPipe)
+int	is_directory(char **cmd, t_data *data)
 {
-	char		*path;
-	int			pid;
-	int			status;
 	struct stat	*buff;
 
-	path = 0;
+	buff = malloc(sizeof(struct stat));
+	if (!buff)
+		crash_handler("Malloc");
+	stat(cmd[0], buff);
+	if (S_ISDIR(buff->st_mode))
+	{
+		ft_printf("minishell: %s: is a directory\n", 2, cmd[0]);
+		data->exitcode = 126;
+		free(buff);
+		return (1);
+	}
+	return (0);
+	free(buff);
+}
+
+int	check_directory(char **cmd, t_data *data, char **path)
+{
+	if (cmd[0][0] == '.' || cmd[0][0] == '/')
+	{
+		if (access(cmd[0], F_OK | X_OK) != -1)
+		{
+			if (is_directory(cmd, data))
+				return (1);
+			*path = ft_strdup(cmd[0]);
+		}
+		ft_printf("minishell: %s: %s\n", 2, cmd[0], strerror(errno));
+		if (access(cmd[0], F_OK) == -1)
+			data->exitcode = 127;
+		else
+			data->exitcode = 126;
+		return (1);
+	}
+	else
+		*path = get_path(cmd[0], data->env);
+	return (0);
+}
+
+int	check_path(char *path, t_data *data, char **cmd)
+{
+	if (!path)
+	{
+		ft_printf("minishell: %s: command not found\n", 2, cmd[0]);
+		data->exitcode = 127;
+		return (1);
+	}
+	signal(SIGQUIT, SIG_DFL);
+	signal(SIGINT, sig_interrupt_exec);
+	return (0);
+}
+
+void	execution(char **cmd, t_data *data, int IsInPipe, char *path)
+{
+	int			pid;
+	int			status;
+
 	if (is_builtin(cmd, data, IsInPipe))
 		return ;
 	else if (data->env[0] != NULL)
 	{
-		path = get_path(cmd[0], data->env);
-		if (!path)
-		{
-			ft_printf("minishell: %s: command not found\n", 2, cmd[0]);
-			data->exitcode = 127;
+		if (check_directory(cmd, data, &path))
 			return ;
-		}
-		buff = malloc(sizeof(struct stat));
-		if (!buff)
-			crash_handler("Malloc");
-		stat(cmd[0], buff);
-		if (S_ISDIR(buff->st_mode))
-		{
-			ft_printf("minishell: %s: is a directory\n", 2, cmd[0]);
-			data->exitcode = 126;
-			free(buff);
+		if (check_path(path, data, cmd))
 			return ;
-		}
-		free(buff);
-		signal(SIGQUIT, SIG_DFL);
-		signal(SIGINT, sig_interrupt_exec);
 		pid = create_fork();
 		if (!pid)
 		{

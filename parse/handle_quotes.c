@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 11:09:00 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/09/11 15:07:03 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/09/13 12:42:20 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,101 +37,53 @@ int	is_inquote(char *s, int *inquote, int i)
 	return (i);
 }
 
-char	*get_var(char *s)
+int	check_quotes_utils(int *i, t_data *data, char *s, char *cs)
 {
-	int		i;
-	char	*ret;
-
-	i = 0;
-	while (s[i] && !ft_strchr(" \t\r\n\v\"\'", s[i]))
-	{
-		if (s[i] == '?')
-			break ;
-		i++;
-	}
-	i++;
-	ret = malloc(sizeof(char) * (i + 1));
-	if (!ret)
-		crash_handler("Malloc error\n");
-	ft_strlcpy(ret, s, i);
-	return (ret);
-}
-
-int	prompt_len(char *s, t_data *data, int i, int len)
-{
-	int		inquote;
 	char	*var;
-	int		a;
+	int		z;
 
-	inquote = 0;
+	z = 0;
 	var = 0;
-	while (s[i])
+	(i[0])++;
+	if (s[i[0]] == '?')
 	{
-		a = i;
-		i = is_inquote(s, &inquote, i);
-		if (a != i)
-			a = -1;
-		if (s[i] == '$' && inquote != 2)
-		{
-			var = get_var(&s[++i]);
-			i = i + ft_strlen(var);
-			var = get_env_var(data->env, var);
-			len = len + ft_strlen(var);
-		}
-		else if (a != -1)
-		{
-			len++;
-			i++;
-		}
+		var = ft_strdup(ft_itoa(data->exitcode));
+		(i[0])++;
 	}
-	if (var)
-		free(var);
-	return (len);
+	else if (!s[i[0]] || s[i[0]] == '\"' || s[i[0]] == ' ')
+	{
+		cs[(i[1])++] = '$';
+		return (1);
+	}
+	else
+		calcul_var(i, &var, s, data);
+	if (!var)
+		return (1);
+	while (var[z])
+		cs[(i[1])++] = var[z++];
+	free(var);
+	return (0);
 }
 
 void	check_quotes(char *s, char *cs, int *inquote, t_data *data)
 {
-	char	*var;
-	int		z;
-	int		i;
-	int		y;
+	int		i[2];
 
-	i = 0;
-	y = 0;
-	while (s[i])
+	i[0] = 0;
+	i[1] = 0;
+	while (s[i[0]])
 	{
-		z = 0;
-		i = is_inquote(s, inquote, i);
-		if (s[i] == '$' && *inquote != 2)
+		i[0] = is_inquote(s, inquote, i[0]);
+		if (s[i[0]] == '$' && *inquote != 2)
 		{
-			i++;
-			if (s[i] == '?')
-			{
-				var = ft_strdup(ft_itoa(data->exitcode));
-				i++;
-			}
-			else if (!s[i] || s[i] == '\"' || s[i] == ' ')
-			{
-				cs[y++] = '$';
+			if (check_quotes_utils(i, data, s, cs))
 				continue ;
-			}
-			else
-			{
-				var = get_var(&s[i]);
-				i = i + ft_strlen(var);
-				var = get_env_var(data->env, var);
-			}
-			if (!var)
-				continue ;
-			while (var[z])
-				cs[y++] = var[z++];
-			free(var);
 		}
-		else if (s[i] == '\\' && !*inquote)
-			i++;
-		else if (s[i] && (s[i] != '\"' || *inquote == 2)
-			&& (s[i] != '\'' || *inquote == 1))
-			cs[y++] = s[i++];
+		else if (s[i[0]] == '\\' && !*inquote)
+			(i[0])++;
+		else if (s[i[0]] && (s[i[0]] != '\"' || *inquote == 2)
+			&& (s[i[0]] != '\'' || *inquote == 1))
+			cs[(i[1])++] = s[(i[0])++];
 	}
 }
 
@@ -139,16 +91,19 @@ char	*handle_quotes(char *s, t_data *data)
 {
 	int		inquote;
 	char	*cs;
+	int		len;
 
+	len = 0;
 	inquote = 0;
 	if (!s)
 		return (s);
-	cs = ft_calloc(sizeof(char), prompt_len(s, data, 0, 0) + 5);
+	prompt_len(s, data, 0, &len);
+	cs = ft_calloc(sizeof(char), len + 5);
 	if (!cs)
 		crash_handler("Expander \n");
 	check_quotes(s, cs, &inquote, data);
 	if (inquote != 0)
 		crash_handler("Quote not allowed\n");
-	//free(s);
+	free(s);
 	return (cs);
 }

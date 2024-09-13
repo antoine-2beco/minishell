@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 12:34:27 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/09/11 15:16:22 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/09/13 12:39:42 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,54 +40,6 @@ void	run_pipe(t_pipecmd *pcmd, t_data *data)
 		crash_handler("Dup2 error\n");
 }
 
-void	test_redi(t_redircmd *redir, t_data *data, int *ret)
-{
-	int	fd;
-
-	if (redir->cmd->type != REDIR)
-	{
-		fd = open(redir->file, redir->mode, 00644);
-		if (fd < 0)
-		{
-			ft_printf("minishell: ", 2);
-			perror(redir->file);
-			data->exitcode = 1;
-			*ret = 1;
-			return ;
-		}
-		close(fd);
-		*ret = 0;
-		return ;
-	}
-	else
-		test_redi((t_redircmd *)redir->cmd, data, ret);
-	if (*ret == 1)
-		return ;
-	fd = open(redir->file, redir->mode, 00644);
-	if (fd < 0)
-	{
-		ft_printf("minishell: ", 2);
-		perror(redir->file);
-		data->exitcode = 1;
-		*ret = 1;
-		return ;
-	}
-	close(fd);
-	return ;
-}
-
-int	is_same_mode(int mode1, int mode2)
-{
-	if (mode1 == O_RDONLY && mode2 == O_RDONLY)
-		return (1);
-	else if (mode1 == O_RDONLY && mode2 != O_RDONLY)
-		return (0);
-	else if (mode1 != O_RDONLY && mode2 == O_RDONLY)
-		return (0);
-	else
-		return (1);
-}
-
 void	run_redir(t_redircmd *rcmd, t_data *data)
 {
 	int			stdred_cpy;
@@ -95,10 +47,9 @@ void	run_redir(t_redircmd *rcmd, t_data *data)
 
 	ret = 0;
 	if (rcmd->cmd->type == REDIR)
-		test_redi((t_redircmd *)rcmd->cmd, data, &ret);
+		test_redi((t_redircmd *)rcmd->cmd, data, &ret, 0);
 	if (ret)
 		return ;
-	//execution de la redirection
 	stdred_cpy = dup(rcmd->fd);
 	if (close(rcmd->fd) == -1)
 		crash_handler("Close error\n");
@@ -110,10 +61,9 @@ void	run_redir(t_redircmd *rcmd, t_data *data)
 		dup2(stdred_cpy, rcmd->fd);
 		return ;
 	}
-	while (rcmd->cmd->type == REDIR && is_same_mode(((t_redircmd *)rcmd->cmd)->mode, rcmd->mode))
-	{
+	while (rcmd->cmd->type == REDIR
+		&& is_same_mode(((t_redircmd *)rcmd->cmd)->mode, rcmd->mode))
 		rcmd = (t_redircmd *)rcmd->cmd;
-	}
 	runcmd(rcmd->cmd, data, 0);
 	dup2(stdred_cpy, rcmd->fd);
 }
@@ -153,7 +103,7 @@ void	runcmd(t_cmd *cmd, t_data *data, int isInPipe)
 			data->exitcode = 0;
 			return ;
 		}
-		execution(ecmd->args, data, isInPipe);
+		execution(ecmd->args, data, isInPipe, 0);
 		return ;
 	}
 	else if (cmd->type == PIPE)
