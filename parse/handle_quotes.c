@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 11:09:00 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/09/13 12:42:20 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/09/13 15:10:19 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ int	check_quotes_utils(int *i, t_data *data, char *s, char *cs)
 	else if (!s[i[0]] || s[i[0]] == '\"' || s[i[0]] == ' ')
 	{
 		cs[(i[1])++] = '$';
+		if (var)
+			free(var);
 		return (1);
 	}
 	else

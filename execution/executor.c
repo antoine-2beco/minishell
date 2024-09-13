@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:48:26 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/09/13 12:27:20 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/09/13 15:36:24 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ char	*get_path(char *cmd, char **env)
 	if (!str)
 		return (NULL);
 	paths = ft_split(str, ':');
+	free(str);
 	i = 0;
 	while (paths[i])
 	{
@@ -65,11 +66,8 @@ int	check_directory(char **cmd, t_data *data, char **path)
 	if (cmd[0][0] == '.' || cmd[0][0] == '/')
 	{
 		if (access(cmd[0], F_OK | X_OK) != -1)
-		{
 			if (is_directory(cmd, data))
 				return (1);
-			*path = ft_strdup(cmd[0]);
-		}
 		ft_printf("minishell: %s: %s\n", 2, cmd[0], strerror(errno));
 		if (access(cmd[0], F_OK) == -1)
 			data->exitcode = 127;

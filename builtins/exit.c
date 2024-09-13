@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
+/*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 13:12:01 by ade-beco          #+#    #+#             */
-/*   Updated: 2024/09/09 10:18:53 by ade-beco         ###   ########.fr       */
+/*   Updated: 2024/09/13 15:31:21 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,5 +49,6 @@ int	exitcmd(char **args, t_data *data)
 		else
 			data->exitcode = i;
 	}
+	data->exit = 1;
 	return (1);
 }

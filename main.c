@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 10:13:09 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/09/11 11:52:49 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/09/13 15:31:02 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,5 +99,5 @@ int	main(int argc, char **argv, char **pre_env)
 		free(line);
 	}
 	free_array(data.env);
-	return (data.exit);
+	return (data.exitcode);
 }
