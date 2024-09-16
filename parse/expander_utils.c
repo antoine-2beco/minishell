@@ -6,29 +6,11 @@
 /*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 13:29:24 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/09/09 11:28:29 by ade-beco         ###   ########.fr       */
+/*   Updated: 2024/09/16 13:27:56 by ade-beco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minilib.h"
-
-int	find_env_var(char **envvars, char *var)
-{
-	int	i;
-
-	i = 0;
-	while (envvars[i])
-	{
-		if (!ft_strncmp(envvars[i], var, ft_strlen(envvars[i]) + 1))
-		{
-			free_array(envvars);
-			return (i);
-		}
-		i++;
-	}
-	free_array(envvars);
-	return (-1);
-}
 
 char	**get_env_vars(char **env, int i)
 {

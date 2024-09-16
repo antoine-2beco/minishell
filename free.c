@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 16:40:30 by ade-beco          #+#    #+#             */
-/*   Updated: 2024/09/13 15:06:45 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/09/16 13:19:02 by ade-beco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,4 +39,23 @@ void	free_array(char **array)
 		i++;
 	}
 	free(array);
+}
+
+int	free_all(t_data *data)
+{
+	HIST_ENTRY	*entry;
+	int			i;
+
+	i = 0;
+	entry = remove_history(i);
+	while (entry)
+	{
+		free ((char *)(entry->line));
+		free (entry->data);
+		free (entry);
+		i++;
+		entry = remove_history(i);
+	}
+	free_array(data->env);
+	return (1);
 }

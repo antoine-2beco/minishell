@@ -6,7 +6,7 @@
 /*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:07:40 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/09/12 14:51:36 by ade-beco         ###   ########.fr       */
+/*   Updated: 2024/09/16 13:40:59 by ade-beco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,7 @@ static int	update_oldpwd(t_list *env, int len)
 		}
 		env = env->next;
 	}
-	if (len == 7)
-		ft_printf("minishell: cd: OLDPWD not set\n", 2);
-	if (len == 4)
-		ft_printf("minishell: cd: PWD not set\n", 2);
+	perror("minishell");
 	return (1);
 }
 
@@ -64,7 +61,7 @@ static int	handle_s_dash(char *arg, t_list *env, t_data *data)
 		tmp = get_env_var(data->env, "OLDPWD");
 		if (!tmp)
 		{
-			ft_printf("minishell: cd: OLDPWD not set\n", 2);
+			perror("minishell");
 			return (1);
 		}
 		free(arg);
@@ -74,7 +71,7 @@ static int	handle_s_dash(char *arg, t_list *env, t_data *data)
 		tmp = get_env_var(data->env, "PWD");
 		if (!tmp)
 		{
-			ft_printf("minishell: cd: PWD not set\n", 2);
+			perror("minishell");
 			return (1);
 		}
 		ft_printf("%s\n", 1, arg);
@@ -95,7 +92,7 @@ static int	handle_tilde(char *arg, t_list *env, t_data *data)
 		tmp = get_env_var(data->env, "HOME");
 		if (!tmp)
 		{
-			ft_printf("minishell: cd: HOME not set\n", 2);
+			perror("minishell");
 			return (1);
 		}
 		if (!ft_strncmp(arg, "~/", 2))
@@ -120,7 +117,7 @@ int	cdcmd(char **args, t_data *data)
 	data->exitcode = 0;
 	if (args && args[1] && args[2])
 	{
-		ft_printf("minishell: cd: too many arguments\n", 2);
+		perror("minishell");
 		return (1);
 	}
 	if (args[1])
