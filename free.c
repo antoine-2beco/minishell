@@ -6,7 +6,7 @@
 /*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 16:40:30 by ade-beco          #+#    #+#             */
-/*   Updated: 2024/09/17 09:02:49 by ade-beco         ###   ########.fr       */
+/*   Updated: 2024/09/17 15:10:36 by ade-beco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	free_list(t_list *list)
 	while (list)
 	{
 		temp_list = list->next;
+		free (list->content);
 		free (list);
 		list = NULL;
 		list = temp_list;

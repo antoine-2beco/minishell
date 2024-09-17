@@ -6,7 +6,7 @@
 /*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 11:58:46 by ade-beco          #+#    #+#             */
-/*   Updated: 2024/09/17 14:32:54 by ade-beco         ###   ########.fr       */
+/*   Updated: 2024/09/17 15:14:03 by ade-beco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,16 +69,16 @@ static void	handle_var(t_data *data, t_list **env_list, char *arg)
 	{
 		if (ft_strncmp(temp->content, arg, strnchr(arg, '=') + 1) == 0)
 		{
+			free(temp->content);
 			temp->content = ft_strdup(arg);
 			return ;
 		}
 		temp = temp->next;
 	}
-	node = ft_lstnew(ft_strdup(arg));
+	node = ft_lstnewdup(arg);
 	if (!node)
 		crash_handler("Malloc Fail");
 	ft_lstadd_back(env_list, node);
-	free (arg);
 }
 
 int	exportcmd(char **args, t_data *data)
@@ -99,6 +99,7 @@ int	exportcmd(char **args, t_data *data)
 		else
 			arg = ft_strdup(args[i]);
 		handle_var(data, &env_list, arg);
+		free (arg);
 		if (data->exitcode == 1)
 			break ;
 	}
