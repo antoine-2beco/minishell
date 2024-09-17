@@ -6,7 +6,7 @@
 /*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:07:40 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/09/16 13:40:59 by ade-beco         ###   ########.fr       */
+/*   Updated: 2024/09/17 09:16:51 by ade-beco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ static int	update_oldpwd(t_list *env, int len)
 		}
 		env = env->next;
 	}
-	perror("minishell");
 	return (1);
 }
 
@@ -116,10 +115,7 @@ int	cdcmd(char **args, t_data *data)
 	env_list = ft_string_to_lst(data->env);
 	data->exitcode = 0;
 	if (args && args[1] && args[2])
-	{
-		perror("minishell");
 		return (1);
-	}
 	if (args[1])
 		arg = ft_strdup(args[1]);
 	else
