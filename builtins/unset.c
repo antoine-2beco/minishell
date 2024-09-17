@@ -6,7 +6,7 @@
 /*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 13:17:26 by ade-beco          #+#    #+#             */
-/*   Updated: 2024/09/03 13:14:49 by ade-beco         ###   ########.fr       */
+/*   Updated: 2024/09/17 15:31:13 by ade-beco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,12 @@
 
 static int	removevar(t_list *before, t_list **node, char *arg)
 {
-	if (!ft_strncmp((*node)->content, ft_strjoin(arg, "="), \
-				ft_strlen(arg)))
+	char	*temp;
+
+	temp = ft_strjoin(arg, "=");
+	if (!ft_strncmp((*node)->content, temp, ft_strlen(arg)))
 	{
+		free (temp);
 		if (!node)
 			return (0);
 		if (!before)
@@ -32,6 +35,7 @@ static int	removevar(t_list *before, t_list **node, char *arg)
 		*node = before->next;
 		return (1);
 	}
+	free (temp);
 	return (0);
 }
 
@@ -47,7 +51,7 @@ int	unsetcmd(char **args, t_data *data)
 	if (!args || !args[1])
 		return (1);
 	env_head = ft_string_to_lst(data->env);
-	while (args[++i])
+	while (args && args[++i])
 	{
 		before = NULL;
 		env_list = env_head;
@@ -59,6 +63,8 @@ int	unsetcmd(char **args, t_data *data)
 			env_list = env_list->next;
 		}
 	}
+	free_array(data->env);
 	data->env = ft_lst_to_string(&env_head);
+	free_list(env_head);
 	return (1);
 }
