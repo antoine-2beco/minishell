@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:48:26 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/09/13 15:36:24 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/09/17 09:08:45 by ade-beco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ char	*get_path(char *cmd, char **env)
 		return (NULL);
 	paths = ft_split(str, ':');
 	free(str);
-	i = 0;
-	while (paths[i])
+	i = -1;
+	while (paths[++i])
 	{
 		str = ft_strjoin(paths[i], "/");
 		exec = ft_strjoin(str, cmd);
@@ -36,7 +36,6 @@ char	*get_path(char *cmd, char **env)
 			return (exec);
 		}
 		free(exec);
-		i++;
 	}
 	free_array(paths);
 	return (NULL);
