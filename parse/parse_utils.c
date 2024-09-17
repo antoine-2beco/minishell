@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 11:11:17 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/09/17 11:04:12 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/09/17 12:55:06 by ade-beco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ char	**get_args(char **ps, char *es, t_cmd **ret, t_data *data)
 	list = NULL;
 	current = NULL;
 	tmp = NULL;
+	token = NULL;
 	while (!peek(ps, es, "|);"))
 	{
 		type = get_token(ps, es, &token);
