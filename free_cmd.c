@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 16:19:50 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/08/05 16:25:15 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/09/17 10:53:02 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 void	free_exec(t_execcmd *ecmd)
 {
-	free_array(ecmd->args);
+	if (ecmd->args)
+		free_array(ecmd->args);
 	free(ecmd);
 }
 

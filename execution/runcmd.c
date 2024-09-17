@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 12:34:27 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/09/13 12:39:42 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/09/17 10:52:20 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ void	runcmd(t_cmd *cmd, t_data *data, int isInPipe)
 	if (cmd->type == EXEC)
 	{
 		ecmd = (t_execcmd *)cmd;
-		if (ecmd->args[0] == 0)
+		if (!ecmd->args || ecmd->args[0] == 0)
 		{
 			data->exitcode = 0;
 			return ;

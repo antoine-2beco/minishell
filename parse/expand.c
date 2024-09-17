@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 16:33:52 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/09/11 15:15:59 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/09/17 10:51:52 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ void	expand_exec(t_execcmd *ecmd, t_data *data)
 
 	i = 0;
 	y = 0;
+	if (!ecmd->args)
+		return ;
 	while (ecmd->args[i])
 	{
 		ecmd->args[y] = handle_quotes(ecmd->args[i], data);
