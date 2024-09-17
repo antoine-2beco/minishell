@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minilib.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 10:13:27 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/09/13 12:43:14 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/09/17 09:03:21 by ade-beco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,6 +145,7 @@ int			is_builtin(char **cmd, t_data *data, int IsInPipe);
 void		free_cmd(t_cmd *cmd);
 void		free_array(char **array);
 void		free_list(t_list *list);
+int			free_all(t_data *data);
 
 /*-------------- Signal -----------------*/
 void		sig_interrupt(int num);

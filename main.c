@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 10:13:09 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/09/13 15:31:02 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/09/17 09:03:30 by ade-beco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,6 @@ int	main(int argc, char **argv, char **pre_env)
 			free_cmd(cmd);
 		free(line);
 	}
-	free_array(data.env);
-	return (data.exitcode);
+	free_all(&data);
+	exit (data.exitcode);
 }
