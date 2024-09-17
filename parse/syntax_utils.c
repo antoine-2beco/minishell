@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 16:11:51 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/09/11 16:13:30 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/09/17 14:21:59 by ade-beco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,6 @@ t_cmd	*s_parseexec(char **ps, char *es, t_data*data)
 	cmd = (t_execcmd *)ret;
 	ret = s_parseredirs(ret, ps, es, data);
 	cmd->args = s_get_args(ps, es, &ret, data);
-	if (!cmd->args[0])
-		return (NULL);
 	return (ret);
 }
 

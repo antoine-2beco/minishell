@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 16:19:50 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/09/17 10:53:02 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/09/17 14:19:23 by ade-beco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ void	free_cmd(t_cmd *cmd)
 	t_redircmd	*rcmd;
 	t_listcmd	*lcmd;
 
+	if (!cmd)
+		return ;
 	if (cmd->type == EXEC)
 		free_exec((t_execcmd *)cmd);
 	else if (cmd->type == PIPE)

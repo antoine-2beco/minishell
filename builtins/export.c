@@ -6,7 +6,7 @@
 /*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 11:58:46 by ade-beco          #+#    #+#             */
-/*   Updated: 2024/09/09 10:56:53 by ade-beco         ###   ########.fr       */
+/*   Updated: 2024/09/17 14:32:54 by ade-beco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,6 @@ static void	handle_var(t_data *data, t_list **env_list, char *arg)
 		ft_printf("minishell: %s: not a valid identifier\n", 2, arg);
 		return ;
 	}
-	if (!strnchr(arg, '='))
-		arg = ft_strjoin(arg, "=");
 	temp = *env_list;
 	while (temp)
 	{
@@ -80,24 +78,29 @@ static void	handle_var(t_data *data, t_list **env_list, char *arg)
 	if (!node)
 		crash_handler("Malloc Fail");
 	ft_lstadd_back(env_list, node);
+	free (arg);
 }
 
 int	exportcmd(char **args, t_data *data)
 {
 	t_list	*env_list;
 	int		i;
+	char	*arg;
 
-	i = 1;
+	i = 0;
 	env_list = ft_string_to_lst(data->env);
 	data->exitcode = 0;
 	if (!args || !args[1])
 		print_envvar(&env_list);
-	while (args && args[i])
+	while (args && args[++i])
 	{
-		handle_var(data, &env_list, args[i]);
+		if (!strnchr(args[i], '='))
+			arg = ft_strjoin(args[i], "=");
+		else
+			arg = ft_strdup(args[i]);
+		handle_var(data, &env_list, arg);
 		if (data->exitcode == 1)
 			break ;
-		i++;
 	}
 	free_array(data->env);
 	data->env = ft_lst_to_string(&env_list);
