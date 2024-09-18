@@ -6,7 +6,7 @@
 /*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 13:17:26 by ade-beco          #+#    #+#             */
-/*   Updated: 2024/09/17 15:31:13 by ade-beco         ###   ########.fr       */
+/*   Updated: 2024/09/18 14:21:32 by ade-beco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,10 @@
 
 static int	removevar(t_list *before, t_list **node, char *arg)
 {
-	char	*temp;
-
-	temp = ft_strjoin(arg, "=");
-	if (!ft_strncmp((*node)->content, temp, ft_strlen(arg)))
+	if (ft_strchr(arg, '='))
+		ft_printf("minishell: unset: `%s': not a valid identier\n", 2, arg);
+	else if (!ft_strncmp((*node)->content, arg, ft_strlen(arg)))
 	{
-		free (temp);
 		if (!node)
 			return (0);
 		if (!before)
@@ -33,10 +31,10 @@ static int	removevar(t_list *before, t_list **node, char *arg)
 		free((*node)->content);
 		free(*node);
 		*node = before->next;
-		return (1);
 	}
-	free (temp);
-	return (0);
+	else
+		return (0);
+	return (1);
 }
 
 int	unsetcmd(char **args, t_data *data)
