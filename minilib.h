@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minilib.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
+/*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 10:13:27 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/09/17 09:03:21 by ade-beco         ###   ########.fr       */
+/*   Updated: 2024/09/18 12:37:56 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,4 +159,5 @@ void		rl_replace_line(const char *str, int undo);
 void		execution(char **cmd, t_data *data, int IsInPipe, char *path);
 void		test_redi(t_redircmd *redir, t_data *data, int *ret, int fd);
 int			is_same_mode(int mode1, int mode2);
+void		ft_execve(char *path, char **cmd, t_data *data);
 #endif

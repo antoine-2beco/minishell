@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 12:41:37 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/09/13 12:42:23 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/09/18 10:12:37 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,12 @@ char	*get_var(char *s)
 
 void	calcul_var(int *i, char **var, char *s, t_data *data)
 {
-	*var = get_var(&s[*i]);
-	*i = *i + ft_strlen(*var);
-	*var = get_env_var(data->env, *var);
+	char	*tmp;
+
+	tmp = get_var(&s[*i]);
+	*i = *i + ft_strlen(tmp);
+	*var = get_env_var(data->env, tmp);
+	free(tmp);
 }
 
 void	prompt_len(char *s, t_data *data, int i, int *len)

@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 11:09:00 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/09/13 15:10:19 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/09/18 10:17:10 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,5 +107,10 @@ char	*handle_quotes(char *s, t_data *data)
 	if (inquote != 0)
 		crash_handler("Quote not allowed\n");
 	free(s);
+	if (!cs[0])
+	{
+		free(cs);
+		return (NULL);
+	}
 	return (cs);
 }
