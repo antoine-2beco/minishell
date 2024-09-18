@@ -6,7 +6,7 @@
 /*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:07:40 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/09/18 16:31:44 by ade-beco         ###   ########.fr       */
+/*   Updated: 2024/09/18 16:38:34 by ade-beco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,25 +92,29 @@ static int	handle_tilde(t_data *data, t_list *env, char *arg)
 	char	*tmp;
 	char	*tmp2;
 
-	tmp = get_env_var(data->env, "HOME");
-	if (!tmp)
+	if (!ft_strcmp(arg, "~") || !ft_strcmp(arg, "--") \
+		|| !ft_strncmp(arg, "~/", 2))
 	{
-		perror("minishell");
-		return (1);
+		tmp = get_env_var(data->env, "HOME");
+		if (!tmp)
+		{
+			perror("minishell");
+			return (1);
+		}
+		if (!ft_strncmp(arg, "~/", 2))
+		{
+			tmp2 = ft_substr(arg, 1, ft_strlen(arg));
+			free (arg);
+			arg = ft_strjoin(tmp, tmp2);
+			free(tmp2);
+		}
+		else
+		{
+			free (arg);
+			arg = ft_strdup(tmp);
+		}
+		free(tmp);
 	}
-	if (!ft_strncmp(arg, "~/", 2))
-	{
-		tmp2 = ft_substr(arg, 1, ft_strlen(arg));
-		free (arg);
-		arg = ft_strjoin(tmp, tmp2);
-		free(tmp2);
-	}
-	else
-	{
-		free (arg);
-		arg = ft_strdup(tmp);
-	}
-	free(tmp);
 	return (handle_s_dash(arg, env, data));
 }
 
@@ -127,9 +131,7 @@ int	cdcmd(char **args, t_data *data)
 		arg = ft_strdup(args[1]);
 	else
 		arg = ft_strdup("~");
-	if (!ft_strcmp(arg, "~") || !ft_strcmp(arg, "--") \
-		|| !ft_strncmp(arg, "~/", 2))
-		handle_tilde(data, env_list, arg);
+	handle_tilde(data, env_list, arg);
 	free_array(data->env);
 	data->env = ft_lst_to_string(&env_list);
 	if (!data->env)
