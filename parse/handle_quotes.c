@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_quotes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 11:09:00 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/09/18 10:17:10 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/09/18 17:07:25 by ade-beco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,7 @@ int	check_quotes_utils(int *i, t_data *data, char *s, char *cs)
 		return (1);
 	while (var[z])
 		cs[(i[1])++] = var[z++];
-	free(var);
-	return (0);
+	return (free(var), 0);
 }
 
 void	check_quotes(char *s, char *cs, int *inquote, t_data *data)

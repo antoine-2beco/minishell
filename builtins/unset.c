@@ -6,7 +6,7 @@
 /*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 13:17:26 by ade-beco          #+#    #+#             */
-/*   Updated: 2024/09/18 14:21:32 by ade-beco         ###   ########.fr       */
+/*   Updated: 2024/09/18 17:03:16 by ade-beco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,5 @@ int	unsetcmd(char **args, t_data *data)
 	}
 	free_array(data->env);
 	data->env = ft_lst_to_string(&env_head);
-	free_list(env_head);
-	return (1);
+	return (free_list(env_head), 1);
 }
