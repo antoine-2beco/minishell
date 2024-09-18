@@ -6,7 +6,7 @@
 /*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:07:40 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/09/17 09:16:51 by ade-beco         ###   ########.fr       */
+/*   Updated: 2024/09/18 16:31:44 by ade-beco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,14 @@ static int	update_oldpwd(t_list *env, int len)
 			|| (len == 4 && !ft_strncmp(env->content, "PWD=", len)))
 		{
 			tmp = ft_substr(env->content, 0, len);
-			free (env->content);
+			free(env->content);
 			if (!getcwd(cwd, PATH_MAX))
+			{
+				free(tmp);
 				return (1);
+			}
 			env->content = ft_strjoin(tmp, cwd);
-			free (tmp);
+			free(tmp);
 			return (1);
 		}
 		env = env->next;
@@ -39,15 +42,19 @@ static int	update_oldpwd(t_list *env, int len)
 static int	set_directory(char *arg, t_list *env, t_data *data)
 {
 	if (!update_oldpwd(env, 7))
+	{
+		free(arg);
 		return (1);
+	}
 	if (chdir(arg) == -1)
 	{
+		free (arg);
 		data->exitcode = 1;
 		perror("minishell");
 		return (1);
 	}
-	if (!update_oldpwd(env, 4))
-		return (1);
+	update_oldpwd(env, 4);
+	free(arg);
 	return (1);
 }
 
@@ -58,12 +65,12 @@ static int	handle_s_dash(char *arg, t_list *env, t_data *data)
 	if (arg && !ft_strcmp(arg, "-"))
 	{
 		tmp = get_env_var(data->env, "OLDPWD");
+		free(arg);
 		if (!tmp)
 		{
 			perror("minishell");
 			return (1);
 		}
-		free(arg);
 		arg = ft_strdup(tmp);
 		free(tmp);
 		set_directory(arg, env, data);
@@ -74,36 +81,36 @@ static int	handle_s_dash(char *arg, t_list *env, t_data *data)
 			return (1);
 		}
 		ft_printf("%s\n", 1, arg);
-		free (tmp);
+		free(tmp);
 		return (1);
 	}
 	return (set_directory(arg, env, data));
 }
 
-static int	handle_tilde(char *arg, t_list *env, t_data *data)
+static int	handle_tilde(t_data *data, t_list *env, char *arg)
 {
 	char	*tmp;
 	char	*tmp2;
 
-	if (!ft_strcmp(arg, "~") || !ft_strcmp(arg, "--") \
-		|| !ft_strncmp(arg, "~/", 2))
+	tmp = get_env_var(data->env, "HOME");
+	if (!tmp)
 	{
-		tmp = get_env_var(data->env, "HOME");
-		if (!tmp)
-		{
-			perror("minishell");
-			return (1);
-		}
-		if (!ft_strncmp(arg, "~/", 2))
-		{
-			tmp2 = ft_substr(arg, 1, ft_strlen(arg));
-			arg = ft_strjoin(tmp, tmp2);
-			free (tmp2);
-		}
-		else
-			arg = ft_strdup(tmp);
-		free (tmp);
+		perror("minishell");
+		return (1);
 	}
+	if (!ft_strncmp(arg, "~/", 2))
+	{
+		tmp2 = ft_substr(arg, 1, ft_strlen(arg));
+		free (arg);
+		arg = ft_strjoin(tmp, tmp2);
+		free(tmp2);
+	}
+	else
+	{
+		free (arg);
+		arg = ft_strdup(tmp);
+	}
+	free(tmp);
 	return (handle_s_dash(arg, env, data));
 }
 
@@ -120,12 +127,13 @@ int	cdcmd(char **args, t_data *data)
 		arg = ft_strdup(args[1]);
 	else
 		arg = ft_strdup("~");
-	handle_tilde(arg, env_list, data);
+	if (!ft_strcmp(arg, "~") || !ft_strcmp(arg, "--") \
+		|| !ft_strncmp(arg, "~/", 2))
+		handle_tilde(data, env_list, arg);
 	free_array(data->env);
 	data->env = ft_lst_to_string(&env_list);
 	if (!data->env)
 		crash_handler("malloc fail");
 	free_list(env_list);
-	free (arg);
 	return (1);
 }

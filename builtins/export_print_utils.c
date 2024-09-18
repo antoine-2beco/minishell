@@ -6,7 +6,7 @@
 /*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 10:27:59 by ade-beco          #+#    #+#             */
-/*   Updated: 2024/09/09 10:57:11 by ade-beco         ###   ########.fr       */
+/*   Updated: 2024/09/18 15:01:23 by ade-beco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static void	print_linevar(char *var)
 	}
 	s = ft_substr(var, i + 1, ft_strlen(var));
 	ft_printf("=\"%s\"\n", 1, s);
-	free (s);
+	free(s);
 }
 
 void	print_envvar(t_list **env_list)
