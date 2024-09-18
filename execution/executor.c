@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:48:26 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/09/18 12:39:34 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/09/18 12:48:12 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,8 +91,6 @@ int	check_path(char *path, t_data *data, char **cmd)
 		data->exitcode = 127;
 		return (1);
 	}
-	signal(SIGQUIT, SIG_DFL);
-	signal(SIGINT, sig_interrupt_exec);
 	return (0);
 }
 
@@ -108,6 +106,5 @@ void	execution(char **cmd, t_data *data, int IsInPipe, char *path)
 			return ;
 		ft_execve(path, cmd, data);
 		free(path);
-		signal(SIGINT, sig_interrupt);
 	}
 }
