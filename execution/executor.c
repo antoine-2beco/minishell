@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
+/*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:48:26 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/09/17 09:08:45 by ade-beco         ###   ########.fr       */
+/*   Updated: 2024/09/18 12:39:34 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,12 @@ int	check_directory(char **cmd, t_data *data, char **path)
 	if (cmd[0][0] == '.' || cmd[0][0] == '/')
 	{
 		if (access(cmd[0], F_OK | X_OK) != -1)
+		{
 			if (is_directory(cmd, data))
 				return (1);
+			ft_execve(cmd[0], cmd, data);
+			return (1);
+		}
 		ft_printf("minishell: %s: %s\n", 2, cmd[0], strerror(errno));
 		if (access(cmd[0], F_OK) == -1)
 			data->exitcode = 127;
@@ -94,9 +98,6 @@ int	check_path(char *path, t_data *data, char **cmd)
 
 void	execution(char **cmd, t_data *data, int IsInPipe, char *path)
 {
-	int			pid;
-	int			status;
-
 	if (is_builtin(cmd, data, IsInPipe))
 		return ;
 	else if (data->env[0] != NULL)
@@ -105,17 +106,7 @@ void	execution(char **cmd, t_data *data, int IsInPipe, char *path)
 			return ;
 		if (check_path(path, data, cmd))
 			return ;
-		pid = create_fork();
-		if (!pid)
-		{
-			execve(path, cmd, data->env);
-			ft_printf("minishell: ", 2);
-			perror(cmd[0]);
-			exit(126);
-		}
-		waitpid(pid, &status, 0);
-		if (WIFEXITED(status))
-			data->exitcode = WEXITSTATUS(status);
+		ft_execve(path, cmd, data);
 		free(path);
 		signal(SIGINT, sig_interrupt);
 	}
