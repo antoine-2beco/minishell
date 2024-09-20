@@ -6,7 +6,7 @@
 /*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:07:40 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/09/18 16:51:03 by ade-beco         ###   ########.fr       */
+/*   Updated: 2024/09/20 09:03:48 by ade-beco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,12 @@ static int	update_oldpwd(t_list *env, int len)
 			|| (len == 4 && !ft_strncmp(env->content, "PWD=", len)))
 		{
 			tmp = ft_substr(env->content, 0, len);
-			free(env->content);
 			if (!getcwd(cwd, PATH_MAX))
 			{
 				free(tmp);
 				return (1);
 			}
+			free(env->content);
 			env->content = ft_strjoin(tmp, cwd);
 			free(tmp);
 			return (1);

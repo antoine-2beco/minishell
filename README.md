@@ -8,3 +8,12 @@ Makefile pas a la norme
 
 CD :
 OLDPWD doit etre unset au lancement
+
+quand exec /bin/ls
+definitely lost: 144 bytes in 1 blocks
+leak lors de la commande d'apres
+
+ctrl + C in a cat print two new lines
+
+ctrl + \ in a cat don't print Quit : 3
+
