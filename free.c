@@ -3,14 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
+/*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 16:40:30 by ade-beco          #+#    #+#             */
-/*   Updated: 2024/09/18 15:01:11 by ade-beco         ###   ########.fr       */
+/*   Updated: 2024/09/20 12:00:20 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minilib.h"
+
+void	crash_handler(char *str)
+{
+	ft_putstr_fd(str, STDERR_FILENO);
+	exit(127);
+}
 
 void	free_list(t_list *list)
 {
@@ -34,7 +40,7 @@ void	free_array(char **array)
 	int	i;
 
 	i = 0;
-	while (array[i])
+	while (array && array[i])
 	{
 		free(array[i]);
 		i++;

@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 11:08:55 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/08/06 11:31:24 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/09/20 12:08:43 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ t_cmd	*parseredirs(t_cmd *cmd, char **ps, char *es, t_data *data)
 	tok = 0;
 	while (peek(ps, es, "<>"))
 	{
-		tok = get_token(ps, es, 0);
-		if (get_token(ps, es, &file) != 'a')
+		tok = get_token(ps, es, 0, 0);
+		if (get_token(ps, es, &file, 0) != 'a')
 			crash_handler("missing file for redirection\n");
 		if (tok == '<')
 			cmd = redircmd(cmd, file, O_RDONLY, 0);
@@ -46,7 +46,7 @@ t_cmd	*parseline(char **ps, char *es, t_data *data)
 	cmd = parsepipe(ps, es, data);
 	if (peek(ps, es, ";"))
 	{
-		get_token(ps, es, 0);
+		get_token(ps, es, 0, 0);
 		cmd = listcmd(cmd, parseline(ps, es, data));
 	}
 	return (cmd);
@@ -58,11 +58,11 @@ t_cmd	*parseblock(char **ps, char *es, t_data *data)
 
 	if (!peek(ps, es, "("))
 		crash_handler("parseblock\n");
-	get_token(ps, es, 0);
+	get_token(ps, es, 0, 0);
 	cmd = parseline(ps, es, data);
 	if (!peek(ps, es, ")"))
 		crash_handler("synthax - missing )\n");
-	get_token(ps, es, 0);
+	get_token(ps, es, 0, 0);
 	cmd = parseredirs(cmd, ps, es, data);
 	return (cmd);
 }
@@ -88,7 +88,7 @@ t_cmd	*parsepipe(char **ps, char *es, t_data *data)
 	cmd = parseexec(ps, es, data);
 	if (peek(ps, es, "|"))
 	{
-		get_token(ps, es, 0);
+		get_token(ps, es, 0, 0);
 		cmd = pipecmd(cmd, parsepipe(ps, es, data));
 	}
 	return (cmd);

@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:48:26 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/09/18 12:48:12 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/09/19 11:10:27 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ void	execution(char **cmd, t_data *data, int IsInPipe, char *path)
 {
 	if (is_builtin(cmd, data, IsInPipe))
 		return ;
-	else if (data->env[0] != NULL)
+	else if (data->env && data->env[0] != NULL)
 	{
 		if (check_directory(cmd, data, &path))
 			return ;

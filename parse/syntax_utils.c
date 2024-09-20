@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
+/*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 16:11:51 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/09/17 14:21:59 by ade-beco         ###   ########.fr       */
+/*   Updated: 2024/09/20 12:09:36 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_cmd	*s_parsepipe(char **ps, char *es, t_data *data)
 	cmd = s_parseexec(ps, es, data);
 	if (peek(ps, es, "|"))
 	{
-		get_token(ps, es, 0);
+		get_token(ps, es, 0, 0);
 		cmd = pipecmd(cmd, s_parsepipe(ps, es, data));
 		if (!((t_pipecmd *)cmd)->left || !((t_pipecmd *)cmd)->right)
 		{
@@ -52,7 +52,7 @@ t_cmd	*s_parseline(char **ps, char *es, t_data *data)
 	cmd = s_parsepipe(ps, es, data);
 	if (peek(ps, es, ";"))
 	{
-		get_token(ps, es, 0);
+		get_token(ps, es, 0, 0);
 		cmd = listcmd(cmd, s_parseline(ps, es, data));
 	}
 	return (cmd);
@@ -68,8 +68,8 @@ t_cmd	*s_parseredirs(t_cmd *cmd, char **ps, char *es, t_data *data)
 	(void)data;
 	while (peek(ps, es, "<>"))
 	{
-		tok = get_token(ps, es, 0);
-		if (get_token(ps, es, &file) != 'a')
+		tok = get_token(ps, es, 0, 0);
+		if (get_token(ps, es, &file, 0) != 'a')
 		{
 			ft_printf("minishell: syntax error near unexpected token `%c\'\n",
 				2, tok);
@@ -93,11 +93,11 @@ t_cmd	*s_parseblock(char **ps, char *es, t_data *data)
 
 	if (!peek(ps, es, "("))
 		crash_handler("parseblock\n");
-	get_token(ps, es, 0);
+	get_token(ps, es, 0, 0);
 	cmd = s_parseline(ps, es, data);
 	if (!peek(ps, es, ")"))
 		crash_handler("synthax - missing )\n");
-	get_token(ps, es, 0);
+	get_token(ps, es, 0, 0);
 	cmd = s_parseredirs(cmd, ps, es, data);
 	return (cmd);
 }

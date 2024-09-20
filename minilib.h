@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 10:13:27 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/09/18 12:37:56 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/09/20 12:07:59 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,12 @@ typedef struct s_data
 {
 	int		exitcode;
 	int		exit;
+	int		i;
+	int		is_last_pipe;
+	int		*fd;
 	char	**env;
+	int		stdout_cpy;
+	int		stdin_cpy;
 }	t_data;
 
 // FUNCTIONS
@@ -112,7 +117,7 @@ void		calcul_var(int *i, char **var, char *s, t_data *data);
 int			is_inquote(char *s, int *inquote, int i);
 
 /*-------------- Get token ----------------*/
-int			get_token(char **ps, char *es, char **token);
+int			get_token(char **ps, char *es, char **token, int ret);
 
 /*----------------- Main ------------------*/
 void		crash_handler(char *str);
@@ -160,4 +165,6 @@ void		execution(char **cmd, t_data *data, int IsInPipe, char *path);
 void		test_redi(t_redircmd *redir, t_data *data, int *ret, int fd);
 int			is_same_mode(int mode1, int mode2);
 void		ft_execve(char *path, char **cmd, t_data *data);
+void		wait_pipes(t_data *data);
+int			is_last_pipe(t_pipecmd *pcmd);
 #endif

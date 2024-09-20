@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_token.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
+/*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 12:22:30 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/09/17 14:15:00 by ade-beco         ###   ########.fr       */
+/*   Updated: 2024/09/20 12:07:42 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,10 +61,9 @@ static char	*set_token(char *token, char *s)
 	return (temp);
 }
 
-int	get_token(char **ps, char *es, char **token)
+int	get_token(char **ps, char *es, char **token, int ret)
 {
 	char	*s;
-	int		ret;
 	char	*cpy;
 
 	s = *ps;

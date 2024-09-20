@@ -6,17 +6,11 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 10:13:09 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/09/18 10:11:58 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/09/20 12:00:14 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minilib.h"
-
-void	crash_handler(char *str)
-{
-	ft_putstr_fd(str, STDERR_FILENO);
-	exit(127);
-}
 
 int	create_fork(void)
 {
@@ -73,6 +67,14 @@ char	**cpy_env(char **pre_env)
 	return (env);
 }
 
+void	init_data(t_data *data)
+{
+	data->i = 0;
+	data->fd = 0;
+	data->stdin_cpy = dup(STDIN_FILENO);
+	data->stdout_cpy = dup(STDOUT_FILENO);
+}
+
 int	main(int argc, char **argv, char **pre_env)
 {
 	char	*line;
@@ -90,12 +92,12 @@ int	main(int argc, char **argv, char **pre_env)
 	line = "1";
 	while (line > 0 && !data.exit)
 	{
+		init_data(&data);
 		line = readline("\e[1m\x1b[36mMinishell ➤ \x1b[36m\e[m");
 		add_history(line);
 		cmd = expand(parsecmd(line, &data), &data);
 		runcmd(cmd, &data, 0);
-		if (cmd)
-			free_cmd(cmd);
+		free_cmd(cmd);
 		free(line);
 	}
 	free_all(&data);
