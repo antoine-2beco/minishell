@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:48:26 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/09/19 11:10:27 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/09/20 12:22:59 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,8 @@ int	is_directory(char **cmd, t_data *data)
 		free(buff);
 		return (1);
 	}
-	return (0);
 	free(buff);
+	return (0);
 }
 
 int	check_directory(char **cmd, t_data *data, char **path)
