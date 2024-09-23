@@ -6,7 +6,7 @@
 /*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 13:17:26 by ade-beco          #+#    #+#             */
-/*   Updated: 2024/09/19 11:24:51 by ade-beco         ###   ########.fr       */
+/*   Updated: 2024/09/23 15:07:29 by ade-beco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,13 @@ static int	removevar(t_list *before, t_list **node, char *arg)
 			free(*node);
 			*node = before;
 		}
-		before->next = (*node)->next;
-		free((*node)->content);
-		free(*node);
-		*node = before->next;
+		else
+		{
+			before->next = (*node)->next;
+			free((*node)->content);
+			free(*node);
+			*node = before->next;
+		}
 	}
 	else
 		return (0);

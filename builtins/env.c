@@ -6,7 +6,7 @@
 /*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 14:45:59 by ade-beco          #+#    #+#             */
-/*   Updated: 2024/06/25 15:10:58 by ade-beco         ###   ########.fr       */
+/*   Updated: 2024/09/23 13:58:13 by ade-beco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	envcmd(char **args, t_data *data)
 	if (args && args[1])
 		return (0);
 	i = 0;
-	while (data->env[i])
+	while (data->env && data->env[i])
 	{
 		if (ft_strchr(data->env[i], '='))
 			ft_printf("%s\n", 1, data->env[i]);
