@@ -6,7 +6,7 @@
 /*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 11:58:46 by ade-beco          #+#    #+#             */
-/*   Updated: 2024/09/23 12:39:36 by ade-beco         ###   ########.fr       */
+/*   Updated: 2024/09/23 13:11:17 by ade-beco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static int	check_name(char *args)
 	return (1);
 }
 
-static int	strnchr(const char *s, int c)
+static int	snc(const char *s, int c)
 {
 	int	i;
 
@@ -53,33 +53,32 @@ static int	strnchr(const char *s, int c)
 	return (0);
 }
 
-static void	handle_var(t_data *data, t_list **env_list, char *arg)
+static void	handle_var(t_data *data, t_list **env_list, char *va)
 {
-	t_list	*temp;
-	t_list	*node;
+	t_list	*t;
 
-	if (!check_name(arg))
+	if (!check_name(va))
 	{
 		data->exitcode = 1;
-		ft_printf("minishell: %s: not a valid identifier\n", 2, arg);
+		ft_printf("minishell: %s: not a valid identifier\n", 2, va);
 		return ;
 	}
-	temp = *env_list;
-	while (temp)
+	t = *env_list;
+	while (t)
 	{
-		if (ft_strncmp(temp->content, arg, strnchr(arg, '=')) == 0)
+		if ((snc(va, '=') && ft_strncmp(t->content, va, snc(va, '=')) == 0) || \
+			(!snc(va, '=') && ft_strncmp(t->content, va, ft_strlen(va)) == 0))
 		{
-			if (strchr(arg, '='))
+			if (snc(va, '='))
 			{
-				free(temp->content);
-				temp->content = ft_strdup(arg);
+				free(t->content);
+				t->content = ft_strdup(va);
 			}
 			return ;
 		}
-		temp = temp->next;
+		t = t->next;
 	}
-	node = ft_lstnewdup(arg);
-	ft_lstadd_back(env_list, node);
+	ft_lstadd_back(env_list, ft_lstnewdup(va));
 }
 
 int	exportcmd(char **args, t_data *data)
