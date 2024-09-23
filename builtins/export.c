@@ -6,7 +6,7 @@
 /*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 11:58:46 by ade-beco          #+#    #+#             */
-/*   Updated: 2024/09/20 11:10:45 by ade-beco         ###   ########.fr       */
+/*   Updated: 2024/09/23 12:39:36 by ade-beco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ static void	handle_var(t_data *data, t_list **env_list, char *arg)
 	{
 		if (ft_strncmp(temp->content, arg, strnchr(arg, '=')) == 0)
 		{
-			if (strchr(arg,  '='))
+			if (strchr(arg, '='))
 			{
 				free(temp->content);
 				temp->content = ft_strdup(arg);
