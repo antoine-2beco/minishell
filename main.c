@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 10:13:09 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/09/20 13:25:11 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/09/23 13:08:29 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,7 @@ t_cmd	*parsecmd(char *s, t_data *data)
 	cmd = parseline(&s, es, data);
 	peek(&s, es, " ");
 	if (s != es)
-	{
-		ft_printf("leftovers: %s\n", 2, s);
-		crash_handler("synthax\n");
-	}
+		crash_handler("synthax : ';' not allowed\n");
 	return (cmd);
 }
 

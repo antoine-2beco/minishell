@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 11:08:55 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/09/20 12:08:43 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/09/23 13:05:59 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,7 @@ t_cmd	*parseline(char **ps, char *es, t_data *data)
 
 	cmd = parsepipe(ps, es, data);
 	if (peek(ps, es, ";"))
-	{
-		get_token(ps, es, 0, 0);
-		cmd = listcmd(cmd, parseline(ps, es, data));
-	}
+		;
 	return (cmd);
 }
 
