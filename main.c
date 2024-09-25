@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 10:13:09 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/09/23 13:08:29 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/09/25 11:04:04 by ade-beco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,24 +41,29 @@ t_cmd	*parsecmd(char *s, t_data *data)
 	return (cmd);
 }
 
-char	**cpy_env(char **pre_env)
+static char	**cpy_env(char **pre_env)
 {
 	char	**env;
 	int		i;
+	char	*temp;
 
 	i = 0;
-	while (pre_env[i++])
-		;
-	env = malloc(i * sizeof(char *));
+	env = malloc((ft_arraylen(pre_env) + 1) * sizeof(char *));
 	if (!env)
 		crash_handler("Error Malloc\n");
-	i = 0;
-	while (pre_env[i])
+	i = -1;
+	while (pre_env[++i])
 	{
-		env[i] = ft_strdup(pre_env[i]);
+		if (!ft_strncmp(pre_env[i], "SHLVL=", 6))
+		{
+			temp = ft_itoa(ft_atoi(pre_env[i] + 6) + 1);
+			env[i] = ft_strjoin("SHLVL=", temp);
+			free(temp);
+		}
+		else
+			env[i] = ft_strdup(pre_env[i]);
 		if (!env[i])
 			crash_handler("Error Malloc\n");
-		i++;
 	}
 	env[i] = 0;
 	return (env);
