@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minilib.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 10:13:27 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/09/20 12:07:59 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/09/25 12:03:53 by ade-beco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,7 @@ int			get_token(char **ps, char *es, char **token, int ret);
 /*----------------- Main ------------------*/
 void		crash_handler(char *str);
 int			create_fork(void);
+void		init_data(t_data *data);
 
 /*--------------- Expander ----------------*/
 t_cmd		*expand(t_cmd *cmd, t_data *data);

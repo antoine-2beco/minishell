@@ -6,7 +6,7 @@
 /*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 10:13:09 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/09/25 11:04:04 by ade-beco         ###   ########.fr       */
+/*   Updated: 2024/09/25 12:01:52 by ade-beco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,40 +41,59 @@ t_cmd	*parsecmd(char *s, t_data *data)
 	return (cmd);
 }
 
+static int	shlvl_update(char **env, int i, int shlvl)
+{
+	int		j;
+	int		k;
+	char	*temp;
+
+	j = 0;
+	while (shlvl == 0 && env[j])
+	{
+		if (!ft_strncmp(env[j], "SHLVL=", 6))
+		{
+			free(env[j]);
+			k = ft_atoi(env[j] + 6);
+			if (k == INT32_MIN)
+			{
+				env[j] = ft_strdup("SHLVL=1");
+				return (i);
+			}
+			temp = ft_itoa(k + 1);
+			env[j] = ft_strjoin("SHLVL=", temp);
+			free(temp);
+			return (i);
+		}
+		j++;
+	}
+	env[i] = ft_strdup("SHLVL=1");
+	return (i + 1);
+}
+
 static char	**cpy_env(char **pre_env)
 {
 	char	**env;
 	int		i;
-	char	*temp;
+	int		shlvl;
 
-	i = 0;
-	env = malloc((ft_arraylen(pre_env) + 1) * sizeof(char *));
+	i = -1;
+	shlvl = 1;
+	while (pre_env[++i])
+		if (!ft_strncmp(pre_env[i], "SHLVL=", 6))
+			shlvl = 0;
+	env = malloc((i + shlvl + 1) * sizeof(char *));
 	if (!env)
 		crash_handler("Error Malloc\n");
 	i = -1;
 	while (pre_env[++i])
 	{
-		if (!ft_strncmp(pre_env[i], "SHLVL=", 6))
-		{
-			temp = ft_itoa(ft_atoi(pre_env[i] + 6) + 1);
-			env[i] = ft_strjoin("SHLVL=", temp);
-			free(temp);
-		}
-		else
-			env[i] = ft_strdup(pre_env[i]);
+		env[i] = ft_strdup(pre_env[i]);
 		if (!env[i])
 			crash_handler("Error Malloc\n");
 	}
+	i = shlvl_update(env, i, shlvl);
 	env[i] = 0;
 	return (env);
-}
-
-void	init_data(t_data *data)
-{
-	data->i = 0;
-	data->fd = 0;
-	data->stdin_cpy = dup(STDIN_FILENO);
-	data->stdout_cpy = dup(STDOUT_FILENO);
 }
 
 int	main(int argc, char **argv, char **pre_env)

@@ -3,14 +3,14 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+         #
+#    By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/13 10:32:41 by ade-beco          #+#    #+#              #
-#    Updated: 2024/09/20 12:37:05 by hle-roi          ###   ########.fr        #
+#    Updated: 2024/09/25 12:05:01 by ade-beco         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRC := main.c signal.c free.c free_cmd.c
+SRC := main.c signal.c free_cmd.c data_utils.c
 SRCBUILTINS := cd.c export.c export_print_utils.c echo.c env.c pwd.c unset.c exit.c
 SRCPARSE := construct_tokens.c parser.c parse_utils.c expand.c expander_utils.c get_token.c handle_quotes.c handle_quotes_utils.c heredoc.c syntax.c syntax_utils.c
 SRCSEXEC := executor.c run_builtins.c runcmd.c run_redir_utils.c ft_execve.c run_pipe_utils.c
@@ -20,8 +20,7 @@ OBJSBUILTINS := $(addprefix builtins/, $(SRCBUILTINS:.c=.o))
 OBJSPARSE := $(addprefix parse/, $(SRCPARSE:.c=.o))
 OBJSEXEC := $(addprefix execution/, $(SRCSEXEC:.c=.o))
 
-CFLAGS := -Wall -Wextra -Werror -ggdb3 -I. 
-#-fsanitize=address -g
+CFLAGS := -Wall -Wextra -Werror -ggdb3 -I. -fsanitize=address -g
 
 CC := cc
 
