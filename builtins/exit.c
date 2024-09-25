@@ -6,7 +6,7 @@
 /*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 13:12:01 by ade-beco          #+#    #+#             */
-/*   Updated: 2024/09/20 09:41:37 by ade-beco         ###   ########.fr       */
+/*   Updated: 2024/09/25 10:05:55 by ade-beco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,16 @@ int	exitcmd(char **args, t_data *data)
 
 	if (args[1] && (ft_strisdigit(args[1]) == 0))
 	{
+		ft_printf("exit\n", 1);
 		ft_printf("minishell: exit: numeric argument required\n", 2, args[1]);
 		data->exitcode = 255;
 	}
 	else if (args[1] && args[2])
 	{
+		ft_printf("exit\n", 1);
 		ft_printf("minishell: exit: too many arguments\n", 2);
 		data->exitcode = 1;
+		return (1);
 	}
 	else if (args[1])
 	{
