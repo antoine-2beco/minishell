@@ -6,7 +6,7 @@
 /*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 13:04:28 by ade-beco          #+#    #+#             */
-/*   Updated: 2024/09/03 14:54:30 by ade-beco         ###   ########.fr       */
+/*   Updated: 2024/09/25 11:18:09 by ade-beco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	pwdcmd(char **args, t_data *data)
 {
-	char	path[100];
+	char	path[1000];
 
 	(void)args;
 	if (!getcwd(path, sizeof(path)))
