@@ -6,7 +6,7 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 11:08:55 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/09/23 13:05:59 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/09/26 14:00:26 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ t_cmd	*parseredirs(t_cmd *cmd, char **ps, char *es, t_data *data)
 			cmd = redircmd(cmd, file, O_WRONLY | O_CREAT | O_APPEND, 1);
 		else if (tok == '-')
 		{
-			cmd = create_heredoc(cmd, file, data);
+			cmd = create_heredoc(cmd, file, data, -1);
 			cmd->type = HEREDOC;
 		}
 	}

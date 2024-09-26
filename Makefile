@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+         #
+#    By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/13 10:32:41 by ade-beco          #+#    #+#              #
-#    Updated: 2024/09/25 12:05:01 by ade-beco         ###   ########.fr        #
+#    Updated: 2024/09/26 12:25:14 by hle-roi          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,8 @@ OBJSBUILTINS := $(addprefix builtins/, $(SRCBUILTINS:.c=.o))
 OBJSPARSE := $(addprefix parse/, $(SRCPARSE:.c=.o))
 OBJSEXEC := $(addprefix execution/, $(SRCSEXEC:.c=.o))
 
-CFLAGS := -Wall -Wextra -Werror -ggdb3 -I. -fsanitize=address -g
+CFLAGS := -Wall -Wextra -Werror -ggdb3 -I. 
+#-fsanitize=address -g
 
 CC := cc
 

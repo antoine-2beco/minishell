@@ -6,12 +6,14 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 15:06:07 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/08/05 18:07:42 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/09/26 15:06:48 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minilib.h"
 #include <termios.h>
+
+int	g_signal;
 
 void	enable_signal_print(void)
 {
@@ -42,6 +44,6 @@ void	sig_interrupt(int num)
 
 void	sig_interrupt_exec(int num)
 {
-	(void)num;
+	g_signal = num;
 	ft_printf("\n", 1);
 }

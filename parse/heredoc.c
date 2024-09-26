@@ -6,11 +6,13 @@
 /*   By: hle-roi <hle-roi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 11:00:29 by hle-roi           #+#    #+#             */
-/*   Updated: 2024/09/13 12:07:58 by hle-roi          ###   ########.fr       */
+/*   Updated: 2024/09/26 16:55:49 by hle-roi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minilib.h"
+
+int	g_signal;
 
 void	check_var(char *s, char *cs, t_data *data, int y)
 {
@@ -60,46 +62,62 @@ void	read_heredoc(char *delimiter, t_data *data, int is_inquote, int *end)
 {
 	char	*line;
 
+	signal(SIGINT, SIG_DFL);
 	while (1)
 	{
-		ft_putstr_fd("heredoc> ", STDERR_FILENO);
-		line = readline(NULL);
+		line = readline("heredoc>");
 		if (!line)
 			break ;
 		if (!ft_strcmp(line, delimiter))
 			break ;
 		if (!is_inquote)
 			line = handle_env_var(line, data);
-		ft_putstr_fd(line, end[1]);
-		ft_putstr_fd("\n", end[1]);
+		ft_printf("%s\n", end[1], line);
 		free(line);
 	}
 	if (line)
 		free(line);
+	exit(0);
 }
 
-t_cmd	*create_heredoc(t_cmd *cmd, char *file, t_data *data)
+void	create_heredoc_utils(int *end)
+{
+	ft_putstr_fd("\0", end[1]);
+	close(end[1]);
+	signal(SIGINT, sig_interrupt);
+	if (g_signal == SIGINT)
+	{
+		close(end[0]);
+		if (pipe(end) < 0)
+			crash_handler("Pipe error\n");
+		ft_putchar_fd('\0', end[1]);
+		close(end[1]);
+	}
+}
+
+t_cmd	*create_heredoc(t_cmd *cmd, char *file, t_data *data, int i)
 {
 	int			end[2];
 	char		*delimiter;
 	int			is_inquote;
-	int			i;
+	int			pid;
 
-	i = -1;
+	g_signal = 0;
 	is_inquote = 0;
 	while (file[++i])
-	{
 		if (file[i] == '\"' || file[i] == '\'')
 			is_inquote = 1;
-	}
 	delimiter = handle_quotes(file, data);
 	if (pipe(end) < 0)
 		crash_handler("Pipe error\n");
-	read_heredoc(delimiter, data, is_inquote, end);
-	ft_putstr_fd("\0", end[1]);
-	close(end[1]);
+	signal(SIGINT, sig_interrupt_exec);
+	pid = create_fork();
+	if (!pid)
+		read_heredoc(delimiter, data, is_inquote, end);
+	waitpid(pid, NULL, 0);
+	create_heredoc_utils(end);
 	cmd = redircmd(cmd, file, 0, end[0]);
-	free(delimiter);
 	cmd->type = HEREDOC;
+	free(delimiter);
 	return (cmd);
 }
